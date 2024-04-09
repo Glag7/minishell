@@ -6,26 +6,36 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/09 16:54:54 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/09 18:37:34 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	debug(void *slice_)
+{
+	t_quote	*slice = slice_;
+	printf("=====\n\"%.*s\"\nlen:\t%4zu\nqtype:\t%4d\n=====\n",
+		slice->str.len, slice->str.s, slice->str.len, slice->qtype);
+}
+
 static int	parse_line(char *s, int *err)
 {
-	int		err;
 	t_list	*tmp;
 
-	tmp = parse_quotes(s, &err);
-	if (err == ERR_PARSE)
+	tmp = parse_quotes(s, err);
+	if (*err == ERR_PARSE)
 	{
-		ft_lstfree(&tmp, NULL);
+		write(1, "wow\n", 4);
+		ft_lstclear(&tmp, NULL);
+		*err = 0;
 		return (0);
 	}
-	if (err == ERR_AINTNOWAY)
+	if (*err == ERR_AINTNOWAY)
 		return (ERR_AINTNOWAY);
 	//parsing
+	
+	ft_lstclear(&tmp, debug);
 	return (0);
 }
 
@@ -52,8 +62,8 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (!*s)
 			continue ;
-		add_history(s);
 		err = exec_line(s);
+		add_history(s);
 		free(s);
 		if (err)
 		{

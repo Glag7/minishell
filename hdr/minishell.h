@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/09 16:48:15 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/09 18:01:27 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # define ERR_PARSE -1
 
 //parsing
-
 # define QUOTE 1
 # define DQUOTE 2
 
@@ -34,5 +33,7 @@ typedef struct s_quote
 	t_str	str;
 }	t_quote;
 
+t_list	*parse_quotes(char *s, int *err);
+//
 
 #endif

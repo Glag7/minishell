@@ -8,7 +8,8 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 HDR_DIR = hdr/
 
-SRC = main.c
+SRC = main.c \
+      parse_quotes.c
 
 OBJ = $(SRC:.c=.o)
 
