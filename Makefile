@@ -1,0 +1,42 @@
+NAME = minishell
+LIB = libft/libft.a
+
+COMP = clang
+CFLAGS = -Wall -Wextra #-Werror
+
+SRC_DIR = src/
+OBJ_DIR = obj/
+HDR_DIR = hdr/
+
+SRC = main.c
+
+OBJ = $(SRC:.c=.o)
+
+all : $(NAME)
+	echo no push
+
+bonus : all
+
+$(LIB) :
+	@ make -C libft/ char tstr
+
+$(OBJ_DIR) :
+	@ mkdir -p $(OBJ_DIR)
+
+$(NAME) : $(LIB) $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ))
+	@ $(COMP) $(CFLAGS) $(addprefix $(OBJ_DIR), $(OBJ)) $(LIB) -o $@ -lreadline
+
+$(OBJ_DIR)%.o : $(SRC_DIR)%.c
+	@ $(COMP) $(CFLAGS) -c $^ -o $@ -I $(HDR_DIR) -I libft/hdr
+
+clean :
+	@ rm -rf $(OBJ_DIR)
+	@ make -C libft/ clean
+
+fclean : clean
+	@ rm -f $(NAME)
+	@ rm -f $(LIB)
+
+re : fclean all
+
+.PHONY: all bonus fclean clean re

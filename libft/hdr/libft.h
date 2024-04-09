@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:14:44 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/05 17:56:05 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:18:28 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,16 @@ void	ft_swaplong(ssize_t *a, ssize_t *b);
 void	ft_swapptr(void *a, void *b);
 
 //char
-# define ASCII 1
-# define PRINT 2
-# define LOWER 4
-# define UPPER 8
-# define SPACE 16
-# define DIGIT 32
-# define XDIGIT 64
-# define PUNCT 128
-# define ALPHA 12
-# define ALNUM 44
+# define _ASCII 1
+# define _PRINT 2
+# define _LOWER 4
+# define _UPPER 8
+# define _SPACE 16
+# define _DIGIT 32
+# define _XDIGIT 64
+# define _PUNCT 128
+# define _ALPHA 12
+# define _ALNUM 44
 
 bool	ft_is(int bitmask, int c);
 int		ft_tolower(int c);
