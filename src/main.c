@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/09 18:37:34 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/09 19:17:47 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void	debug(void *slice_)
 {
-	t_quote	*slice = slice_;
+	t_quote	*slice;
+
+	slice = slice_;
 	printf("=====\n\"%.*s\"\nlen:\t%4zu\nqtype:\t%4d\n=====\n",
-		slice->str.len, slice->str.s, slice->str.len, slice->qtype);
+		(int)slice->str.len, slice->str.s, slice->str.len, slice->qtype);
+	free(slice);
 }
 
 static int	parse_line(char *s, int *err)
@@ -26,8 +29,8 @@ static int	parse_line(char *s, int *err)
 	tmp = parse_quotes(s, err);
 	if (*err == ERR_PARSE)
 	{
-		write(1, "wow\n", 4);
-		ft_lstclear(&tmp, NULL);
+		ft_perror(MSG_QUOTE);
+		ft_lstclear(&tmp, debug);
 		*err = 0;
 		return (0);
 	}

@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/09 18:01:27 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/09 19:17:29 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ typedef struct s_quote
 }	t_quote;
 
 t_list	*parse_quotes(char *s, int *err);
+//
+
+//output
+# define MSG_QUOTE "minishell: syntax error: open quote\n"
+
+void	ft_perror(char	*s);
 //
 
 #endif
