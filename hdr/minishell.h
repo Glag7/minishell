@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/09 15:24:56 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:48:15 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,21 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+
+//errors
+# define ERR_AINTNOWAY 3
+# define ERR_PARSE -1
+
+//parsing
+
+# define QUOTE 1
+# define DQUOTE 2
+
+typedef struct s_quote
+{
+	int	qtype;
+	t_str	str;
+}	t_quote;
+
 
 #endif
