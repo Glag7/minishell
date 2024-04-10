@@ -1,0 +1,34 @@
+signaux
+
+*:
+quand * donne un fichier ca va sinon ambiguous redirect
+quand pad de . devant pas afficher les ., sinon afficher les .
+
+chaine vide entre quotes est laissee
+dans une variable pas laissee
+
+heredoc:
+les variables sont pas interpretees pour le delimiteur, les * non plus
+si il y a des guillemets qq part dans la chaine delimiteur (meme vide), alors pas expand les variables
+pas expand *
+
+les fichiers sont crees en premier mais dependent quand meme de leur pipeline (exemple || )
+ils sont crees en premier
+les heredoc aussi
+
+variables
+$ c juste $
+
+penser a $?
+
+double quote vide c une commande mais pas $CACA
+
+pour $ :
+$ + des quotes c juste une strig, pas d'expansion + enlever le $
+quand je trouve quote regarder si char avant = $ et si c le cas enlever 1 a la len d'avant
+
+cat x > y > z
+mais aussi
+cat x > y y > z
+les fichiers sont crees dans l'ordre, ils s'arrete si probleme
+redirection avant exec
