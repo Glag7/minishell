@@ -6,11 +6,13 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/09 19:17:47 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/13 14:40:23 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile sig_atomic_t	sig = 0;
 
 void	debug(void *slice_)
 {
@@ -22,41 +24,41 @@ void	debug(void *slice_)
 	free(slice);
 }
 
-static int	parse_line(char *s, int *err)
+static int	*parse_line(char *s, int *err, int *exc)
 {
 	t_list	*tmp;
 
 	tmp = parse_quotes(s, err);
-	if (*err == ERR_PARSE)
+	if (*err)
 	{
-		ft_perror(MSG_QUOTE);
+		*exc = 2;
 		ft_lstclear(&tmp, debug);
-		*err = 0;
-		return (0);
+		*err = *err != ERR_PARSE;
+		if (*err == 0)
+			ft_perror(MSG_QUOTE);
+		return (NULL);
 	}
-	if (*err == ERR_AINTNOWAY)
-		return (ERR_AINTNOWAY);
 	//parsing
 	
 	ft_lstclear(&tmp, debug);
 	return (0);
 }
 
-static int	exec_line(char *s)
+static void	exec_line(char *s, int *err, int *exc)
 {
-	int	err;
-	int	tree;//no
+	int	*tree;//no
 
-	tree = parse_line(s, &err);
+	tree = parse_line(s, err, exc);
+	//check ctrl c
 	//gestion erreur
 	//exec
-	return (err);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*s;
 	int	err;
+	int	exit_code;
 
 	while (1)
 	{
@@ -65,15 +67,12 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (!*s)
 			continue ;
-		err = exec_line(s);
+		exec_line(s, &err, &exit_code);
 		add_history(s);
 		free(s);
 		if (err)
-		{
-			rl_clear_history();
-			exit(err);
-		}
+			break ;
 	}
 	rl_clear_history();
-	return (0);
+	return (exit_code);
 }
