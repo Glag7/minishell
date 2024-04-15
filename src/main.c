@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/13 14:40:23 by glag             ###   ########.fr       */
+/*   Updated: 2024/04/15 14:26:08 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,13 @@ static int	*parse_line(char *s, int *err, int *exc)
 {
 	t_list	*tmp;
 
-	tmp = parse_quotes(s, err);
-	if (*err)
-	{
-		*exc = 2;
-		ft_lstclear(&tmp, debug);
-		*err = *err != ERR_PARSE;
-		if (*err == 0)
-			ft_perror(MSG_QUOTE);
+	tmp = parse_quotes(s, err, exc);
+	//check ctrl c
+	if (*exc)
 		return (NULL);
-	}
+	//tmp = parse_par(tmp, err);
 	//parsing
+	//ctrl c
 	
 	ft_lstclear(&tmp, debug);
 	return (0);
@@ -62,13 +58,16 @@ int	main(int argc, char **argv, char **envp)
 
 	while (1)
 	{
+		err = 0;
+		exit_code = 0;
 		s = readline("coquillage de petite taille > ");
 		if (s == NULL)
 			break ;
-		if (!*s)
-			continue ;
-		exec_line(s, &err, &exit_code);
-		add_history(s);
+		if (*s)
+		{
+			exec_line(s, &err, &exit_code);
+			add_history(s);
+		}
 		free(s);
 		if (err)
 			break ;

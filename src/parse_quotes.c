@@ -6,25 +6,30 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:26:10 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/10 14:28:00 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:15:43 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	add_new_slice(t_list **quotes, t_quote **slice)
+static int	add_new_slice(t_list **quotes, t_quote **slice,
+	int *err, int *exc)
 {
 	t_list	*tmp;
 
 	*slice = malloc(sizeof(**slice));
 	if (*slice == NULL)
 	{
+		*err = ERR_AINTNOWAY;
+		*exc = 2;
 		ft_lstclear(quotes, &free);
 		return (ERR_AINTNOWAY);
 	}
 	tmp = ft_lstnew(*slice);
 	if (tmp == NULL)
 	{
+		*err = ERR_AINTNOWAY;
+		*exc = 2;
 		free(*slice);
 		ft_lstclear(quotes, &free);
 		return (ERR_AINTNOWAY);
@@ -33,23 +38,25 @@ static int	add_new_slice(t_list **quotes, t_quote **slice)
 	return (0);
 }
 
-static int	add_quoted(t_quote *slice, int *err, char *s, bool dollar)
+static int	add_quoted(t_quote *slice, int *exc, char *s, t_list *lst)
 {
 	char	*tmp;
 
-	slice->str.s += 1 + dollar;
-	slice->qtype = 1 + (s[dollar] == '\"');
-	tmp = ft_strchr(s + 1 + dollar, s[dollar]);
+	slice->str.s += 1 + (*s == '$');
+	slice->qtype = 1 + (s[*s == '$'] == '\"');
+	tmp = ft_strchr(s + 1 + (*s == '$'), s[*s == '$']);
 	if (tmp == NULL)
 	{
-		*err = ERR_PARSE;
+		*exc = 2;
+		ft_lstclear(&lst, &free);
+		ft_perror(MSG_QUOTE);
 		return (1);
 	}
-	slice->str.len = tmp - s - 1 - dollar;
+	slice->str.len = tmp - s - 1 - (*s == '$');
 	return (0);
 }
 
-t_list	*parse_quotes(char *s, int *err)
+t_list	*parse_quotes(char *s, int *err, int *exc)
 {
 	t_list	*quotes;
 	t_quote	*slice;
@@ -57,14 +64,13 @@ t_list	*parse_quotes(char *s, int *err)
 	quotes = NULL;
 	while (*s)
 	{
-		*err = add_new_slice(&quotes, &slice);
-		if (*err)
+		if (add_new_slice(&quotes, &slice, err, exc))
 			return (NULL);
 		*slice = (t_quote){0, (t_str){s, 0}};
 		if (s[*s == '$'] == '\'' || s[*s == '$'] == '\"')
 		{
-			if (add_quoted(slice, err, s, *s == '$'))
-				return (quotes);
+			if (add_quoted(slice, exc, s, quotes))
+				return (NULL);
 			s += slice->str.len + 2 + (*s == '$');
 			continue ;
 		}

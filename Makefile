@@ -2,7 +2,7 @@ NAME = minishell
 LIB = libft/libft.a
 
 COMP = clang
-CFLAGS = -Wall -Wextra #-Werror
+CFLAGS = -Wall -Wextra -gdwarf-4#-Werror
 
 SRC_DIR = src/
 OBJ_DIR = obj/
