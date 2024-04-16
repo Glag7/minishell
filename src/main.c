@@ -30,7 +30,7 @@ static int	*parse_line(char *s, int *err, int *exc)
 
 	tmp = parse_quotes(s, err, exc);
 	//check ctrl c
-	if (*exc)
+	if (*exc)//FIXME: en bas
 		return (NULL);
 	//tmp = parse_par(tmp, err);
 	//parsing
@@ -59,7 +59,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		err = 0;
-		exit_code = 0;
+		exit_code = 0;//FIXME: do not reset
 		s = readline("coquillage de petite taille > ");
 		if (s == NULL)
 			break ;
