@@ -6,13 +6,13 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/20 13:55:24 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/20 15:59:26 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	sig = 0;
+volatile sig_atomic_t	g_sig = 0;
 
 void	debug(void *slice_)
 {
@@ -31,16 +31,17 @@ static int	*parse_line(char *s, int *err, int *exc)
 	tmp = parse_quotes(s, err, exc);
 	if (tmp == NULL)
 		return (NULL);
-	//tmp = parse_par(tmp, err);
+	tmp = parse_pars(tmp, err, exc);
 	//parse && || |
+	//<<
 	//parse $
 	//parse *
 	//parse > < >>
 	//ctrl c
 	
-	if (sig == SIGINT)
+	if (g_sig == SIGINT)
 	{
-		exc = 128 + SIGINT;
+		*exc = 128 + SIGINT;
 		ft_lstclear(&tmp, &free);
 		return (NULL);
 	}

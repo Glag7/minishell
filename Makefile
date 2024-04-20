@@ -10,6 +10,7 @@ HDR_DIR = hdr/
 
 SRC = main.c \
       parse_quotes.c \
+      parse_pars.c \
       output.c
 
 OBJ = $(SRC:.c=.o)
