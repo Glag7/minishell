@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/20 15:59:26 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/20 17:37:45 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 volatile sig_atomic_t	g_sig = 0;
 
-void	debug(void *slice_)
+void	debug(void *tok_)
 {
-	t_quote	*slice;
+	t_tok	*tok;
+	t_quote	slice;
 
-	slice = slice_;
-	printf("=====\n\"%.*s\"\nlen:\t%4zu\nqtype:\t%4d\n=====\n",
-		(int)slice->str.len, slice->str.s, slice->str.len, slice->qtype);
-	free(slice);
+	tok = tok_;
+	if (tok->tok == UNDEF)
+	{
+		slice = tok->quote;
+		printf("=====\n\"%.*s\"\nlen:\t%4zu\nqtype:\t%4d\n=====\n",
+			(int)slice.str.len, slice.str.s, slice.str.len, slice.qtype);
+
+	}
+	free(tok);
 }
 
 static int	*parse_line(char *s, int *err, int *exc)
@@ -29,7 +35,7 @@ static int	*parse_line(char *s, int *err, int *exc)
 	t_list	*tmp;
 
 	tmp = parse_quotes(s, err, exc);
-	if (tmp == NULL)
+	if (tmp == NULL && g_sig == 0)
 		return (NULL);
 	tmp = parse_pars(tmp, err, exc);
 	//parse && || |
@@ -37,16 +43,14 @@ static int	*parse_line(char *s, int *err, int *exc)
 	//parse $
 	//parse *
 	//parse > < >>
-	//ctrl c
 	
 	if (g_sig == SIGINT)
 	{
 		*exc = 128 + SIGINT;
 		ft_lstclear(&tmp, &free);
-		return (NULL);
 	}
-	ft_lstclear(&tmp, debug);
-	return (0);
+	ft_lstclear(&tmp, &debug);
+	return (tmp);
 }
 
 static void	exec_line(char *s, int *err, int *exc)
