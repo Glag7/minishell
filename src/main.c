@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/20 17:37:45 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/20 17:56:56 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	debug(void *tok_)
 		slice = tok->quote;
 		printf("=====\n\"%.*s\"\nlen:\t%4zu\nqtype:\t%4d\n=====\n",
 			(int)slice.str.len, slice.str.s, slice.str.len, slice.qtype);
-
 	}
 	free(tok);
 }
@@ -36,7 +35,7 @@ static int	*parse_line(char *s, int *err, int *exc)
 
 	tmp = parse_quotes(s, err, exc);
 	if (tmp == NULL && g_sig == 0)
-		return (NULL);
+		return (NULL);//pas beoin ? juste check a la fin ?
 	tmp = parse_pars(tmp, err, exc);
 	//parse && || |
 	//<<
@@ -86,6 +85,7 @@ int	main(int argc, char **argv, char **envp)
 		if (err)
 			break ;
 	}
+	//print err msg
 	rl_clear_history();
 	return (exit_code);
 }

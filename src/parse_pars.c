@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:25 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/20 17:33:49 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/20 18:05:42 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,19 @@ static int	add_pars(t_list **src, t_list **dst, int *err, int *exc)
 {
 	t_str	s;
 	size_t	i;
+	int		empty;
 	int		plevel;
 
 	s = ((t_quote *)(*src)->content)->str;
 	plevel = 0;
+	empty = 0;
 	i = 0;
 	while (i < s.len)
 	{
+		empty |= 
 		i++;
 	}
+	ft_lstpop(src, &free, 1);
 	return (0);
 }
 
