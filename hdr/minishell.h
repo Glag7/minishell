@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/20 18:03:07 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:24:16 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,29 +97,20 @@ t_list	*parse_pars(t_list *lst, int *err, int *exc);
 # define MSG_QUOTE "minishell: syntax error: open quote\n"
 # define MSG_PAR "minishell: syntax error: bad parenthesis\n"
 
+void	ft_perror(char	*s);
+//
+
 // builtins
-//	cd.c
 int		builtin_cd(int argc, char **argv, char **envp);
-//	env.c
 int		builtin_env(int argc, char **argv, char **envp);
-//	pwd.c
 int		builtin_pwd(int argc, char **argv, char **envp);
-//	unset.c
 int		builtin_unset(int argc, char **argv, char ***envp);
-//	export.c
 int		builtin_export(int argc, char **argv, char ***envp);
-//	exit.c
 int		builtin_exit(int argc, char **argv, char **envp);
-//	echo.c
 int		builtin_echo(int argc, char **argv, char **envp);
-//	builtin_utils.c
 char	*ft_strappend(char *src1, char *src2, char mode);
 char	**get_var(char **envp, char *var);
 int		replace_var(char **envp, char *new, char *old_name);
 int		remove_var(char ***envp, char *var);
-
-// output.c
-void	ft_perror(char	*s);
 //
-
 #endif
