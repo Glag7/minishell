@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/21 17:31:51 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/21 20:03:01 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ static int	*parse_line(char *s, int *err, int *exc)
 	t_list	*tmp;
 
 	tmp = parse_quotes(s, err, exc);
+	tmp = parse_pars(tmp, err, exc);
+	parse_op(tmp, err, exc);
 	if (tmp == NULL && g_sig == 0)
 		return (NULL);//pas beoin ? juste check a la fin ?
-	tmp = parse_pars(tmp, err, exc);
 	//parse && || |
 	//<<
 	//parse $
