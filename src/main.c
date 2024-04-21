@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/20 17:56:56 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/21 17:31:51 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ void	debug(void *tok_)
 		printf("=====\n\"%.*s\"\nlen:\t%4zu\nqtype:\t%4d\n=====\n",
 			(int)slice.str.len, slice.str.s, slice.str.len, slice.qtype);
 	}
+	else if (tok->tok == PAR)
+	{
+		if (tok->type == CLOSE)
+			printf("=====\nPAR_CLOSE : )\n=====\n");
+		else
+			printf("=====\nPAR_OPEN : (\n=====\n");
+	}
+	else
+		printf("wtf\n");
 	free(tok);
 }
 

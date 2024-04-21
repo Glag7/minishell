@@ -6,13 +6,13 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:25 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/21 16:56:14 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/21 18:03:06 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	dup_txt(t_list **src, t_list **dst, int *err, int *exc)
+static t_tok	*dup_txt(t_list **src, t_list **dst, int *err, int *exc)
 {
 	t_tok	*tok;
 	t_list	*tmp;
@@ -27,39 +27,49 @@ static int	dup_txt(t_list **src, t_list **dst, int *err, int *exc)
 		ft_lstclear(dst, &free);
 		*err = ERR_AINTNOWAY;
 		*exc = 2;
-		return (1);
+		return (NULL);
 	}
 	tok->tok = UNDEF;
 	tok->quote = *(t_quote *)((*src)->content);
 	ft_lstadd_back(dst, tmp);
-	ft_lstpop(src, &free, 1);
-	return (0);
+	return (tok);
 }
 
-static int	add_pars(t_list **src, t_list **dst, int *err, int *plevel)
+static int	add_pars(t_list **src, t_list **dst, int *err, ssize_t *plevel)
 {
 	t_str	s;
+	t_tok	*tok;
 	size_t	i;
 
 	s = ((t_quote *)(*src)->content)->str;
-	i = 0;
-	while (i < s.len)
+	i = -1;
+	tok = NULL;
+	while (++i < s.len)
 	{
-		if (s.s[i] == '(')
+		if (s.s[i] == '(' || s.s[i] == ')')
 		{
-			*plevel++;
-			if (1)
+			*plevel += s.s[i] == '(' - s.s[i] == ')';
+			if (*plevel < 0)
+			{
+				ft_lstclear(src, &free);
+				ft_lstclear(dst, &free);
 				return (1);
+			}
+			tok = dup_txt(src, dst, err, (int *)plevel);
+			if (tok == NULL)
+				return (1);
+			*tok = (t_tok){.tok = PAR, .type = (s.s[i] == ')')};
 		}
-		else if (s.s[i] == '(')
+		else if (tok && tok->tok == UNDEF)
+				tok->quote.str.len++;
+		else
 		{
-			*plevel--;
-			if (*plevel < 0 || errrr)
-				return (1);//clean ?
+			tok = dup_txt(src, dst, err, (int *)plevel);
+			if (tok == NULL)
+				return (1);
+			tok->quote.str = (t_str){s.s + i, 1};
 		}
-		i++;
 	}
-	ft_lstpop(src, &free, 1);
 	return (0);
 }
 
@@ -72,9 +82,7 @@ t_list	*parse_pars(t_list *lst, int *err, int *exc)
 	plevel = 0;
 	while (lst)
 	{
-		if ((((t_quote *)lst->content)->qtype == QUOTE
-				|| ((t_quote *)lst->content)->qtype == DQUOTE)
-			&& dup_txt(&lst, &pars, err, exc))
+		if (((t_quote *)lst->content)->qtype && !dup_txt(&lst, &pars, err, exc))
 			return (NULL);
 		else if (lst && ((t_quote *)lst->content)->qtype == 0)
 		{
@@ -83,9 +91,11 @@ t_list	*parse_pars(t_list *lst, int *err, int *exc)
 			if (pars == NULL || plevel < 0)
 				break ;
 		}
+		ft_lstpop(&lst, &free, 1);
 	}
 	if (check_pars(pars, plevel))
 	{
+		ft_perror(MSG_PAR);
 		ft_lstclear(&pars, &free);
 		*exc = 2;
 	}
