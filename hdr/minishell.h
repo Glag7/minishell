@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/21 15:24:16 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/21 16:59:59 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_tok
 
 t_list	*parse_quotes(char *s, int *err, int *exc);
 t_list	*parse_pars(t_list *lst, int *err, int *exc);
+int		check_pars(t_list *pars, ssize_t plevel);
 //
 
 //output
