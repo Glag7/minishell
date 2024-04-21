@@ -1,42 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 19:16:55 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/21 16:29:34 by ttrave           ###   ########.fr       */
+/*   Created: 2024/04/21 17:00:29 by ttrave            #+#    #+#             */
+/*   Updated: 2024/04/21 18:59:28 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(int argc, char **argv, char **envp)
+int	builtin_unset(int argc, char **argv, char ***envp)
 {
-	size_t	i;
-	ssize_t	res;
-	size_t	len;
+	int	i;
+	char	*arg;
 
-	argv = NULL;
-	if (argc != 1)
+	if (argc <= 1)
+		return (0);
+	i = 1;
+	arg = argv[1];
+	while (arg != NULL)
 	{
-		ft_perror("minishell: env: too many arguments\n");
-		return (1);
-	}
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		if (ft_in('=', envp[i]) != -1)
-		{
-			len = ft_strlen(envp[i]);
-			envp[i][len] = '\n';
-			res = write(1, envp[i], len + 1);
-			envp[i][len] = '\0';
-			if (res < 0)
-				return (2);
-		}
+		if (remove_var(envp, arg) == 1)
+			return (2);
 		i++;
+		arg = argv[i];
 	}
 	return (0);
 }
