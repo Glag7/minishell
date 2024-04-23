@@ -6,36 +6,32 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:40:04 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/21 19:38:14 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/04/23 17:41:02 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	strgreater(char *str1, char *str2)// return 1 if str1 > str2, 0 otherwise
+char	strgreater(char *str1, char *str2)
 {
 	size_t	i;
 	char	c1;
 	char	c2;
 
-	if (str1 == NULL)
-		return (0);
-	if (str2 == NULL)
-		return (1);
 	i = 0;
 	c1 = str1[0];
 	c2 = str2[0];
-	while (c1 != 0 && c2 != 0)
+	while (c1 != 0 && c1 != '=' && c1 == c2)
 	{
-		if (c1 < c2)
-			return (0);
 		i++;
 		c1 = str1[i];
 		c2 = str2[i];
 	}
-	if (c1 == c2)
+	if (c1 == 0 || c1 == '=')
 		return (0);
-	return (1);
+	if (c2 == 0 || c2 == '=' || c1 > c2)
+		return (1);
+	return (0);
 }
 
 size_t	len_until_char(char *str, char c)

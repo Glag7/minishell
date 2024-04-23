@@ -126,6 +126,8 @@ int		builtin_exit(int argc, char **argv, char **envp);
 int		builtin_echo(int argc, char **argv, char **envp);
 char	*ft_strappend(char *src1, char *src2, char mode);
 char	**get_var(char **envp, char *var);
+char	strgreater(char *str1, char *str2);
+size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
 int		remove_var(char ***envp, char *var);
 //
