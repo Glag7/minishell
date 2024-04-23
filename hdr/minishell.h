@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/21 20:04:34 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:14:10 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,17 @@ typedef struct s_tok
 t_list	*parse_quotes(char *s, int *err, int *exc);
 t_list	*parse_pars(t_list *lst, int *err, int *exc);
 int		check_pars(t_list *pars, ssize_t plevel);
-void	parse_op(t_list *lst, int *err, int *exc);
+void	parse_op(t_list **lst, int *err, int *exc);
 //
 
 //output
 # define MSG_QUOTE	"minishell: syntax error: open quote\n"
 # define MSG_PAR	"minishell: syntax error: bad parenthesis\n"
 
+# define MSG_MALLOC	"minishell: malloc: epic fail\n"
+
 void	ft_perror(char	*s);
+void	check_err(int err);
 //
 
 // builtins

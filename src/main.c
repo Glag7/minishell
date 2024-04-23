@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/21 20:03:01 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:27:45 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,17 @@ void	debug(void *tok_)
 		else
 			printf("=====\nPAR_OPEN : (\n=====\n");
 	}
+	else if (tok->tok == PIPE)
+		printf("=====\nPIPE : |\n=====\n");
+	else if (tok->tok == OP)
+	{
+		if (tok->type == AND)
+			printf("=====\nOP_AND : &&\n=====\n");
+		else
+			printf("=====\nOP_OR : ||\n=====\n");
+	}
 	else
-		printf("wtf\n");
+		printf("wtf, error\n");
 	free(tok);
 }
 
@@ -44,15 +53,10 @@ static int	*parse_line(char *s, int *err, int *exc)
 
 	tmp = parse_quotes(s, err, exc);
 	tmp = parse_pars(tmp, err, exc);
-	parse_op(tmp, err, exc);
+	parse_op(&tmp, err, exc);
 	if (tmp == NULL && g_sig == 0)
-		return (NULL);//pas beoin ? juste check a la fin ?
-	//parse && || |
-	//<<
-	//parse $
-	//parse *
-	//parse > < >>
-	
+		return (NULL);
+	//parse && || |, <<, $, *, >> > <
 	if (g_sig == SIGINT)
 	{
 		*exc = 128 + SIGINT;
@@ -64,7 +68,7 @@ static int	*parse_line(char *s, int *err, int *exc)
 
 static void	exec_line(char *s, int *err, int *exc)
 {
-	int	*tree;//no
+	int	*tree;
 
 	tree = parse_line(s, err, exc);
 	//check ctrl c
@@ -75,8 +79,8 @@ static void	exec_line(char *s, int *err, int *exc)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*s;
-	int	err;
-	int	exit_code;
+	int		err;
+	int		exit_code;
 
 	//sig handler
 	err = 0;
@@ -95,7 +99,7 @@ int	main(int argc, char **argv, char **envp)
 		if (err)
 			break ;
 	}
-	//print err msg
+	check_err(err);
 	rl_clear_history();
 	return (exit_code);
 }

@@ -12,6 +12,7 @@ SRC = main.c \
       parse_quotes.c \
       parse_pars.c \
       check_pars.c \
+      parse_op.c \
       output.c
 
 OBJ = $(SRC:.c=.o)

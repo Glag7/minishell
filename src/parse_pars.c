@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:25 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/21 19:32:31 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:05:26 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static t_tok	*add_plevel(t_list **src, t_list **dst, int *err,
 
 	if (*plevel < 0)
 	{
+		ft_perror(MSG_PAR);
 		ft_lstclear(src, &free);
 		ft_lstclear(dst, &free);
 		return (NULL);
