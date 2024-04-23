@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/23 18:01:18 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/23 20:10:11 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 # include "libft.h"
 # include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <errno.h>
@@ -65,7 +64,7 @@ enum	e_redir
 	APP
 };
 
-struct s_redir
+typedef struct s_redir
 {
 	int	tok;
 	int	type;
@@ -74,13 +73,13 @@ struct s_redir
 		t_str	txt;
 		t_list	*wdcard;
 	};
-};
+}	t_redir;
 
-struct s_hdoc
+typedef struct s_hdoc
 {
 	bool	expand;
 	t_str	lim;
-};
+}	t_hdoc;
 
 typedef struct s_tok
 {
@@ -103,6 +102,7 @@ t_list	*parse_pars(t_list *lst, int *err, int *exc);
 int		check_pars(t_list *pars, ssize_t plevel);
 void	parse_op(t_list **lst, int *err, int *exc);
 int	check_op(t_list *lst);
+void	parse_hdoc(t_list **lst, int *err, int *exc);
 //
 
 //output

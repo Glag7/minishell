@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/23 19:03:57 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/23 20:03:23 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ volatile sig_atomic_t	g_sig = 0;
 
 void	debug(void *tok_)
 {
-	t_tok	*tok;
-	t_quote	slice;
+	t_tok		*tok;
+	t_quote		slice;
+	static char	*yesno[2] = {"NO", "YES"};
 
 	tok = tok_;
 	if (tok->tok == UNDEF)
@@ -42,6 +43,11 @@ void	debug(void *tok_)
 		else
 			printf("=====\nOP_OR : ||\n=====\n");
 	}
+	else if (tok->tok == OP)
+	{
+		printf("=====\nHDOC : <<\nLIM:%*s\nEXPAND: %s\n=====\n", (int)tok->hdoc.lim.len,
+			tok->hdoc.lim.s, yesno[tok->hdoc.expand]);
+	}
 	else
 		printf("wtf, error\n");
 	free(tok);
@@ -54,9 +60,11 @@ static int	*parse_line(char *s, int *err, int *exc)
 	tmp = parse_quotes(s, err, exc);
 	tmp = parse_pars(tmp, err, exc);
 	parse_op(&tmp, err, exc);
+	parse_hdoc(&tmp, err, exc);
 	if (tmp == NULL && g_sig == 0)
 		return (NULL);
 	//parse <<, $, *, >> > <
+	//a partir de heredoc il faut free les strings du reste
 	if (g_sig == SIGINT)
 	{
 		*exc = 128 + SIGINT;

@@ -14,6 +14,7 @@ SRC = main.c \
       check_pars.c \
       parse_op.c \
       check_op.c \
+      parse_hdoc.c \
       output.c
 
 OBJ = $(SRC:.c=.o)
