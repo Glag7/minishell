@@ -6,13 +6,13 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:03:09 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/23 17:07:21 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:41:15 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	add_op(t_list *curr, int i, int tokn, int type)
+static inline int	add_remaining(t_list *curr, int i, int tokn)
 {
 	t_list	*tmp;
 	t_tok	*tok;
@@ -27,11 +27,21 @@ static int	add_op(t_list *curr, int i, int tokn, int type)
 			free(tmp);
 			return (1);
 		}
-		*tok = (t_tok){.tok = UNDEF, .quote = (t_quote){0,
-			(t_str){((t_tok *)curr->content)->quote.str.s + i + 1 + (tokn == OP),
-				((t_tok *)curr->content)->quote.str.len - i - 1 - (tokn == OP)}}};
+		*tok = (t_tok){.tok = UNDEF, .quote = (t_quote){0, (t_str){((t_tok *)
+				curr->content)->quote.str.s + i + 1 + (tokn == OP),
+			((t_tok *)curr->content)->quote.str.len - i - 1 - (tokn == OP)}}};
 		ft_lstinsert(&curr, tmp, 0);
 	}
+	return (0);
+}
+
+static int	add_op(t_list *curr, int i, int tokn, int type)
+{
+	t_list	*tmp;
+	t_tok	*tok;
+
+	if (add_remaining(curr, i, tokn))
+		return (1);
 	tok = ((t_tok *)curr->content);
 	tok->quote.str.len = i;
 	if (i != 0)
@@ -88,5 +98,10 @@ void	parse_op(t_list **lst, int *err, int *exc)
 		}
 		tmp = tmp->next;
 	}
-	//check
+	if (*lst && check_op(*lst))
+	{
+		ft_perror(MSG_OP);
+		*exc = 2;
+		ft_lstclear(lst, &free);
+	}
 }

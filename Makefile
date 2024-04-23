@@ -13,6 +13,7 @@ SRC = main.c \
       parse_pars.c \
       check_pars.c \
       parse_op.c \
+      check_op.c \
       output.c
 
 OBJ = $(SRC:.c=.o)

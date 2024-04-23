@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/23 15:27:45 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:03:57 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	*parse_line(char *s, int *err, int *exc)
 	parse_op(&tmp, err, exc);
 	if (tmp == NULL && g_sig == 0)
 		return (NULL);
-	//parse && || |, <<, $, *, >> > <
+	//parse <<, $, *, >> > <
 	if (g_sig == SIGINT)
 	{
 		*exc = 128 + SIGINT;
