@@ -72,16 +72,16 @@ void	ft_swaplong(ssize_t *a, ssize_t *b);
 void	ft_swapptr(void *a, void *b);
 
 //char
-# define _ASCII 1
-# define _PRINT 2
-# define _LOWER 4
-# define _UPPER 8
-# define _SPACE 16
-# define _DIGIT 32
-# define _XDIGIT 64
-# define _PUNCT 128
-# define _ALPHA 12
-# define _ALNUM 44
+# define ASCII	1
+# define PRINT	2
+# define LOWER	4
+# define UPPER	8
+# define SPACE	16
+# define DIGIT	32
+# define XDIGIT	64
+# define PUNCT	128
+# define ALPHA	12
+# define ALNUM	44
 
 bool	ft_is(int bitmask, int c);
 int		ft_tolower(int c);
@@ -135,8 +135,8 @@ void	*ft_memset(void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 
 //print
-# define NOLEN 0xFFFFFFFFFFFFFFFFULL
-# define IDK 0xFFFFFFFFFFFFFFFFULL
+# define NOLEN	0xFFFFFFFFFFFFFFFFULL
+# define IDK	0xFFFFFFFFFFFFFFFFULL
 
 void	ft_printmem_fd(void *addr, int fd, size_t size);
 void	ft_putendl_fd(char *s, int fd, size_t len);
