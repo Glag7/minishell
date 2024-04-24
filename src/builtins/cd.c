@@ -6,25 +6,26 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:13:27 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/21 16:46:17 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:37:35 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	update_pwd(char **envp, char *cwd)
+static char	update_pwd_oldpwd(char **envp, char *cwd)
 {
-	char	**oldpwd;
 	char	**pwd;
 	char	*new_var;
 
-	oldpwd = get_var(envp, "OLDPWD");
 	pwd = get_var(envp, "PWD");
-	if (pwd == NULL && oldpwd == NULL)
+	if (pwd == NULL && get_var(envp, "OLDPWD") == NULL)
 		return (0);
-	if (pwd == NULL && oldpwd != NULL)
-		return (remove_var(&envp, "OLDPWD"));
-	new_var = ft_strjoin("OLDPWD", cwd);
+	if (pwd == NULL && get_var(envp, "OLDPWD") != NULL)
+	{
+		remove_var(envp, "OLDPWD");
+		return (0);
+	}
+	new_var = ft_strjoin("OLDPWD=", cwd);
 	free(cwd);
 	if (new_var == NULL)
 		return (1);
@@ -32,7 +33,7 @@ static char	update_pwd(char **envp, char *cwd)
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 		return (1);
-	new_var = ft_strjoin("PWD", cwd);
+	new_var = ft_strjoin("PWD=", cwd);
 	free(cwd);
 	if (new_var == NULL)
 		return (1);
@@ -47,13 +48,15 @@ static char	check_envp(int argc, char **envp, char **argv)
 		ft_perror("minishell: cd: too many arguments\n");
 		return (1);
 	}
-	if (argc <= 1 && (get_var(envp, "HOME") == NULL || *get_var(envp, "HOME")[4] == '\0'))
+	if (argc <= 1 && (get_var(envp, "HOME") == NULL
+			|| *get_var(envp, "HOME")[4] == '\0'))
 	{
 		ft_perror("minishell: cd: HOME not set\n");
 		return (1);
 	}
 	if (argc > 1 && ft_strncmp(argv[1], "-", -1) == 0
-		&& (get_var(envp, "OLDPWD") == NULL || *get_var(envp, "OLDPWD")[6] == '\0'))
+		&& (get_var(envp, "OLDPWD") == NULL
+			|| *get_var(envp, "OLDPWD")[6] == '\0'))
 	{
 		ft_perror("minishell: cd: OLDPWD not set\n");
 		return (1);
@@ -87,11 +90,34 @@ static char	parse_cd(char **pathname_ptr)
 	return (0);
 }
 
-int	builtin_cd(int argc, char **argv, char **envp)
+static char	change_directory(char **envp, char *pathname)
 {
-	char	*pathname;
 	int		error;
 	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (cwd == NULL)
+	{
+		ft_perror("minishell: cd: malloc: failed memory allocation\n");
+		return (2);
+	}
+	error = chdir(pathname);
+	if (error != 0)
+	{
+		perror(strerror(errno));
+		return ((int)errno);
+	}
+	if (update_pwd_oldpwd(envp, cwd) == 1)
+	{
+		ft_perror("minishell: cd: malloc: failed memory allocation\n");
+		return (2);
+	}
+	return (0);
+}
+
+int	builtin_cd(int argc, char **argv, char **envp)//tester deletion de OLDPWD si pas de PWD entre autres
+{
+	char	*pathname;
 
 	if (check_envp(argc, envp, argv) != 0)
 		return (1);
@@ -107,22 +133,5 @@ int	builtin_cd(int argc, char **argv, char **envp)
 	}
 	else
 		pathname = argv[1];
-	cwd = getcwd(NULL, 0);
-	if (cwd == NULL)
-	{
-		ft_perror("minishell: cd: malloc: failed memory allocation\n");
-		return (2);
-	}
-	error = chdir(pathname);
-	if (error != 0)
-	{
-		perror(strerror(errno));
-		return (1);
-	}
-	if (update_pwd(envp, cwd) == 1)
-	{
-		ft_perror("minishell: cd: malloc: failed memory allocation\n");
-		return (2);
-	}
-	return (0);
+	return (change_directory(envp, pathname));
 }

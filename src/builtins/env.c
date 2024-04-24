@@ -6,13 +6,13 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:16:55 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/21 16:29:34 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/04/24 13:07:16 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(int argc, char **argv, char **envp)
+int	builtin_env(int argc, char **argv, char **envp)// tests avec declaree pas initialisee
 {
 	size_t	i;
 	ssize_t	res;

@@ -137,16 +137,20 @@ void	free_wdcard(void *tok_);
 int		builtin_cd(int argc, char **argv, char **envp);
 int		builtin_env(int argc, char **argv, char **envp);
 int		builtin_pwd(int argc, char **argv, char **envp);
-int		builtin_unset(int argc, char **argv, char ***envp);
+int		builtin_unset(int argc, char **argv, char **envp);
 int		builtin_export(int argc, char **argv, char ***envp);
 int		builtin_exit(int argc, char **argv, char **envp);
 int		builtin_echo(int argc, char **argv, char **envp);
+char	export_to_envp(char **argv, char ***envp);
+char	check_existence(char *var, char **envp);
+char	check_syntax(char *var);
+char	export_only(char **envp);
 char	*ft_strappend(char *src1, char *src2, char mode);
 char	**get_var(char **envp, char *var);
-char	strgreater(char *str1, char *str2);
+char	strgreater(void *ptr1, void *ptr2);
 size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
-int		remove_var(char ***envp, char *var);
+void		remove_var(char **envp, char *var);
 //
 
 #endif

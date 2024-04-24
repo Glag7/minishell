@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 19:16:23 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/24 13:06:59 by ttrave           ###   ########.fr       */
+/*   Created: 2024/04/24 13:10:32 by ttrave            #+#    #+#             */
+/*   Updated: 2024/04/24 20:03:30 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_pwd(int argc, char **argv, char **envp)//tests
+int	builtin_echo(int argc, char **argv, char **envp)
 {
-	char	*buffer;
-	ssize_t	res;
-	size_t	len;
+	char	nl;
+	size_t	i;
 
-	argc = 0;
-	argv = NULL;
-	envp = NULL;
-	buffer = getcwd(NULL, 0);
-	if (buffer == NULL)
-		return (2);
-	len = ft_strlen(buffer);
-	buffer[len] = '\n';
-	res = write(1, buffer, len + 1);
-	free(buffer);
-	if (res < 0)
-		return (2);
+	(void)envp
+	nl = 1;
+	i = 1;
+	if (argc > 1 && ft_strncmp(argv[1], "-n", -1) == 0)
+	{
+		nl = 0;
+		i = 2;
+	}
+	while (argv[i] != NULL)
+	{
+		if (write(1, argv[i], ft_strlen(argv[i])) == -1)
+			return (1);
+		i++;
+	}
+	if (nl == 1 && write(1, "\n", 1) == -1)
+		return (1);
 	return (0);
 }

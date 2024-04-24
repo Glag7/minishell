@@ -6,15 +6,15 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 17:00:29 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/21 18:59:28 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:12:23 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_unset(int argc, char **argv, char ***envp)
+int	builtin_unset(int argc, char **argv, char **envp)//tests
 {
-	int	i;
+	size_t	i;
 	char	*arg;
 
 	if (argc <= 1)
@@ -23,8 +23,7 @@ int	builtin_unset(int argc, char **argv, char ***envp)
 	arg = argv[1];
 	while (arg != NULL)
 	{
-		if (remove_var(envp, arg) == 1)
-			return (2);
+		remove_var(envp, arg);
 		i++;
 		arg = argv[i];
 	}

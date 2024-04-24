@@ -6,18 +6,22 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:40:04 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/23 17:41:02 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:17:16 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	strgreater(char *str1, char *str2)
+char	strgreater(void *ptr1, void *ptr2)
 {
 	size_t	i;
+	char	*str1;
+	char	*str2;
 	char	c1;
 	char	c2;
 
+	str1 = (char *)ptr1;
+	str2 = (char *)ptr2;
 	i = 0;
 	c1 = str1[0];
 	c2 = str2[0];
@@ -101,42 +105,25 @@ int	replace_var(char **envp, char *new, char *name)
 	return (0);
 }
 
-int	remove_var(char ***envp, char *var)
+void	remove_var(char **envp, char *var)
 {
-	char	**new_envp;
-	char	**old_envp;
+	char	**var_to_remove;
+	size_t	i;
 	size_t	len;
-	size_t	i_old;
-	size_t	i_new;
-	size_t	len_var;
 
-	old_envp = *envp;
+	var_to_remove = get_var(envp, var);
+	if (var_to_remove == NULL)
+		return ;
 	len = 0;
-	len_var = ft_strlen(var);
-	i_old = 0;
-	while (old_envp[i_old] != NULL)
+	while (envp[len] != NULL)
+		len++;
+	i = 0;
+	while (i < len && envp[i] != *var_to_remove)
+		i++;
+	free(envp[i]);
+	while (i < len)
 	{
-		if (ft_strncmp(old_envp[i_old], var, len_var) != 0
-			|| old_envp[i_old][len_var] == '=' || old_envp[i_old][len_var] == '\0')
-			len++;
-		i_old++;
+		envp[i] = envp[i + 1];
+		i++;
 	}
-	new_envp = malloc((len + 1) * sizeof(char *));
-	if (new_envp == NULL)
-		return (1);
-	new_envp[len] = NULL;
-	i_old = 0;
-	i_new = 0;
-	while (i_old < len)
-	{
-		if (ft_strncmp(old_envp[i_old], var, len_var) != 0
-			|| old_envp[i_old][len_var] == '=' || old_envp[i_old][len_var] == '\0')
-			new_envp[i_new++] = old_envp[i_old];
-		else
-			free(old_envp[i_old]);
-		i_old++;
-	}
-	free(old_envp);
-	*envp = new_envp;
-	return (0);
 }
