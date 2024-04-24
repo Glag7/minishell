@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/24 19:00:51 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:59:44 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ void	debug(void *tok_)
 		printf("=====\nHDOC : <<\nLIM:'%.*s'\nEXPAND: %s\n=====\n", (int)tok->hdoc.lim.len,
 			tok->hdoc.lim.s, yesno[tok->hdoc.expand]);
 	}
+	else if (tok->tok == VAR)
+	{
+		printf("=====\nVAR : $\nNAME:'%.*s'\n=====\n", (int)tok->s.len,
+			tok->var.s.s);
+	}
 	else
 		printf("wtf, error\n");
 	free_lbuild(tok);
@@ -61,10 +66,12 @@ static int	*parse_line(char *s, int *err, int *exc)
 	tmp = parse_pars(tmp, err, exc);
 	parse_op(&tmp, err, exc);
 	parse_hdoc(&tmp, err, exc);
+	parse_var(&tmp, err, exc);
 	if (tmp == NULL && g_sig == 0)
 		return (NULL);
 	//parse <<, $, *, >> > <
-	//a partir de heredoc il faut free les strings du reste
+	//a partir de heredoc il faut free les strings du reste avec free_lbuild
+	//><>> peuvent prendre des mix de $ et txt
 	if (g_sig == SIGINT)
 	{
 		*exc = 128 + SIGINT;

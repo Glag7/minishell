@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/24 17:51:14 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:58:45 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,22 @@ enum	e_redir
 	APP
 };
 
+typedef struct s_var
+{
+	int	qtype;
+	t_str	s;
+}	t_var;
+
 typedef struct s_redir
 {
 	int	tok;
 	int	type;
 	union
 	{
-		t_str	txt;
+		t_str	s;
+		t_var	var;
 		t_list	*wdcard;
+		t_list	*any;
 	};
 }	t_redir;
 
@@ -87,9 +95,10 @@ typedef struct s_tok
 	union
 	{
 		t_quote			quote;
-		t_str			txt;
+		t_str			s;
 		struct s_redir	redir;
 		struct s_hdoc	hdoc;
+		struct s_var	var;
 		bool			type;
 		t_list			*wdcard;
 	};
@@ -104,6 +113,7 @@ void	parse_op(t_list **lst, int *err, int *exc);
 int	check_op(t_list *lst);
 void	parse_hdoc(t_list **lst, int *err, int *exc);
 int	search_lim(t_list *lst, t_tok *tok, size_t i, t_hdoc *hdoc);
+void	parse_var(t_list **lst, int *err, int *exc);
 //
 
 //output
