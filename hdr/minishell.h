@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/23 20:10:11 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:51:10 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct s_tok
 	{
 		t_quote			quote;
 		t_str			txt;
-		struct s_redir	red;
+		struct s_redir	redir;
 		struct s_hdoc	hdoc;
 		bool			type;
 		t_list			*wdcard;
@@ -109,11 +109,17 @@ void	parse_hdoc(t_list **lst, int *err, int *exc);
 # define MSG_QUOTE	"minishell: syntax error: open quote\n"
 # define MSG_PAR	"minishell: syntax error: bad parenthesis\n"
 # define MSG_OP		"minishell: syntax error: bad operator\n"
+# define MSG_HDOC	"minishell: syntax error: bad heredoc\n"
 
 # define MSG_MALLOC	"minishell: malloc: epic fail\n"
 
 void	ft_perror(char	*s);
 void	check_err(int err);
+//
+
+//free
+void	free_lbuild(void *tok_);
+void	free_wdcard(void *tok_);
 //
 
 // builtins
