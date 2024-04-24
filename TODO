@@ -1,5 +1,7 @@
 limiter taille
 
+shlevel
+
 parenthese: il faut le bon nombre de parentheses et chaque parenthese doit etre separee de la suivante par qqch
 il faut verif que les parentheses sont separees par des op binaires
 penser a enlever les parentheses inutiles

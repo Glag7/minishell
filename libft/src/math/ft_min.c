@@ -6,13 +6,13 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 17:29:36 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/05 15:38:00 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:56:57 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_math.h"
 
-inline int64_t	ft_min(int64_t a, int64_t b)
+int64_t	ft_min(int64_t a, int64_t b)
 {
 	if (a < b)
 		return (a);

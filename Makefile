@@ -26,7 +26,7 @@ all : $(NAME)
 bonus : all
 
 $(LIB) :
-	@ make -C libft/ char lst tstr
+	@ make -C libft/ char lst tstr math
 
 $(OBJ_DIR) :
 	@ mkdir -p $(OBJ_DIR)
