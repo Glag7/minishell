@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/24 15:06:36 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:00:51 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void	debug(void *tok_)
 	}
 	else if (tok->tok == HDOC)
 	{
-		printf("=====\nHDOC : <<\nLIM:%*s\nEXPAND: %s\n=====\n", (int)tok->hdoc.lim.len,
+		printf("=====\nHDOC : <<\nLIM:'%.*s'\nEXPAND: %s\n=====\n", (int)tok->hdoc.lim.len,
 			tok->hdoc.lim.s, yesno[tok->hdoc.expand]);
 	}
 	else
 		printf("wtf, error\n");
-	free(tok);
+	free_lbuild(tok);
 }
 
 static int	*parse_line(char *s, int *err, int *exc)

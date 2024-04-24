@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/24 13:51:10 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:51:14 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int		check_pars(t_list *pars, ssize_t plevel);
 void	parse_op(t_list **lst, int *err, int *exc);
 int	check_op(t_list *lst);
 void	parse_hdoc(t_list **lst, int *err, int *exc);
+int	search_lim(t_list *lst, t_tok *tok, size_t i, t_hdoc *hdoc);
 //
 
 //output
