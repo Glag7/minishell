@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+//TODO: $?
 //alnum ou _
 void	parse_var(t_list **lst, int *err, int *exc)
 {
