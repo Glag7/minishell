@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:03:46 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/24 19:22:02 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:36:23 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	copy_loop(t_list *lst, t_list *curr, t_str *lim, size_t size)
 	t_list	*tmp;
 	t_tok	*tok;
 
+	tmp = curr;
 	while (size < lim->len)
 	{
 		tok = (t_tok *)curr->content;
@@ -31,6 +32,20 @@ static void	copy_loop(t_list *lst, t_list *curr, t_str *lim, size_t size)
 	lim->s[lim->len] = 0;
 }
 
+static inline int	nspc(t_str s, size_t i)
+{
+	size_t	j;
+
+	j = i;
+	while (j < s.len)
+	{
+		if (s.s[j] != ' ' && s.s[j] != '\t' && s.s[j] != '\n')
+			return (1);
+		j++;
+	}
+	return (0);
+}
+
 static int	add_lim(t_list *lst, t_tok *tok, size_t i, t_str *lim)
 {
 	size_t	size;
@@ -41,7 +56,7 @@ static int	add_lim(t_list *lst, t_tok *tok, size_t i, t_str *lim)
 		return (ERR_AINTNOWAY);
 	size = ft_min(lim->len, tok->quote.str.len - i);
 	ft_memcpy(lim->s, tok->quote.str.s + i, size);
-	if (i + lim->len < tok->quote.str.len)
+	if (i + lim->len < tok->quote.str.len && nspc(tok->quote.str, i + lim->len))
 	{
 		tok = malloc(sizeof(*tok));
 		tmp = ft_lstnew(tok);
@@ -51,10 +66,10 @@ static int	add_lim(t_list *lst, t_tok *tok, size_t i, t_str *lim)
 			free(tmp);
 			return (ERR_AINTNOWAY);
 		}
+		ft_lstinsert(&lst, tmp, 0);
 		*tok = (t_tok){.tok = UNDEF, .quote = {.qtype = 0, .str = {((t_tok *)
 				lst->content)->quote.str.s + i + lim->len, ((t_tok *)
 				lst->content)->quote.str.len - i - lim->len}}};
-		return (0);
 	}
 	copy_loop(lst, lst->next, lim, size);
 	return (0);
