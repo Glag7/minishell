@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+//TODO: stop on <>
 static int	add_wdcard(t_list *lst, t_list **last_split,
 		t_tok *tok, size_t offset)
 {
@@ -28,7 +29,7 @@ static int	search_wdcard(t_list *lst, t_list **last_split, t_tok *tok)
 	i = -1;
 	while (++i < tok->quote.str.len)
 	{
-		if (ft_in(tok->quote.str.s[i], " \t\n") != -1)
+		if (ft_in(tok->quote.str.s[i], " \t\n<>") != -1)
 		{
 			*last_split = lst;
 			if (i == tok->quote.str.len)
@@ -40,7 +41,7 @@ static int	search_wdcard(t_list *lst, t_list **last_split, t_tok *tok)
 			lastspace = 0;
 			tmptok = ((t_tok *)(*last_split)->content);
 			while (++i < tmptok->quote.str.len)
-				if (ft_in(tmptok->quote.str.s[i], " \t\n") != -1)
+				if (ft_in(tmptok->quote.str.s[i], " \t\n<>") != -1)
 					lastspace = i + 1;
 			return (add_wdcard(lst, last_split, tmptok, lastspace));
 		}
