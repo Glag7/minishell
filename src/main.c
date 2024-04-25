@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/25 16:09:43 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:46:09 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	debug(void *tok_)
 	}
 	else if (tok->tok == HDOC)
 	{
-		printf("=====\nHDOC:\t<<\nLIM:\t'%.*s'\nLEN:\t%zu\nEXPAND:\t%s\n=====\n",
+		printf("=====\nHDOC:\t<<\nLIM:\t'%.*s'\nLEN:\t%zu\nEXP:\t%s\n=====\n",
 			(int)tok->hdoc.lim.len,
 			tok->hdoc.lim.s, tok->hdoc.lim.len, yesno[tok->hdoc.expand]);
 	}
@@ -68,11 +68,13 @@ static int	*parse_line(char *s, int *err, int *exc)
 	parse_op(&tmp, err, exc);
 	parse_hdoc(&tmp, err, exc);
 	parse_var(&tmp, err, exc);
+	parse_wdcard(&tmp, err, exc);
 	if (tmp == NULL && g_sig == 0)
 		return (NULL);
 	//parse *, >> > <
 	//a partir de heredoc il faut free les strings du reste avec free_lbuild
 	//><>> peuvent prendre des mix de $ et txt
+	//ensuite faire expansions $, *, et fin du word splitting
 	if (g_sig == SIGINT)
 	{
 		*exc = 128 + SIGINT;
