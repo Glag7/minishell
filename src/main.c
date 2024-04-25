@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/25 16:07:32 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:09:43 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ void	debug(void *tok_)
 	}
 	else if (tok->tok == HDOC)
 	{
-		printf("=====\nHDOC:\t<<\nLIM:\t'%.*s'\nEXPAND:\t%s\n=====\n",
+		printf("=====\nHDOC:\t<<\nLIM:\t'%.*s'\nLEN:\t%zu\nEXPAND:\t%s\n=====\n",
 			(int)tok->hdoc.lim.len,
-			tok->hdoc.lim.s, yesno[tok->hdoc.expand]);
+			tok->hdoc.lim.s, tok->hdoc.lim.len, yesno[tok->hdoc.expand]);
 	}
 	else if (tok->tok == VAR)
 	{
-		printf("=====\nVAR:\t$\nNAME:\t'%.*s'\nQTYPE:\t%d\n=====\n",
-			(int)tok->s.len, tok->var.s.s, tok->var.qtype);
+		printf("=====\nVAR:\t$\nNAME:\t'%.*s'\nLEN:\t%zu\nQTYPE:\t%d\n=====\n",
+			(int)tok->s.len, tok->var.s.s, tok->var.s.len, tok->var.qtype);
 	}
 	else
 		printf("wtf, error\n");
