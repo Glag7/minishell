@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/24 19:58:45 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:55:24 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,6 @@
 # define QUOTE	1
 # define DQUOTE	2
 
-typedef struct s_quote
-{
-	int		qtype;
-	t_str	str;
-}	t_quote;
-
 # define AND	0
 # define OR	1
 # define OPEN	0
@@ -64,9 +58,15 @@ enum	e_redir
 	APP
 };
 
+typedef struct s_quote
+{
+	int		qtype;
+	t_str	str;
+}	t_quote;
+
 typedef struct s_var
 {
-	int	qtype;
+	int		qtype;
 	t_str	s;
 }	t_var;
 
@@ -110,9 +110,9 @@ t_list	*parse_quotes(char *s, int *err, int *exc);
 t_list	*parse_pars(t_list *lst, int *err, int *exc);
 int		check_pars(t_list *pars, ssize_t plevel);
 void	parse_op(t_list **lst, int *err, int *exc);
-int	check_op(t_list *lst);
+int		check_op(t_list *lst);
 void	parse_hdoc(t_list **lst, int *err, int *exc);
-int	search_lim(t_list *lst, t_tok *tok, size_t i, t_hdoc *hdoc);
+int		search_lim(t_list *lst, t_tok *tok, size_t i, t_hdoc *hdoc);
 void	parse_var(t_list **lst, int *err, int *exc);
 //
 
@@ -150,7 +150,7 @@ char	**get_var(char **envp, char *var);
 char	strgreater(void *ptr1, void *ptr2);
 size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
-void		remove_var(char **envp, char *var);
+void	remove_var(char **envp, char *var);
 //
 
 #endif
