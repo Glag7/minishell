@@ -78,7 +78,7 @@ static int	*parse_line(char *s, int *err, int *exc)
 	if (g_sig == SIGINT)
 	{
 		*exc = 128 + SIGINT;
-		ft_lstclear(&tmp, &free);
+		ft_lstclear(&tmp, &free_lbuild);
 	}
 	ft_lstclear(&tmp, &debug);
 	return (tmp);
