@@ -84,7 +84,7 @@ static int	add_unquoted(t_hdoc *hdoc, t_tok *tok, size_t i, bool offset)
 	else
 		j = 0;
 	while (j < tok->quote.str.len
-		&& ft_in(tok->quote.str.s[j], " \t\n") == -1)
+		&& ft_in(tok->quote.str.s[j], " \t\n<>") == -1)
 		j++;
 	if (offset)
 		hdoc->lim.len += j - i;
@@ -100,7 +100,7 @@ int	search_lim(t_list *lst, t_tok *tok, size_t i, t_hdoc *hdoc)
 	t_list	*tmp;
 
 	tmp = lst;
-	while (i < tok->quote.str.len && ft_in(tok->quote.str.s[i], " \t\n") != -1)
+	while (i < tok->quote.str.len && ft_in(tok->quote.str.s[i], " \t\n<>") != -1)
 		i++;
 	if (i >= tok->quote.str.len)
 		tmp = tmp->next;
