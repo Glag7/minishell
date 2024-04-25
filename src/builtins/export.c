@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export1.c                                          :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:03:21 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/24 19:43:31 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:35:17 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	check_syntax(char *var)
 {
 	size_t	i;
 
-	if (ft_is(ALPHA, var[0]) == 0)
+	if (ft_is(ALPHA, var[0]) == 0 && var[0] != '_')
 	{
 		ft_perror("minishell: export: '");
 		ft_perror(var);
@@ -24,7 +24,7 @@ char	check_syntax(char *var)
 		return (1);
 	}
 	i = 0;
-	while (ft_is(ALNUM, var[i]) != 0)
+	while (ft_is(ALNUM, var[i]) != 0 || var[i] == '_')
 		i++;
 	if (var[i] == 0 || var[i] == '=' || (var[i] == '+' && var[i + 1] == '='))
 		return (0);

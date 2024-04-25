@@ -6,11 +6,18 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:40:04 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/24 19:17:16 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/04/25 19:07:28 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	envp_status(char index)//returns 1 if variable at index is hidden, 0 otherwise
+{
+	static unsigned char	status = 0;
+
+	return ((status >> (7 - index)) & 1);
+}
 
 char	strgreater(void *ptr1, void *ptr2)
 {
@@ -105,7 +112,7 @@ int	replace_var(char **envp, char *new, char *name)
 	return (0);
 }
 
-void	remove_var(char **envp, char *var)
+void	remove_var(char **envp, char *var, void (*del)(void *))
 {
 	char	**var_to_remove;
 	size_t	i;
@@ -120,7 +127,8 @@ void	remove_var(char **envp, char *var)
 	i = 0;
 	while (i < len && envp[i] != *var_to_remove)
 		i++;
-	free(envp[i]);
+	if (del != NULL)
+		del(envp[i]);
 	while (i < len)
 	{
 		envp[i] = envp[i + 1];

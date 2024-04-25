@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	builtin_env(int argc, char **argv, char **envp)// tests avec declaree pas initialisee
+int	builtin_env(int argc, char **argv, char **envp)
 {
 	size_t	i;
 	ssize_t	res;

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	builtin_unset(int argc, char **argv, char **envp)//tests
+int	builtin_unset(int argc, char **argv, char **envp)
 {
 	size_t	i;
 	char	*arg;
@@ -23,7 +23,7 @@ int	builtin_unset(int argc, char **argv, char **envp)//tests
 	arg = argv[1];
 	while (arg != NULL)
 	{
-		remove_var(envp, arg);
+		remove_var(envp, arg, free);
 		i++;
 		arg = argv[i];
 	}
