@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/24 19:59:44 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:07:32 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,34 +24,35 @@ void	debug(void *tok_)
 	if (tok->tok == UNDEF)
 	{
 		slice = tok->quote;
-		printf("=====\n\"%.*s\"\nlen:\t%4zu\nqtype:\t%4d\n=====\n",
+		printf("=====\n\"%.*s\"\nLEN:\t%4zu\nQTYPE:\t%4d\n=====\n",
 			(int)slice.str.len, slice.str.s, slice.str.len, slice.qtype);
 	}
 	else if (tok->tok == PAR)
 	{
 		if (tok->type == CLOSE)
-			printf("=====\nPAR_CLOSE : )\n=====\n");
+			printf("=====\nPAR_CLOSE:\t)\n=====\n");
 		else
-			printf("=====\nPAR_OPEN : (\n=====\n");
+			printf("=====\nPAR_OPEN:\t(\n=====\n");
 	}
 	else if (tok->tok == PIPE)
-		printf("=====\nPIPE : |\n=====\n");
+		printf("=====\nPIPE:\t|\n=====\n");
 	else if (tok->tok == OP)
 	{
 		if (tok->type == AND)
-			printf("=====\nOP_AND : &&\n=====\n");
+			printf("=====\nOP_AND:\t&&\n=====\n");
 		else
-			printf("=====\nOP_OR : ||\n=====\n");
+			printf("=====\nOP_OR:\t||\n=====\n");
 	}
 	else if (tok->tok == HDOC)
 	{
-		printf("=====\nHDOC : <<\nLIM:'%.*s'\nEXPAND: %s\n=====\n", (int)tok->hdoc.lim.len,
+		printf("=====\nHDOC:\t<<\nLIM:\t'%.*s'\nEXPAND:\t%s\n=====\n",
+			(int)tok->hdoc.lim.len,
 			tok->hdoc.lim.s, yesno[tok->hdoc.expand]);
 	}
 	else if (tok->tok == VAR)
 	{
-		printf("=====\nVAR : $\nNAME:'%.*s'\n=====\n", (int)tok->s.len,
-			tok->var.s.s);
+		printf("=====\nVAR:\t$\nNAME:\t'%.*s'\nQTYPE:\t%d\n=====\n",
+			(int)tok->s.len, tok->var.s.s, tok->var.qtype);
 	}
 	else
 		printf("wtf, error\n");
@@ -69,7 +70,7 @@ static int	*parse_line(char *s, int *err, int *exc)
 	parse_var(&tmp, err, exc);
 	if (tmp == NULL && g_sig == 0)
 		return (NULL);
-	//parse <<, $, *, >> > <
+	//parse *, >> > <
 	//a partir de heredoc il faut free les strings du reste avec free_lbuild
 	//><>> peuvent prendre des mix de $ et txt
 	if (g_sig == SIGINT)
