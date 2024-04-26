@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:39:36 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/25 15:35:32 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:47:51 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	selection_sort(void **arr, size_t len, char (*cmp)(void *, void *))
 	}
 }
 
-static char	**sort_envp(char **envp)
+static char	**sort_envp(char **envp, bool pwd, bool oldpwd)
 {
 	char	**sorted;
 	size_t	len;
@@ -58,6 +58,10 @@ static char	**sort_envp(char **envp)
 	}
 	selection_sort((void **)sorted, len, strgreater);
 	remove_var(sorted, "_", NULL);
+	if (pwd == 0)
+		remove_var(sorted, "PWD", NULL);
+	if (oldpwd == 0)
+		remove_var(sorted, "OLDPWD", NULL);
 	return (sorted);
 }
 
@@ -77,13 +81,14 @@ static char	print_export(char *var)
 	return (0);
 }
 
-char	export_only(char **envp)
+char	export_only(t_envp envp_status)
 {
 	char	**sorted;
 	size_t	i;
 
 	i = 0;
-	sorted = sort_envp(envp);
+	sorted = sort_envp(envp_status.envp, envp_status.show_pwd,
+			envp_status.show_oldpwd);
 	if (sorted == NULL)
 		return (2);
 	while (sorted[i] != NULL)

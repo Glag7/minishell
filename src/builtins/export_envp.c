@@ -6,13 +6,13 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:35:07 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/25 15:35:27 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:52:00 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*dup_var(char *var)
+static char	*dup_var(char *var, t_envp *envp_status)
 {
 	char	*new_var;
 	size_t	i;
@@ -21,6 +21,12 @@ static char	*dup_var(char *var)
 	if (new_var == NULL)
 		return (NULL);
 	i = len_until_char(new_var, '=');
+	if (ft_strncmp(new_var, "PWD", 3) == 0
+		&& (new_var[i] == '=' || new_var[i] == '\0'))
+		envp_status->show_pwd = 1;
+	if (ft_strncmp(new_var, "OLDPWD", 6) == 0
+		&& (new_var[i] == '=' || new_var[i] == '\0'))
+		envp_status->show_oldpwd = 1;
 	if (new_var[i] != '=' || new_var[i - 1] != '+')
 		return (new_var);
 	i--;
@@ -32,19 +38,19 @@ static char	*dup_var(char *var)
 	return (new_var);
 }
 
-static char	create_var(char *var, char ***envp)
+static char	create_var(char *var, t_envp *envp_status)
 {
 	char	**new_envp;
 	char	**old_envp;
 	char	*new_var;
 	size_t	len;
 
-	old_envp = *envp;
+	old_envp = envp_status->envp;
 	len = 0;
 	while (old_envp[len] != NULL)
 		len++;
 	new_envp = malloc((len + 2) * sizeof(char *));
-	new_var = dup_var(var);
+	new_var = dup_var(var, envp_status);
 	if (new_envp == NULL || new_var == NULL)
 	{
 		free(new_envp);
@@ -56,7 +62,7 @@ static char	create_var(char *var, char ***envp)
 	while (len--)
 		new_envp[len] = old_envp[len];
 	free(old_envp);
-	*envp = new_envp;
+	envp_status->envp = new_envp;
 	return (0);
 }
 
@@ -111,7 +117,7 @@ static char	concatenate_var(char *var, char **envp)
 	return (0);
 }
 
-char	export_to_envp(char **argv, char ***envp)
+char	export_to_envp(char **argv, t_envp *envp_status)
 {
 	size_t	i;
 	char	error;
@@ -124,13 +130,13 @@ char	export_to_envp(char **argv, char ***envp)
 	{
 		if (check_syntax(arg) == 0)
 		{
-			if (check_existence(arg, *envp) == 0)
-				error |= create_var(arg, envp);
+			if (check_existence(arg, envp_status->envp) == 0)
+				error |= create_var(arg, envp_status);
 			else if (arg[len_until_char(arg, '=')] == '='
 				&& arg[len_until_char(arg, '=') - 1] == '+')
-				error |= concatenate_var(arg, *envp);
+				error |= concatenate_var(arg, envp_status->envp);
 			else
-				error |= overwrite_var(arg, *envp);
+				error |= overwrite_var(arg, envp_status->envp);
 			if ((error & 2) != 0)
 				return (2);
 		}

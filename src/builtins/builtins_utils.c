@@ -6,18 +6,11 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:40:04 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/25 19:07:28 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/04/26 17:03:04 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	envp_status(char index)//returns 1 if variable at index is hidden, 0 otherwise
-{
-	static unsigned char	status = 0;
-
-	return ((status >> (7 - index)) & 1);
-}
 
 char	strgreater(void *ptr1, void *ptr2)
 {

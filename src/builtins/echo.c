@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	builtin_echo(int argc, char **argv, char **envp)
+int	builtin_echo(int argc, char **argv, char **envp)// 'echo -nnnn -n -nnn f -nnn b' ecrit 'f -nnn b' -> tant que args commencent par - et ne contiennent que des n c'est du pqrsing d'option qui ne doit pqs etre print
 {
 	bool	nl;
 	int		res;

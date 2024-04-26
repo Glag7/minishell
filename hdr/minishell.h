@@ -104,6 +104,13 @@ typedef struct s_tok
 	};
 }	t_tok;
 
+typedef struct s_envp
+{
+	char	**envp;
+	bool	show_pwd;
+	bool	show_oldpwd;
+}	t_envp;
+
 /* ----- PROTOTYPES & MACROS ----- */
 
 t_list	*parse_quotes(char *s, int *err, int *exc);
@@ -136,22 +143,22 @@ void	free_wdcard(void *tok_);
 
 // builtins
 int		builtin_cd(int argc, char **argv, char **envp);
-int		builtin_env(int argc, char **argv, char **envp);
+int		builtin_env(int argc, char **argv, t_envp envp_status);
 int		builtin_pwd(int argc, char **argv, char **envp);
-int		builtin_unset(int argc, char **argv, char **envp);
-int		builtin_export(int argc, char **argv, char ***envp);
+int		builtin_unset(int argc, char **argv, t_envp *envp_status);
+int		builtin_export(int argc, char **argv, t_envp *envp_status);
 int		builtin_exit(int argc, char **argv, char **envp);
 int		builtin_echo(int argc, char **argv, char **envp);
-char	export_to_envp(char **argv, char ***envp);
+char	export_to_envp(char **argv, t_envp *envp_status);
 char	check_existence(char *var, char **envp);
 char	check_syntax(char *var);
-char	export_only(char **envp);
+char	export_only(t_envp envp_status);
 char	*ft_strappend(char *src1, char *src2, char mode);
 char	**get_var(char **envp, char *var);
 char	strgreater(void *ptr1, void *ptr2);
 size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
-void	remove_var(char **envp, char *var);
+void		remove_var(char **envp, char *var, void (*del)(void *));
 //
 
 #endif

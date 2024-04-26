@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:03:21 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/25 15:35:17 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:03:36 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,18 @@ char	check_existence(char *var, char **envp)
 	return (1);
 }
 
-int	builtin_export(int argc, char **argv, char ***envp)
+int	builtin_export(int argc, char **argv, t_envp *envp_status)
 {
 	int	error;
 
 	if (argc <= 1)
 	{
-		error = (int)export_only(*envp);
+		error = (int)export_only(*envp_status);
 		if (error == 2)
 			ft_perror("minishell: export: malloc: failed memory allocation\n");
 		return (error);
 	}
-	error = (int)export_to_envp(&argv[1], envp);
+	error = (int)export_to_envp(&argv[1], envp_status);
 	if (error == 2)
 		ft_perror("minishell: export: malloc: failed memory allocation\n");
 	return (error);
