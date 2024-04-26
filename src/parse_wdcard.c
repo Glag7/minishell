@@ -6,21 +6,40 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:25:33 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/26 18:07:48 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:04:00 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//TODO: stop on <>
-
-static int	fill_wdcard(t_list *wdcard, t_list **next)
+//lst est le wildcard
+//wdcard est le debut des arguments
+static int	fill_wdcard(t_list *lst, t_list **wdcard, t_list **next)
 {
-	//si var ajouter var
-	//si texte quote ajouter texte
-	//si * ajouter *
-	//si '<> \t\n' fini
-	//si texte non quote juste l'ajouter
+	t_list	*last;
+	t_list	*tmp;
+	t_tok	*tok;
+
+	tmp = lst;
+	last = lst;
+	tok = (t_tok *)tmp->content;
+	while (tmp && (tok->tok == UNDEF || tok->tok == VAR))
+	{
+		if (tok->tok == VAR)
+		{
+			ft_lstadd_back(wdcard, tmp);
+			last = tmp;
+			tmp = tmp->next;
+		}
+		else
+			err = add_wdcard_txt(lst, wdcard, &tmp, &last);
+		if (err)
+			break ;
+		tok = (t_tok *)tmp->content;
+	}
+	last->next = NULL;
+	*next = tmp;
+	return (err == ERR_AINTNOWAY);
 }
 
 static int	start_wdcard(t_list **last_split, t_tok *tok)
@@ -40,12 +59,12 @@ static int	start_wdcard(t_list **last_split, t_tok *tok)
 	}
 	ft_lstinsert(last_split, tmp, 0);
 	*tmptok = *tok;
-	*tok = (t_tok){.tok = WDCARD, .wdcard = tmp};
-	err = fill_wdcard(*last_split, &next);
+	*tok = (t_tok){.tok = WDCARD, .wdcard = NULL};
+	err = fill_wdcard(*last_split, &tmp, &next);
 	if (err)
 		return (1);
 	(*last_split)->next = next;
-	*last_split = next
+	*last_split = next;
 	return (0);
 }
 
