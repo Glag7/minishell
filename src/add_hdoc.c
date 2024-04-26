@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:03:46 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/24 19:36:23 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/26 14:51:00 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ int	search_lim(t_list *lst, t_tok *tok, size_t i, t_hdoc *hdoc)
 	t_list	*tmp;
 
 	tmp = lst;
-	while (i < tok->quote.str.len && ft_in(tok->quote.str.s[i], " \t\n<>") != -1)
+	while (i < tok->quote.str.len
+		&& ft_in(tok->quote.str.s[i], " \t\n<>") != -1)
 		i++;
 	if (i >= tok->quote.str.len)
 		tmp = tmp->next;

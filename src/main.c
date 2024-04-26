@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/25 17:46:09 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:46:52 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	debug(void *tok_)
 	static char	*yesno[2] = {"NO", "YES"};
 
 	tok = tok_;
+	printf("--%p--\n", tok);
 	if (tok->tok == UNDEF)
 	{
 		slice = tok->quote;
@@ -53,6 +54,10 @@ void	debug(void *tok_)
 	{
 		printf("=====\nVAR:\t$\nNAME:\t'%.*s'\nLEN:\t%zu\nQTYPE:\t%d\n=====\n",
 			(int)tok->s.len, tok->var.s.s, tok->var.s.len, tok->var.qtype);
+	}
+	else if (tok->tok == WDCARD)
+	{
+		printf("=====\nWDCARD:\t*\nTODO\n=====\n");
 	}
 	else
 		printf("wtf, error\n");
@@ -110,8 +115,8 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (*s)
 		{
-			exec_line(s, &err, &exit_code);
 			add_history(s);
+			exec_line(s, &err, &exit_code);
 		}
 		free(s);
 		if (err)
