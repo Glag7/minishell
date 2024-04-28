@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/26 17:46:52 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/28 23:52:18 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	debug(void *tok_)
 	}
 	else if (tok->tok == WDCARD)
 	{
-		printf("=====\nWDCARD:\t*\nTODO\n=====\n");
+		printf("=====\nWDCARD:\t*\n=====\n");
 	}
 	else
 		printf("wtf, error\n");

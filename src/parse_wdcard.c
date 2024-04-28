@@ -6,75 +6,18 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:25:33 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/26 19:04:00 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/29 00:04:51 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//lst est le wildcard
-//wdcard est le debut des arguments
-static int	fill_wdcard(t_list *lst, t_list **wdcard, t_list **next)
-{
-	t_list	*last;
-	t_list	*tmp;
-	t_tok	*tok;
-
-	tmp = lst;
-	last = lst;
-	tok = (t_tok *)tmp->content;
-	while (tmp && (tok->tok == UNDEF || tok->tok == VAR))
-	{
-		if (tok->tok == VAR)
-		{
-			ft_lstadd_back(wdcard, tmp);
-			last = tmp;
-			tmp = tmp->next;
-		}
-		else
-			err = add_wdcard_txt(lst, wdcard, &tmp, &last);
-		if (err)
-			break ;
-		tok = (t_tok *)tmp->content;
-	}
-	last->next = NULL;
-	*next = tmp;
-	return (err == ERR_AINTNOWAY);
-}
-
-static int	start_wdcard(t_list **last_split, t_tok *tok)
-{
-	t_list	*tmp;
-	t_list	*next;
-	t_tok	*tmptok;
-	int		err;
-
-	tmptok = malloc(sizeof(*tmptok));
-	tmp = ft_lstnew(tmptok);
-	if (tmptok == NULL || tmp == NULL)
-	{
-		free(tmptok);
-		free(tmp);
-		return (1);
-	}
-	ft_lstinsert(last_split, tmp, 0);
-	*tmptok = *tok;
-	*tok = (t_tok){.tok = WDCARD, .wdcard = NULL};
-	err = fill_wdcard(*last_split, &tmp, &next);
-	if (err)
-		return (1);
-	(*last_split)->next = next;
-	*last_split = next;
-	return (0);
-}
-
-static int	add_wdcard(t_list **last_split,
-		t_tok *tok, size_t offset)
+static inline int	add_remaining(t_list *curr, t_tok *tok, size_t i)
 {
 	t_list	*tmp;
 	t_tok	*tmptok;
 
-	if (offset)
+	if (tok->quote.str.len - i - 1)
 	{
 		tmptok = malloc(sizeof(*tmptok));
 		tmp = ft_lstnew(tmptok);
@@ -84,66 +27,69 @@ static int	add_wdcard(t_list **last_split,
 			free(tmp);
 			return (1);
 		}
-		ft_lstinsert(last_split, tmp, 0);
-		*tmptok = (t_tok){.tok = UNDEF, .quote = {tok->quote.qtype,
-			.str = {tok->quote.str.s + offset, tok->quote.str.len - offset}}};
-		tok->quote.str.len = offset;
-		*last_split = (*last_split)->next;
-		tok = (t_tok *)(*last_split)->content;
+		*tmptok = (t_tok){.tok = UNDEF, .quote = (t_quote){0, (t_str){
+			tok->quote.str.s + i + 1,
+			tok->quote.str.len - i - 1}}};
+		ft_lstinsert(&curr, tmp, 0);
 	}
-	return (start_wdcard(last_split, tok));
+	return (0);
 }
 
-static int	search_wdcard(t_list *lst, t_list **last_split, t_tok *tok)
+static int	add_wdcard(t_list *curr, t_tok *tok, size_t i)
 {
-	size_t	i;
-	size_t	lastspace;
-	t_tok	*tmptok;
+	t_list	*tmp;
 
-	i = -1;
-	while (++i < tok->quote.str.len)
+	if (add_remaining(curr, tok, i))
+		return (1);
+	tok->quote.str.len = i;
+	if (i != 0)
 	{
-		if (ft_in(tok->quote.str.s[i], " \t\n<>") != -1)
-			*last_split = lst;
-		if (i == tok->quote.str.len)
-			*last_split = (*last_split)->next;
-		if (tok->quote.str.s[i] == '*')
+		tok = malloc(sizeof(*tok));
+		tmp = ft_lstnew(tok);
+		if (tok == NULL || tmp == NULL)
 		{
-			i = -1;
-			lastspace = 0;
-			tmptok = ((t_tok *)(*last_split)->content);
-			while (tok->tok == UNDEF && tok->quote.qtype == 0
-				&& ++i < tmptok->quote.str.len
-				&& tmptok->quote.str.s[i] != '*')
-				if (ft_in(tmptok->quote.str.s[i], " \t\n<>") != -1)
-					lastspace = i + 1;
-			return (add_wdcard(last_split, tmptok, lastspace));
+			free(tok);
+			free(tmp);
+			return (1);
 		}
+		ft_lstinsert(&curr, tmp, 0);
+	}
+	*tok = (t_tok){.tok = WDCARD};
+	return (0);
+}
+
+static int	search_wdcard(t_list *curr)
+{
+	t_tok	*tok;
+	size_t	i;
+
+	i = 0;
+	tok = (t_tok *)curr->content;
+	while (i < tok->quote.str.len)
+	{
+		if (tok->quote.str.s[i] == '*')
+			return (add_wdcard(curr, tok, i));
+		i++;
 	}
 	return (0);
 }
 
 void	parse_wdcard(t_list **lst, int *err, int *exc)
 {
-	t_list	*curr;
-	t_list	*last_split;
-	t_tok	*tok;
+	t_list	*tmp;
 
-	curr = *lst;
-	last_split = curr;
-	while (curr)
+	tmp = *lst;
+	while (tmp)
 	{
-		tok = ((t_tok *)curr->content);
-		if (tok->tok != UNDEF && tok->tok != VAR)
-			last_split = curr->next;
-		else if (tok->tok == UNDEF && tok->quote.qtype == 0
-			&& search_wdcard(curr, &last_split, tok))
+		if (((t_tok *)tmp->content)->tok == UNDEF
+			&& ((t_tok *)tmp->content)->quote.qtype == 0
+			&& search_wdcard(tmp))
 		{
-			*exc = 2;
 			*err = ERR_AINTNOWAY;
+			*exc = 2;
 			ft_lstclear(lst, &free_lbuild);
 			return ;
 		}
-		curr = curr->next;
+		tmp = tmp->next;
 	}
 }

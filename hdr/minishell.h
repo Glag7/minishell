@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/25 16:29:31 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/28 23:51:52 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ void	check_err(int err);
 
 //free
 void	free_lbuild(void *tok_);
-void	free_wdcard(void *tok_);
 //
 
 // builtins

@@ -6,13 +6,13 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:03:09 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/23 18:41:15 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/29 00:01:55 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static inline int	add_remaining(t_list *curr, int i, int tokn)
+static inline int	add_remaining(t_list *curr, size_t i, int tokn)
 {
 	t_list	*tmp;
 	t_tok	*tok;
@@ -35,7 +35,7 @@ static inline int	add_remaining(t_list *curr, int i, int tokn)
 	return (0);
 }
 
-static int	add_op(t_list *curr, int i, int tokn, int type)
+static int	add_op(t_list *curr, size_t i, int tokn, int type)
 {
 	t_list	*tmp;
 	t_tok	*tok;
