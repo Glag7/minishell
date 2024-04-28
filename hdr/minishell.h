@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/29 00:38:18 by glag             ###   ########.fr       */
+/*   Updated: 2024/04/29 00:55:55 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int		search_lim(t_list *lst, t_tok *tok, size_t i, t_hdoc *hdoc);
 void	parse_var(t_list **lst, int *err, int *exc);
 void	parse_wdcard(t_list **lst, int *err, int *exc);
 void	parse_redir(t_list **lst, int *err, int *exc);
+int		check_redir(t_list *lst);
 //
 
 //output

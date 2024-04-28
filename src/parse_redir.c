@@ -6,7 +6,7 @@
 /*   By: glag <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 00:36:16 by glag              #+#    #+#             */
-/*   Updated: 2024/04/29 00:47:08 by glag             ###   ########.fr       */
+/*   Updated: 2024/04/29 00:54:02 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,11 @@ void	parse_redir(t_list **lst, int *err, int *exc)
 			return ;
 		}
 		tmp = tmp->next;
-	}/*
-	if (*lst && check_op(*lst))
+	}
+	if (*lst && check_redir(*lst))
 	{
-		ft_perror(MSG_OP);
+		ft_perror(MSG_REDIR);
 		*exc = 2;
 		ft_lstclear(lst, &free_lbuild);
-	}*/
+	}
 }
