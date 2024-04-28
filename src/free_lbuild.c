@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:34:47 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/29 00:05:31 by glag             ###   ########.fr       */
+/*   Updated: 2024/04/29 00:24:08 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,5 @@ void	free_lbuild(void *tok_)
 		free(tok->s.s);
 	else if (tok->tok == VAR)
 		free(tok->var.s.s);
-	else if (tok->tok == REDIR)
-	{
-		if (tok->tok == TXT)
-			free(tok->redir.s.s);
-		else if (tok->tok == VAR)
-			free(tok->redir.var.s.s);
-	}
 	free(tok);
 }

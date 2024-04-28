@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/28 23:51:52 by glag             ###   ########.fr       */
+/*   Updated: 2024/04/29 00:38:18 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 
 # define AND	0
 # define OR	1
+
 # define OPEN	0
 # define CLOSE	1
 
@@ -51,12 +52,9 @@ enum	e_tok
 	WDCARD
 };
 
-enum	e_redir
-{
-	IN = 0,
-	OUT,
-	APP
-};
+# define IN 0
+# define OUT 1
+# define APP 3
 
 typedef struct s_quote
 {
@@ -69,19 +67,6 @@ typedef struct s_var
 	int		qtype;
 	t_str	s;
 }	t_var;
-
-typedef struct s_redir
-{
-	int	tok;
-	int	type;
-	union
-	{
-		t_str	s;
-		t_var	var;
-		t_list	*wdcard;
-		t_list	*any;
-	};
-}	t_redir;
 
 typedef struct s_hdoc
 {
@@ -96,11 +81,10 @@ typedef struct s_tok
 	{
 		t_quote			quote;
 		t_str			s;
-		struct s_redir	redir;
+		int				redir;
 		struct s_hdoc	hdoc;
 		struct s_var	var;
 		bool			type;
-		t_list			*wdcard;
 	};
 }	t_tok;
 
@@ -122,6 +106,7 @@ void	parse_hdoc(t_list **lst, int *err, int *exc);
 int		search_lim(t_list *lst, t_tok *tok, size_t i, t_hdoc *hdoc);
 void	parse_var(t_list **lst, int *err, int *exc);
 void	parse_wdcard(t_list **lst, int *err, int *exc);
+void	parse_redir(t_list **lst, int *err, int *exc);
 //
 
 //output
@@ -129,6 +114,7 @@ void	parse_wdcard(t_list **lst, int *err, int *exc);
 # define MSG_PAR	"minishell: syntax error: bad parenthesis\n"
 # define MSG_OP		"minishell: syntax error: bad operator\n"
 # define MSG_HDOC	"minishell: syntax error: bad heredoc\n"
+# define MSG_REDIR	"minishell: syntax error: bad redirection\n"
 
 # define MSG_MALLOC	"minishell: malloc: epic fail\n"
 

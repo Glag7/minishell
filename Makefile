@@ -18,7 +18,7 @@ SRC = main.c \
       add_hdoc.c \
       parse_var.c \
       parse_wdcard.c \
-      add_wdcard.c \
+      parse_redir.c \
       free_lbuild.c \
       output.c
 
