@@ -144,6 +144,7 @@ int		builtin_unset(int argc, char **argv, t_envp *envp_status);
 int		builtin_export(int argc, char **argv, t_envp *envp_status);
 int		builtin_exit(int argc, char **argv, char **envp);
 int		builtin_echo(int argc, char **argv, char **envp);
+bool	update_cd_envp(t_envp *envp_status);
 char	export_to_envp(char **argv, t_envp *envp_status);
 char	check_existence(char *var, char **envp);
 char	check_syntax(char *var);
