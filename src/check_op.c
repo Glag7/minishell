@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:00:36 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/23 19:03:38 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/30 17:17:26 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,31 +30,37 @@ static inline void	found_txt(int *notempty, int *need_notempty)
 	*need_notempty = 0;
 }
 
+static inline void	init_var(int *notempty, int *need_nompty)
+{
+	*need_nompty = 1;
+	*notempty = 0;
+}
+
 int	check_op(t_list *lst)
 {
 	t_tok	*tok;
 	int		notempty;
-	int		need_notempty;
+	int		need_nompty;
+	int		op;
 
-	need_notempty = 1;
-	notempty = 0;
+	init_var(&notempty, &need_nompty);
+	op = 0;
 	while (lst)
 	{
 		tok = ((t_tok *)lst->content);
-		if ((tok->tok == OP || tok->tok == PIPE))
+		op |= (tok->tok == OP || tok->tok == PIPE);
+		if ((tok->tok == OP || tok->tok == PIPE) && (need_nompty || !notempty))
+			return (1);
+		else if ((tok->tok == OP || tok->tok == PIPE))
 		{
-			if ((need_notempty || !notempty))
-				return (1);
 			notempty = 0;
-			need_notempty = 1;
+			need_nompty = 1;
 		}
-		else if (tok->tok == PAR && tok->type == CLOSE)
-			notempty = 1;
 		else if (tok->tok == PAR)
-			need_notempty = 0;
+			notempty = tok->type == CLOSE;
 		else if (tok->quote.qtype || is_notempty(tok->quote))
-			found_txt(&notempty, &need_notempty);
+			found_txt(&notempty, &need_nompty);
 		lst = lst->next;
 	}
-	return (need_notempty);
+	return (need_nompty && op);
 }

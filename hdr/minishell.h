@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/29 00:55:55 by glag             ###   ########.fr       */
+/*   Updated: 2024/04/30 17:09:53 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ char	**get_var(char **envp, char *var);
 char	strgreater(void *ptr1, void *ptr2);
 size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
-void		remove_var(char **envp, char *var, void (*del)(void *));
+void	remove_var(char **envp, char *var, void (*del)(void *));
 //
 
 #endif
