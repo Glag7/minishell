@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/30 17:34:51 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:19:54 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,19 @@ int		check_redir(t_list *lst);
 void	free_lbuild(void *tok_);
 
 ////////////////////////////////////////////
+
+/* TREES */
+
+typedef struct s_tree
+{
+	void	*content;
+	void	*l;
+	void	*r;
+}	t_tree;
+
+t_tree	*build_tree(t_list **lbuild, int *err, int *exc);
+
+/////////
 
 /* BUILTINS */
 
