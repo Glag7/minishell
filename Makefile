@@ -8,19 +8,21 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 HDR_DIR = hdr/
 
+PARSING = parsing/
+
 SRC = main.c \
-      parse_quotes.c \
-      parse_pars.c \
-      check_pars.c \
-      parse_op.c \
-      check_op.c \
-      parse_hdoc.c \
-      add_hdoc.c \
-      parse_var.c \
-      parse_wdcard.c \
-      parse_redir.c \
-      check_redir.c \
-      free_lbuild.c \
+      $(PARSING)parse_quotes.c \
+      $(PARSING)parse_pars.c \
+      $(PARSING)check_pars.c \
+      $(PARSING)parse_op.c \
+      $(PARSING)check_op.c \
+      $(PARSING)parse_hdoc.c \
+      $(PARSING)add_hdoc.c \
+      $(PARSING)parse_var.c \
+      $(PARSING)parse_wdcard.c \
+      $(PARSING)parse_redir.c \
+      $(PARSING)check_redir.c \
+      $(PARSING)free_lbuild.c \
       output.c
 
 OBJ = $(SRC:.c=.o)
@@ -36,7 +38,10 @@ $(LIB) :
 $(OBJ_DIR) :
 	@ mkdir -p $(OBJ_DIR)
 
-$(NAME) : $(LIB) $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ))
+$(OBJ_DIR)$(PARSING) : $(OBJ_DIR)
+	@ mkdir -p $(OBJ_DIR)$(PARSING)
+
+$(NAME) : $(LIB) $(OBJ_DIR)$(PARSING) $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ))
 	@ $(COMP) $(CFLAGS) $(addprefix $(OBJ_DIR), $(OBJ)) $(LIB) -o $@ -lreadline
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c

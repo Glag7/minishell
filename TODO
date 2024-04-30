@@ -1,5 +1,7 @@
 limiter taillei
 
+signaux dans parsing (priorite : malloc, sig, erreur de parsing)
+
 $_ dans export oyu pas ?
 mettre a minishell ou pas ?
 

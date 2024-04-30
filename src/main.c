@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/30 17:01:55 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:11:51 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	debug(void *tok_)
 static int	*parse_line(char *s, int *err, int *exc)
 {
 	t_list	*tmp;
-	int		*tree;
+	t_tree	*tree;
 
 	tmp = parse_quotes(s, err, exc);
 	tmp = parse_pars(tmp, err, exc);
@@ -90,12 +90,13 @@ static int	*parse_line(char *s, int *err, int *exc)
 		ft_lstclear(&tmp, &free_lbuild);
 	}
 	ft_lstclear(&tmp, &debug);
-	return (tmp);
+	//tree = build_tree(&tmp, err, exc);
+	return (tree);
 }
 
 static void	exec_line(char *s, int *err, int *exc)
 {
-	int	*tree;
+	t_tree	*tree;
 
 	tree = parse_line(s, err, exc);
 	//check ctrl c
