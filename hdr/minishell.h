@@ -137,7 +137,7 @@ typedef struct s_envp
 }	t_envp;
 
 // builtins
-int		builtin_cd(int argc, char **argv, char **envp);
+int		builtin_cd(int argc, char **argv, t_envp *envp_status);
 int		builtin_env(int argc, char **argv, t_envp envp_status);
 int		builtin_pwd(int argc, char **argv, char **envp);
 int		builtin_unset(int argc, char **argv, t_envp *envp_status);
