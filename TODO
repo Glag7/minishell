@@ -1,6 +1,3 @@
-LE HEADER CACA
-LE HEADER IL FAUT LE REFAIRE ET EN FAIRE PLUSIEURS EN PLUS
-
 limiter taillei
 
 $_ dans export oyu pas ?
@@ -13,11 +10,6 @@ mettre a jour les variables telles que SHELL ?
 
 shlevel
 
-parenthese: il faut le bon nombre de parentheses et chaque parenthese doit etre separee de la suivante par qqch
-il faut verif que les parentheses sont separees par des op binaires
-penser a enlever les parentheses inutiles
-verifier ca dans le parsing des operateurs
-
 split sur && ||, construire l'arbre (penser aux parentheses qui font des subtree)
 une pipeline par branche, la pipeline est une liste chainee de char **(non) ou d'arbres binaires
 ensuite (en meme temps en vrai) le parcourir et enlever les redirections et heredocs, puis mettre les ordres de remplacement
@@ -28,7 +20,6 @@ signaux
 
 $:
 si juste $ ou nom invalide texte litteral
-$* est reel
 
 *:
 quand * donne un fichier ca va sinon ambiguous redirect
@@ -36,7 +27,7 @@ quand pad de . devant pas afficher les ., sinon afficher les .
 quand rien a afficher avec * affiche le texte litteral
 
 chaine vide entre quotes est laissee
-dans une variable pas laissee
+dans une variable pas laissee (sans quotes)
 
 heredoc:
 les variables sont pas interpretees pour le delimiteur, les * non plus
@@ -44,23 +35,11 @@ si il y a des guillemets qq part dans la chaine delimiteur (meme vide), alors pa
 pas expand *
 
 les fichiers sont crees en premier mais dependent quand meme de leur pipeline (exemple || )
+et de leure commande
 ils sont crees en premier
 les heredoc aussi
 
-variables
-$ c juste $
 
-penser a $?
-
-double quote vide c une commande mais pas $CACA
-
-pour $ :
-$ + des quotes c juste une strig, pas d'expansion + enlever le $
-quand je trouve quote regarder si char avant = $ et si c le cas enlever 1 a la len d'avant
-
-cat x > y > z
-mais aussi
-cat x > y y > z
 les fichiers sont crees dans l'ordre, ils s'arrete si probleme
 redirection avant exec
 

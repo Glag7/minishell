@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/30 17:09:53 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/04/30 17:34:51 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,67 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-/* ----- STRUCTURES & MACROS ----- */
+////////////////////////
+
+/* COMMON */
+
+# define ERR_AINTNOWAY	3
+
+# define MSG_MALLOC	"minishell: malloc: epic fail\n"
+
+void	ft_perror(char	*s);
+void	check_err(int err);
+
+///////////////////////
+
+/* ----- PARSING ----- */
 
 //errors
-# define ERR_AINTNOWAY	3
+# define MSG_QUOTE	"minishell: syntax error: open quote\n"
+# define MSG_PAR	"minishell: syntax error: bad parenthesis\n"
+# define MSG_OP		"minishell: syntax error: bad operator\n"
+# define MSG_HDOC	"minishell: syntax error: bad heredoc\n"
+# define MSG_REDIR	"minishell: syntax error: bad redirection\n"
 //
 
-//parsing
+//quotes
 # define QUOTE	1
 # define DQUOTE	2
 
+typedef struct s_quote
+{
+	int		qtype;
+	t_str	str;
+}	t_quote;
+
+//vars
+typedef struct s_var
+{
+	int		qtype;
+	t_str	s;
+}	t_var;
+
+//op
 # define AND	0
 # define OR	1
 
+//par
 # define OPEN	0
 # define CLOSE	1
 
+//hdoc
+typedef struct s_hdoc
+{
+	bool	expand;
+	t_str	lim;
+}	t_hdoc;
+
+//redir
+# define IN 0
+# define OUT 1
+# define APP 3
+
+//tokens
 enum	e_tok
 {
 	UNDEF = 0,
@@ -51,29 +96,6 @@ enum	e_tok
 	VAR,
 	WDCARD
 };
-
-# define IN 0
-# define OUT 1
-# define APP 3
-
-typedef struct s_quote
-{
-	int		qtype;
-	t_str	str;
-}	t_quote;
-
-typedef struct s_var
-{
-	int		qtype;
-	t_str	s;
-}	t_var;
-
-typedef struct s_hdoc
-{
-	bool	expand;
-	t_str	lim;
-}	t_hdoc;
-
 typedef struct s_tok
 {
 	int	tok;
@@ -88,15 +110,6 @@ typedef struct s_tok
 	};
 }	t_tok;
 
-typedef struct s_envp
-{
-	char	**envp;
-	bool	show_pwd;
-	bool	show_oldpwd;
-}	t_envp;
-
-/* ----- PROTOTYPES & MACROS ----- */
-
 t_list	*parse_quotes(char *s, int *err, int *exc);
 t_list	*parse_pars(t_list *lst, int *err, int *exc);
 int		check_pars(t_list *pars, ssize_t plevel);
@@ -108,24 +121,20 @@ void	parse_var(t_list **lst, int *err, int *exc);
 void	parse_wdcard(t_list **lst, int *err, int *exc);
 void	parse_redir(t_list **lst, int *err, int *exc);
 int		check_redir(t_list *lst);
-//
-
-//output
-# define MSG_QUOTE	"minishell: syntax error: open quote\n"
-# define MSG_PAR	"minishell: syntax error: bad parenthesis\n"
-# define MSG_OP		"minishell: syntax error: bad operator\n"
-# define MSG_HDOC	"minishell: syntax error: bad heredoc\n"
-# define MSG_REDIR	"minishell: syntax error: bad redirection\n"
-
-# define MSG_MALLOC	"minishell: malloc: epic fail\n"
-
-void	ft_perror(char	*s);
-void	check_err(int err);
-//
 
 //free
 void	free_lbuild(void *tok_);
-//
+
+////////////////////////////////////////////
+
+/* BUILTINS */
+
+typedef struct s_envp
+{
+	char	**envp;
+	bool	show_pwd;
+	bool	show_oldpwd;
+}	t_envp;
 
 // builtins
 int		builtin_cd(int argc, char **argv, char **envp);
