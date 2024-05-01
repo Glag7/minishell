@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/30 19:30:15 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/30 19:30:24 by ttrave           ###   ########.fr       */
+/*   Created: 2024/05/01 14:07:28 by ttrave            #+#    #+#             */
+/*   Updated: 2024/05/01 14:11:19 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,24 @@ static bool	copy_cd_envp(char **new_envp, char **old_envp, char *new_pwd,
 	return (0);
 }
 
+static char	**alloc_new_envp(char **old_envp, size_t *new_len_ptr,
+		size_t *old_len_ptr)
+{
+	char	**new_envp;
+	size_t	new_len;
+	size_t	old_len;
+
+	old_len = 0;
+	while (old_envp[old_len] != NULL)
+		old_len++;
+	new_len = old_len + (get_var(old_envp, "PWD") == NULL)
+		+ (get_var(old_envp, "OLDPWD") == NULL);
+	*new_len_ptr = new_len;
+	*old_len_ptr = old_len;
+	new_envp = malloc((new_len + 1) * sizeof(char *));
+	return (new_envp);
+}
+
 static bool	update_cd_pwd_oldpwd(char ***envp, char *new_pwd,
 		char **new_oldpwd_ptr)
 {
@@ -67,16 +85,10 @@ static bool	update_cd_pwd_oldpwd(char ***envp, char *new_pwd,
 	size_t	new_len;
 
 	old_envp = *envp;
-	old_len = 0;
-	while (old_envp[old_len] != NULL)
-		old_len++;
-	new_len = old_len + (get_var(old_envp, "PWD") == NULL)
-		+ (get_var(old_envp, "OLDPWD") == NULL);
-	new_envp = malloc((new_len + 1) * sizeof(char *));
+	new_envp = alloc_new_envp(old_envp, &new_len, &old_len);
 	if (new_envp == NULL)
 		return (1);
-	new_envp[new_len] = NULL;
-	while (old_len < new_len)
+	while (old_len <= new_len)
 		new_envp[old_len++] = NULL;
 	new_oldpwd = NULL;
 	if (new_oldpwd_ptr != NULL)
