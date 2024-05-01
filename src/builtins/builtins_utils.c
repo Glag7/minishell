@@ -6,37 +6,11 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:40:04 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/26 17:03:04 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/01 14:12:30 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	strgreater(void *ptr1, void *ptr2)
-{
-	size_t	i;
-	char	*str1;
-	char	*str2;
-	char	c1;
-	char	c2;
-
-	str1 = (char *)ptr1;
-	str2 = (char *)ptr2;
-	i = 0;
-	c1 = str1[0];
-	c2 = str2[0];
-	while (c1 != 0 && c1 != '=' && c1 == c2)
-	{
-		i++;
-		c1 = str1[i];
-		c2 = str2[i];
-	}
-	if (c1 == 0 || c1 == '=')
-		return (0);
-	if (c2 == 0 || c2 == '=' || c1 > c2)
-		return (1);
-	return (0);
-}
 
 size_t	len_until_char(char *str, char c)
 {
