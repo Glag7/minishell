@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/01 17:31:22 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:49:42 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static t_list	*parse_line(char *s, int *err, int *exc)
 	return (tmp);//signaux ??
 }
 
-static void	exec_line(char *s, int *err, int *exc, char **envp)
+static void	exec_line(char *s, int *err, int *exc, t_envp *senvp)
 {
 	t_list	*toexec;
 
@@ -94,7 +94,7 @@ static void	exec_line(char *s, int *err, int *exc, char **envp)
 	toexec = parse_line(s, err, exc);
 	if (toexec == NULL)
 		return ;
-	if (execline(toexec, err, exc, envp))
+	if (execline(toexec, err, exc, senvp))
 	{
 		//TODO
 	}
@@ -112,6 +112,8 @@ int	main(int argc, char **argv, char **envp)
 	int		err;
 	int		exit_code;
 
+	(void) argc;
+	(void) argv;
 	err = dup_envp(&envp);
 	senvp = (t_envp) {envp, 1, 1};
 	exit_code = 0;
