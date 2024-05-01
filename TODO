@@ -2,6 +2,9 @@ limiter taillei
 
 //126 not executable, 127 not found
 
+integrer les builtins
+SHLVL et PWD startup
+
 signaux dans parsing (priorite : malloc, sig, erreur de parsing)
 
 $_ dans export oyu pas ?

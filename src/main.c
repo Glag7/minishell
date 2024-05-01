@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/01 17:49:42 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:08:47 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static t_list	*parse_line(char *s, int *err, int *exc)
 		ft_lstclear(&tmp, &free_lbuild);
 		return (NULL);
 	}
-	return (tmp);//signaux ??
+	return (tmp);//signaux
 }
 
 static void	exec_line(char *s, int *err, int *exc, t_envp *senvp)
@@ -93,15 +93,13 @@ static void	exec_line(char *s, int *err, int *exc, t_envp *senvp)
 	add_history(s);
 	toexec = parse_line(s, err, exc);
 	if (toexec == NULL)
-		return ;
-	if (execline(toexec, err, exc, senvp))
 	{
-		//TODO
+		free(s);
+		return ;
 	}
+	execline(toexec, err, exc, senvp);
 	ft_lstclear(&toexec, &debug);
-	//check ctrl c
-	//gestion erreur (check null)
-	//exec
+	//signaux
 	free(s);
 }
 

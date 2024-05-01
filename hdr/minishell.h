@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/01 17:50:02 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:07:34 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	remove_var(char **envp, char *var, void (*del)(void *));
 
 /* EXEC */
 
-int		execline(t_list *toexec, int *err, int *exc, t_envp *envp);
+void	execline(t_list *toexec, int *err, int *exc, t_envp *envp);
 
 //////////////////////////////////////////////
 
