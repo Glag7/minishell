@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/30 18:19:54 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/01 14:45:34 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,19 +127,6 @@ void	free_lbuild(void *tok_);
 
 ////////////////////////////////////////////
 
-/* TREES */
-
-typedef struct s_tree
-{
-	void	*content;
-	void	*l;
-	void	*r;
-}	t_tree;
-
-t_tree	*build_tree(t_list **lbuild, int *err, int *exc);
-
-/////////
-
 /* BUILTINS */
 
 typedef struct s_envp
@@ -167,6 +154,6 @@ char	**get_var(char **envp, char *var);
 size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
 void	remove_var(char **envp, char *var, void (*del)(void *));
-//
+////////////////////////////
 
 #endif
