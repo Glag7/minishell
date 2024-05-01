@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/01 14:45:34 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:13:24 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,5 +155,13 @@ size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
 void	remove_var(char **envp, char *var, void (*del)(void *));
 ////////////////////////////
+
+/* EXEC */
+
+int		execline(t_list *toexec, int *err, int *exc, t_envp envp);
+
+//////////////////////////////////////////////
+
+int		dup_envp(char ***envp_ptr);
 
 #endif

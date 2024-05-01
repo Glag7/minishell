@@ -23,6 +23,8 @@ SRC = main.c \
       $(PARSING)parse_redir.c \
       $(PARSING)check_redir.c \
       $(PARSING)free_lbuild.c \
+      execline.c \
+      dup_envp.c \
       output.c
 
 OBJ = $(SRC:.c=.o)

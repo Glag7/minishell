@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/01 14:48:33 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:31:22 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,17 @@ void	debug(void *tok_)
 			printf("=====\nOP_OR:\t||\n=====\n");
 	}
 	else if (tok->tok == HDOC)
-	{
 		printf("=====\nHDOC:\t<<\nLIM:\t'%.*s'\nLEN:\t%zu\nEXP:\t%s\n=====\n",
 			(int)tok->hdoc.lim.len,
 			tok->hdoc.lim.s, tok->hdoc.lim.len, yesno[tok->hdoc.expand]);
-	}
 	else if (tok->tok == VAR)
-	{
 		printf("=====\nVAR:\t$\nNAME:\t'%.*s'\nLEN:\t%zu\nQTYPE:\t%d\n=====\n",
 			(int)tok->s.len, tok->var.s.s, tok->var.s.len, tok->var.qtype);
-	}
 	else if (tok->tok == WDCARD)
-	{
 		printf("=====\nWDCARD:\t*\n=====\n");
-	}
 	else if (tok->tok == REDIR)
-	{
 		printf("=====\nREDIR\nTYPE:\t%s\n=====\n",
 			type[tok->redir]);
-	}
 	else
 		printf("wtf, error\n");
 	free_lbuild(tok);
@@ -89,46 +81,50 @@ static t_list	*parse_line(char *s, int *err, int *exc)
 		ft_lstclear(&tmp, &free_lbuild);
 		return (NULL);
 	}
-	return (tmp);
+	return (tmp);//signaux ??
 }
 
-static void	exec_line(char *s, int *err, int *exc)
+static void	exec_line(char *s, int *err, int *exc, char **envp)
 {
-	t_list	*exec;
+	t_list	*toexec;
 
-	exec = parse_line(s, err, exc);
-	if (exec == NULL)
+	if (*s == 0)
 		return ;
-	ft_lstclear(&exec, &debug);
+	add_history(s);
+	toexec = parse_line(s, err, exc);
+	if (toexec == NULL)
+		return ;
+	if (execline(toexec, err, exc, envp))
+	{
+		//TODO
+	}
+	ft_lstclear(&toexec, &debug);
 	//check ctrl c
 	//gestion erreur (check null)
 	//exec
+	free(s);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*s;
+	t_envp	senvp;
 	int		err;
 	int		exit_code;
 
-	//sig handler
-	err = 0;
+	err = dup_envp(&envp);
+	senvp = (t_envp) {envp, 1, 1};
 	exit_code = 0;
-	while (1)
+	//if (err == 0)
+	//sig handler
+	s = (char *)1;
+	while (err == 0 && s)
 	{
 		s = readline("coquillage de petite taille > ");
-		if (s == NULL)
-			break ;
-		if (*s)
-		{
-			add_history(s);
-			exec_line(s, &err, &exit_code);
-		}
-		free(s);
-		if (err)
-			break ;
+		exec_line(s, &err, &exit_code, &senvp);
 	}
 	check_err(err);
+	ft_freearr(envp);
 	rl_clear_history();
 	return (exit_code);
 }

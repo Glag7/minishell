@@ -1,5 +1,7 @@
 limiter taillei
 
+//126 not executable, 127 not found
+
 signaux dans parsing (priorite : malloc, sig, erreur de parsing)
 
 $_ dans export oyu pas ?
