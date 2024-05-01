@@ -164,7 +164,6 @@ char	check_syntax(char *var);
 char	export_only(t_envp envp_status);
 char	*ft_strappend(char *src1, char *src2, char mode);
 char	**get_var(char **envp, char *var);
-char	strgreater(void *ptr1, void *ptr2);
 size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
 void	remove_var(char **envp, char *var, void (*del)(void *));
