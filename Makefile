@@ -13,7 +13,6 @@ PARSING = parsing/
 SRC = main.c \
       $(PARSING)parse_quotes.c \
       $(PARSING)parse_pars.c \
-      $(PARSING)check_pars.c \
       $(PARSING)parse_op.c \
       $(PARSING)check_op.c \
       $(PARSING)parse_hdoc.c \
