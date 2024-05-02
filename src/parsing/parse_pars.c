@@ -6,113 +6,126 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:25 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/02 18:23:12 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:01:44 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//FIXME (a(a))
-static t_tok	*dup_txt(t_list **src, t_list **dst, int *err, int *exc)//FIXME rm empty string
+static int	check_pars(t_list *pars)
 {
 	t_tok	*tok;
-	t_list	*tmp;
+	ssize_t	plevel;
 
-	tok = malloc(sizeof(*tok));
-	tmp = ft_lstnew(tok);
-	if (tok == NULL || tmp == NULL)
+	plevel = 0;
+	while (pars)
+	{
+		tok = (t_tok *)pars->content;
+		if (tok->tok == PAR)
+		{
+			plevel += (tok->type == OPEN) - (tok->type == CLOSE);
+			if (plevel < 0)
+				return (1);
+			if (pars->next && ((t_tok *)pars->next->content)->tok == PAR
+				&& ((t_tok *)pars->next->content)->type != tok->type)
+				return (1);
+		}
+		pars = pars->next;
+	}
+	return (plevel != 0);
+}
+
+static int	add_remaining(t_list *curr, t_tok *tok, size_t i)
+{
+	t_list	*tmp;
+	t_tok	*tmptok;
+	size_t	j;
+
+	j = i;
+	while (j < tok->quote.str.len && ft_in(tok->quote.str.s[j], " \t\n") != -1)
+		j++;
+	if (j == tok->quote.str.len)
+		return (0);
+	tmptok = malloc(sizeof(*tmptok));
+	tmp = ft_lstnew(tmptok);
+	if (tmp == NULL || tmptok == NULL)
 	{
 		free(tmp);
-		free(tok);
-		ft_lstclear(src, &free);
-		ft_lstclear(dst, &free);
-		*err = ERR_AINTNOWAY;
-		*exc = 2;
-		return (NULL);
+		free(tmptok);
+		return (1);
 	}
-	tok->tok = UNDEF;
-	tok->quote = *(t_quote *)((*src)->content);
-	ft_lstadd_back(dst, tmp);
-	return (tok);
+	ft_lstinsert(&curr, tmp, 0);
+	*tmptok = (t_tok){.tok = UNDEF, .quote = {0,
+		.str = {tok->quote.str.s + i, tok->quote.str.len - i}}};
+	return (0);
 }
 
-static t_tok	*add_plevel(t_list **src, t_list **dst, int *err,
-	ssize_t *plevel)
+static int	add_par(t_list *curr, t_tok **tok, size_t i)
 {
-	t_tok	*tok;
+	t_list	*tmp;
+	t_tok	*tmptok;
 
-	if (*plevel < 0)
+	tmptok = malloc(sizeof(*tmptok));
+	tmp = ft_lstnew(tmptok);
+	if (tmp == NULL || tmptok == NULL)
 	{
-		ft_perror(MSG_PAR);
-		ft_lstclear(src, &free);
-		ft_lstclear(dst, &free);
-		return (NULL);
+		free(tmp);
+		free(tmptok);
+		return (1);
 	}
-	tok = dup_txt(src, dst, err, (int *)plevel);
-	return (tok);
+	ft_lstinsert(&curr, tmp, 0);
+	(*tok)->quote.str.len = i;
+	*tok = tmptok;
+	return (0);
 }
 
-static inline void	init_var(t_str *s, t_list *src, t_tok **tok)
+static int	add_pars(t_list *curr, t_tok *tok)
 {
-	*s = ((t_quote *)src->content)->str;
-	s->len = -1;
-	*tok = NULL;
-}
+	size_t	i;
+	bool	notempty;
 
-static int	add_pars(t_list **src, t_list **dst, int *err, ssize_t *plevel)
-{
-	t_str	s;
-	t_tok	*tok;
-
-	init_var(&s, *src, &tok);
-	while (++s.len < ((t_quote *)(*src)->content)->str.len)
+	i = 0;
+	notempty = 0;
+	while (i < tok->quote.str.len)
 	{
-		if (s.s[s.len] == '(' || s.s[s.len] == ')')
+		if (tok->quote.str.s[i] == '(' || tok->quote.str.s[i] == ')')
 		{
-			*plevel += (s.s[s.len] == '(') - (s.s[s.len] == ')');
-			tok = add_plevel(src, dst, err, plevel);
-			if (tok == NULL)
+			if (add_remaining(curr, tok, i + 1))
 				return (1);
-			*tok = (t_tok){.tok = PAR, .type = (s.s[s.len] == ')')};
-		}
-		else if (tok && tok->tok == UNDEF)
-			tok->quote.str.len++;
-		else
-		{
-			tok = dup_txt(src, dst, err, (int *)plevel);
-			if (tok == NULL)
+			if (notempty && add_par(curr, &tok, i))
 				return (1);
-			tok->quote.str = (t_str){s.s + s.len, 1};
+			*tok = (t_tok){.tok = PAR,
+				.type = (((t_tok *)curr->content)->quote.str.s[i] == ')')};
+			return (0);
 		}
+		notempty |= ft_in(tok->quote.str.s[i], " \t\n") == -1;
+		i++;
 	}
 	return (0);
 }
 
-t_list	*parse_pars(t_list *lst, int *err, int *exc)
+void	parse_pars(t_list **lst, int *err, int *exc)
 {
-	t_list	*pars;
-	ssize_t	plevel;
+	t_list	*curr;
 
-	pars = NULL;
-	plevel = 0;
-	while (lst)
+	curr = *lst;
+	while (curr)
 	{
-		if (((t_quote *)lst->content)->qtype && !dup_txt(&lst, &pars, err, exc))
-			return (NULL);
-		else if (lst && ((t_quote *)lst->content)->qtype == 0)
+		if (((t_tok *)curr->content)->tok == UNDEF
+			&& ((t_tok *)curr->content)->quote.qtype == 0
+			&& add_pars(curr, (t_tok *)curr->content))
 		{
-			if (add_pars(&lst, &pars, err, &plevel))
-				*exc = 2;
-			if (pars == NULL || plevel < 0)
-				break ;
+			*err = ERR_AINTNOWAY;
+			*exc = 2;
+			ft_lstclear(lst, &free);
+			return ;
 		}
-		ft_lstpop(&lst, &free, 1);
+		curr = curr->next;
 	}
-	if (pars && check_pars(pars, plevel))
+	if (*lst && check_pars(*lst))
 	{
 		ft_perror(MSG_PAR);
-		ft_lstclear(&pars, &free);
+		ft_lstclear(lst, &free);
 		*exc = 2;
 	}
-	return (pars);
 }

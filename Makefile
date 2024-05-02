@@ -13,7 +13,6 @@ PARSING = parsing/
 SRC = main.c \
       $(PARSING)parse_quotes.c \
       $(PARSING)parse_pars.c \
-      $(PARSING)check_pars.c \
       $(PARSING)parse_op.c \
       $(PARSING)check_op.c \
       $(PARSING)parse_hdoc.c \
@@ -22,7 +21,6 @@ SRC = main.c \
       $(PARSING)parse_wdcard.c \
       $(PARSING)parse_redir.c \
       $(PARSING)check_redir.c \
-      $(PARSING)remove_dup_par.c \
       $(PARSING)free_lbuild.c \
       execline.c \
       dup_envp.c \
