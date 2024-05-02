@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/02 17:16:59 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:56:33 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static t_list	*parse_line(char *s, int *err, int *exc)
 	parse_var(&tmp, err, exc);
 	parse_wdcard(&tmp, err, exc);
 	parse_redir(&tmp, err, exc);
+	remove_dup_par(&tmp);
 	if (*err || (tmp == NULL && g_sig == 0))
 		return (NULL);
 	if (g_sig == SIGINT)
@@ -88,7 +89,7 @@ static void	exec_line(char *s, int *err, int *exc, t_envp *senvp)
 {
 	t_list	*toexec;
 
-	if (*s == 0)
+	if (s == NULL || *s == 0)
 		return ;
 	add_history(s);
 	toexec = parse_line(s, err, exc);

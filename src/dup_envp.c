@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:27:02 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/02 17:45:54 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/02 17:57:53 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,6 @@ static int	check_pwd_shlvl(char ***envp_ptr, size_t len)
 
 int	dup_envp(char ***envp_ptr)
 {
-	(void)envp_ptr;//tmp
-	return (0);//tmp
-}/*
 	char	**envp;
 	size_t	len;
 	size_t	i;
@@ -145,5 +142,5 @@ int	dup_envp(char ***envp_ptr)
 		}
 		i++;
 	}
-	return (check_pwd_shlvl(envp_ptr, len));
-}*/
+	return (0);//check_pwd_shlvl(envp_ptr, len));
+}

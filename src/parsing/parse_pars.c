@@ -6,13 +6,14 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:25 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/23 16:05:26 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:23:12 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_tok	*dup_txt(t_list **src, t_list **dst, int *err, int *exc)
+//FIXME (a(a))
+static t_tok	*dup_txt(t_list **src, t_list **dst, int *err, int *exc)//FIXME rm empty string
 {
 	t_tok	*tok;
 	t_list	*tmp;
