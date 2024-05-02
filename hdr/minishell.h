@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/02 19:36:19 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:03:22 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ t_list	*parse_quotes(char *s, int *err, int *exc);
 void	parse_op(t_list **lst, int *err, int *exc);
 int		check_op(t_list *lst);
 void	parse_pars(t_list **lst, int *err, int *exc);
-int		check_pars(t_list *lst);
 void	parse_hdoc(t_list **lst, int *err, int *exc);
 int		search_lim(t_list *lst, t_tok *tok, size_t i, t_hdoc *hdoc);
 void	parse_var(t_list **lst, int *err, int *exc);

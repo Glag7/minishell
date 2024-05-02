@@ -21,7 +21,6 @@ SRC = main.c \
       $(PARSING)parse_wdcard.c \
       $(PARSING)parse_redir.c \
       $(PARSING)check_redir.c \
-      $(PARSING)remove_dup_par.c \
       $(PARSING)free_lbuild.c \
       execline.c \
       dup_envp.c \

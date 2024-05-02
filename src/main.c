@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/02 20:02:29 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:29:08 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static t_list	*parse_line(char *s, int *err, int *exc)
 	tmp = parse_quotes(s, err, exc);
 	parse_op(&tmp, err, exc);
 	parse_pars(&tmp, err, exc);
-	//remove_dup_par(&tmp);
 	parse_hdoc(&tmp, err, exc);
 	parse_var(&tmp, err, exc);
 	parse_wdcard(&tmp, err, exc);
