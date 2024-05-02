@@ -6,31 +6,68 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:27:02 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/02 17:57:53 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:33:49 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*static char	*increment_shlvl(char *old_shlvl)
+static char	*increment_shlvl(char *old_shlvl)
 {
+	long	n_lvl;
+	char	*lvl;
 	char	*new_shlvl;
 
-	;
+	n_lvl = ft_atoi(&old_shlvl[6]) + 1;
+	lvl = ft_itoa(n_lvl);
+	if (lvl == NULL)
+	{
+		ft_perror(MSG_MALLOC);
+		return (NULL);
+	}
+	if (n_lvl >= 1000)
+	{
+		ft_perror("minishell: warning: shell level (");
+		ft_perror(lvl);
+		ft_perror(") too high, resetting to 1\n");
+		new_shlvl = ft_strdup("SHLVL=1");
+	}
+	else
+		new_shlvl = ft_strjoin("SHLVL=", lvl);
+	free(lvl);
 	return (new_shlvl);
 }
 
-static int	()
+static int	get_number(char *str)
 {
-	
+	;
+	return ();
+}
+
+static int	check_numeric(char *str)// renvoie 0 si pas digit, plus de 1 - ou +, > int64_t max ; peut avoir des ws devant, un - ou un +
+{
+	size_t	i;
+	long	nbr;
+
+	i = 0;
+	nbr = 0;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (ft_is(str[i], DIGIT) != 0)
+	{
+		nbr = 10 * nbr + str[i] - 48;
+		if (nbr < 0)
+			return (0);
+		i++;
+	}
+	return (str[i] == '\0');
 }
 
 //SHLVL : si pas declare ou pas init ou pas numerique ou vide : mis a 1
-//        si negatif ou overflow : mis a 0
+//        si negatif ou > int32_t max : mis a 0
 //        si positif : incremente de 1
-//SHLVL max : 1000 ; if SHLVL would become 1000 or higher, warning + reset to 1
-//'pas numerique' = < 0 ou > 9 ou ++ ou -- (tout ce qui passerai pas un atoi en fait)
-//'numerique' = peut avoir des whitespaces devant, et un + ou un -
 static int	update_shlvl(char **envp, size_t *len)
 {
 	char	**old_shlvl;
@@ -42,11 +79,12 @@ static int	update_shlvl(char **envp, size_t *len)
 		old_shlvl = &envp[*len];
 		(*len)++;
 	}
-	if (*old_shlvl == NULL || ft_strlen(*old_shlvl) <= 6 || PAS NUMERIQUE || >= 1000)
+	if (*old_shlvl == NULL || ft_strlen(*old_shlvl) <= 6
+		|| check_numeric(*old_shlvl) == 0)//pb: valide avec plus grand que int max alors que ca devrait pas
 		new_shlvl = ft_strdup("SHLVL=1");
-	else if (new_shlvl && ((*old_shlvl)[len_until_char(*old_shlvl, '=') + 1] == '-'
-			|| OVERFLOW))
-		new_shlvl[6] = '0';
+	else if ((*old_shlvl)[len_until_char(*old_shlvl, '=') + 1] == '-'
+		|| ft_atoi(*old_shlvl) > 2147483647)
+		new_shlvl = ft_strdup("SHLVL=0");
 	else
 		new_shlvl = increment_shlvl(*old_shlvl);
 	if (new_shlvl == NULL)
@@ -54,8 +92,8 @@ static int	update_shlvl(char **envp, size_t *len)
 		ft_perror(MSG_MALLOC);
 		return (1);
 	}
-	if (replace_var(envp, new_shlvl, "SHLVL") == 1)
-		;//ajouter a la fin
+	free(*old_shlvl);
+	*old_shlvl = new_shlvl;
 	return (0);
 }
 
@@ -114,7 +152,7 @@ static int	check_pwd_shlvl(char ***envp_ptr, size_t len)
 	if (update_shlvl(*envp_ptr, &len) != 0)
 		return (ERR_AINTNOWAY);
 	return (0);
-}*/
+}
 
 int	dup_envp(char ***envp_ptr)
 {
@@ -142,5 +180,5 @@ int	dup_envp(char ***envp_ptr)
 		}
 		i++;
 	}
-	return (0);//check_pwd_shlvl(envp_ptr, len));
+	return (check_pwd_shlvl(envp_ptr, len));
 }
