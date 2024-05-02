@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:00:36 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/30 17:17:26 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:40:07 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ static inline void	found_txt(int *notempty, int *need_notempty)
 	*need_notempty = 0;
 }
 
-static inline void	init_var(int *notempty, int *need_nompty)
+static inline void	init_var(int *notempty, int *need_nompty, int *op)
 {
 	*need_nompty = 1;
 	*notempty = 0;
+	*op = 0;
 }
 
 int	check_op(t_list *lst)
@@ -43,8 +44,7 @@ int	check_op(t_list *lst)
 	int		need_nompty;
 	int		op;
 
-	init_var(&notempty, &need_nompty);
-	op = 0;
+	init_var(&notempty, &need_nompty, &op);
 	while (lst)
 	{
 		tok = ((t_tok *)lst->content);
@@ -56,8 +56,6 @@ int	check_op(t_list *lst)
 			notempty = 0;
 			need_nompty = 1;
 		}
-		else if (tok->tok == PAR)
-			notempty = tok->type == CLOSE;
 		else if (tok->quote.qtype || is_notempty(tok->quote))
 			found_txt(&notempty, &need_nompty);
 		lst = lst->next;
