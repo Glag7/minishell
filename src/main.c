@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/01 18:08:47 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:16:59 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void	exec_line(char *s, int *err, int *exc, t_envp *senvp)
 		free(s);
 		return ;
 	}
-	execline(toexec, err, exc, senvp);
+	//execline(toexec, err, exc, senvp);
 	ft_lstclear(&toexec, &debug);
 	//signaux
 	free(s);
@@ -126,5 +126,8 @@ int	main(int argc, char **argv, char **envp)
 	check_err(err);
 	ft_freearr(envp);
 	rl_clear_history();
+	close(0);
+	close(1);
+	close(2);
 	return (exit_code);
 }
