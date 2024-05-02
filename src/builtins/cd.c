@@ -56,7 +56,8 @@ static char	change_directory(t_envp *envp_status, char *pathname,
 	if (savepoint_cwd == NULL)
 	{
 		free(pathname);
-		ft_perror("minishell: cd: malloc: failed memory allocation\n");
+		ft_perror("minishell: cd: getcwd(): malloc(): \
+		failed memory allocation\n");
 		return (2);
 	}
 	error = chdir(pathname);
@@ -71,7 +72,7 @@ static char	change_directory(t_envp *envp_status, char *pathname,
 	{
 		chdir(savepoint_cwd);
 		free(savepoint_cwd);
-		ft_perror("minishell: cd: malloc: failed memory allocation\n");
+		ft_perror("minishell: cd: malloc(): failed memory allocation\n");
 		return (2);
 	}
 	free(savepoint_cwd);
@@ -94,7 +95,7 @@ int	builtin_cd(int argc, char **argv, t_envp *envp_status)
 		pathname = ft_strdup(argv[1]);
 	if (pathname == NULL)
 	{
-		ft_perror("minishell: cd: malloc: failed memory allocation\n");
+		ft_perror("minishell: cd: malloc(): failed memory allocation\n");
 		return (2);
 	}
 	if (argc > 1 && ft_strncmp(argv[1], "-", -1) == 0

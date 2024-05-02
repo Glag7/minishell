@@ -24,7 +24,8 @@ int	builtin_pwd(int argc, char **argv, char **envp)
 	buffer = getcwd(NULL, 0);
 	if (buffer == NULL)
 	{
-		ft_perror("minishell: pwd: malloc: failed memory allocation\n");
+		ft_perror("minishell: pwd: getcwd(): malloc(): \
+		failed memory allocation\n");
 		return (2);
 	}
 	len = ft_strlen(buffer);
