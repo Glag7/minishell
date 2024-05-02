@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/02 17:56:33 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:33:31 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static t_list	*parse_line(char *s, int *err, int *exc)
 	t_list	*tmp;
 
 	tmp = parse_quotes(s, err, exc);
-	tmp = parse_pars(tmp, err, exc);
+	/*tmp = parse_pars(tmp, err, exc);
 	parse_op(&tmp, err, exc);
 	parse_hdoc(&tmp, err, exc);
 	parse_var(&tmp, err, exc);
@@ -81,7 +81,7 @@ static t_list	*parse_line(char *s, int *err, int *exc)
 		*exc = 128 + SIGINT;
 		ft_lstclear(&tmp, &free_lbuild);
 		return (NULL);
-	}
+	}*/
 	return (tmp);//signaux
 }
 

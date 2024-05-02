@@ -6,13 +6,13 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:26:10 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/15 14:15:43 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/02 18:34:33 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	add_new_slice(t_list **quotes, t_quote **slice,
+static int	add_new_slice(t_list **quotes, t_tok **slice,
 	int *err, int *exc)
 {
 	t_list	*tmp;
@@ -59,25 +59,25 @@ static int	add_quoted(t_quote *slice, int *exc, char *s, t_list *lst)
 t_list	*parse_quotes(char *s, int *err, int *exc)
 {
 	t_list	*quotes;
-	t_quote	*slice;
+	t_tok	*slice;
 
 	quotes = NULL;
 	while (*s)
 	{
 		if (add_new_slice(&quotes, &slice, err, exc))
 			return (NULL);
-		*slice = (t_quote){0, (t_str){s, 0}};
+		*slice = (t_tok){UNDEF, .quote = {0, (t_str){s, 0}}};
 		if (s[*s == '$'] == '\'' || s[*s == '$'] == '\"')
 		{
-			if (add_quoted(slice, exc, s, quotes))
+			if (add_quoted(&slice->quote, exc, s, quotes))
 				return (NULL);
-			s += slice->str.len + 2 + (*s == '$');
+			s += slice->quote.str.len + 2 + (*s == '$');
 			continue ;
 		}
 		while (*s && s[*s == '$'] != '\'' && s[*s == '$'] != '\"')
 		{
 			s++;
-			slice->str.len += 1;
+			slice->quote.str.len += 1;
 		}
 	}
 	return (quotes);
