@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:27:02 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/02 20:33:49 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/03 17:04:27 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,6 @@ static char	*increment_shlvl(char *old_shlvl)
 		new_shlvl = ft_strjoin("SHLVL=", lvl);
 	free(lvl);
 	return (new_shlvl);
-}
-
-static int	get_number(char *str)
-{
-	;
-	return ();
 }
 
 static int	check_numeric(char *str)// renvoie 0 si pas digit, plus de 1 - ou +, > int64_t max ; peut avoir des ws devant, un - ou un +
@@ -121,7 +115,7 @@ static int	update_oldpwd(char **envp, size_t *len)
 	}
 	else if (ft_strlen(*old_oldpwd) > 6
 		&& access(&(*old_oldpwd)[len_until_char(*old_oldpwd, '=') + 1], F_OK) == -1)
-		remove_var(envp, "OLDPWD");
+		remove_var(envp, "OLDPWD", free);
 	return (0);
 }
 
@@ -129,11 +123,20 @@ static int	update_oldpwd(char **envp, size_t *len)
 static int	check_pwd_shlvl(char ***envp_ptr, size_t len)
 {
 	char	*new_pwd;
+	char	*pwd;
+	char	**old_pwd;
 
 	(*envp_ptr)[len + 1] = NULL;
 	(*envp_ptr)[len + 2] = NULL;
 	(*envp_ptr)[len + 3] = NULL;
-	new_pwd = getcwd(NULL, 0);
+	pwd = getcwd(NULL, 0);
+	if (pwd == NULL)
+	{
+		ft_perror(MSG_MALLOC);
+		return (ERR_AINTNOWAY);
+	}
+	new_pwd = ft_strjoin("PWD=", pwd);
+	free(pwd);
 	if (new_pwd == NULL)
 	{
 		ft_perror(MSG_MALLOC);
