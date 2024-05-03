@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:25 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/03 14:38:47 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/03 16:12:03 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	check_pars(t_list *pars)
 {
 	t_tok	*tok;
+	t_tok	*nxt;
 	ssize_t	plevel;
 
 	plevel = 0;
@@ -22,18 +23,17 @@ static int	check_pars(t_list *pars)
 	{
 		tok = (t_tok *)pars->content;
 		if (tok->tok == PAR)
-		{
 			plevel += (tok->type == OPEN) - (tok->type == CLOSE);
-			if (plevel < 0)
-				return (1);
-			if (pars->next && ((t_tok *)pars->next->content)->tok == PAR
-				&& ((t_tok *)pars->next->content)->type != tok->type)
-				return (1);
-		}
-		if ((tok->tok == UNDEF && pars->next && ((t_tok *)pars->next->content)->tok == PAR
-			&& ((t_tok *)pars->next->content)->type == OPEN)
-			|| (tok->tok == PAR && tok->type == CLOSE && pars->next
-				&& ((t_tok *)pars->next->content)->tok == UNDEF))
+		if (pars->next == NULL || plevel < 0)
+			break ;
+		nxt = (t_tok *)pars->next->content;
+		if ((tok->tok == UNDEF && nxt->tok == PAR && nxt->type == OPEN)
+			|| (tok->tok == PAR && tok->type == OPEN && nxt->tok != UNDEF
+				&& nxt->tok != PAR)
+			|| (tok->tok == PAR && tok->type == CLOSE && nxt->tok == UNDEF)
+			|| ((tok->tok == PIPE || tok->tok == OP) && nxt->tok == PAR
+				&& nxt->type == CLOSE)
+			|| (tok->tok == PAR && nxt->tok == PAR && nxt->type != tok->type))
 			return (1);
 		pars = pars->next;
 	}
