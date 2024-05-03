@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:06:21 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/02 17:17:52 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/03 19:57:11 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,22 @@ int	exec_pipeline()
 	//word splitting
 	//redirs
 	//wdcards
+	//replace var hdoc
 	//do pipe if needed
 	//do hdoc + redirs
 	//extract cmand
 	//do cmand
+	//check sigsegv ?
 	return (0);
 }
 
+//avant chaque pipeline gnl parse_quote, parse_var, strjoin (mieux), write
+
 void	execline(t_list *toexec, int *err, int *exc, t_envp *envp)
 {
+	t_list	*hdocs = NULL;
+	if (fill_heredocs(toexec, &hdocs, exc, err))//SIGNAUX
+		return ;
 	exec_pipeline();
 	return ;
 }

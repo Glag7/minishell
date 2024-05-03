@@ -23,6 +23,7 @@ SRC = main.c \
       $(PARSING)parse_redir.c \
       $(PARSING)check_redir.c \
       $(PARSING)free_lbuild.c \
+      \
       $(BUILTINS)builtins_utils.c \
       $(BUILTINS)cd.c \
       $(BUILTINS)cd_envp.c \
@@ -34,7 +35,9 @@ SRC = main.c \
       $(BUILTINS)export_only.c \
       $(BUILTINS)pwd.c \
       $(BUILTINS)unset.c \
+      \
       execline.c \
+      fill_hdoc.c \
       dup_envp.c \
       output.c
 
