@@ -9,6 +9,7 @@ OBJ_DIR = obj/
 HDR_DIR = hdr/
 
 PARSING = parsing/
+BUILTINS = builtins/
 
 SRC = main.c \
       $(PARSING)parse_quotes.c \
@@ -22,6 +23,17 @@ SRC = main.c \
       $(PARSING)parse_redir.c \
       $(PARSING)check_redir.c \
       $(PARSING)free_lbuild.c \
+      $(BUILTINS)builtins_utils.c \
+      $(BUILTINS)cd.c \
+      $(BUILTINS)cd_envp.c \
+      $(BUILTINS)echo.c \
+      $(BUILTINS)env.c \
+      $(BUILTINS)exit.c \
+      $(BUILTINS)export.c \
+      $(BUILTINS)export_envp.c \
+      $(BUILTINS)export_only.c \
+      $(BUILTINS)pwd.c \
+      $(BUILTINS)unset.c \
       execline.c \
       dup_envp.c \
       output.c
@@ -42,7 +54,10 @@ $(OBJ_DIR) :
 $(OBJ_DIR)$(PARSING) : $(OBJ_DIR)
 	@ mkdir -p $(OBJ_DIR)$(PARSING)
 
-$(NAME) : $(LIB) $(OBJ_DIR)$(PARSING) $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ))
+$(OBJ_DIR)$(BUILTINS) : $(OBJ_DIR)
+	@ mkdir -p $(OBJ_DIR)$(BUILTINS)
+
+$(NAME) : $(LIB) $(OBJ_DIR)$(PARSING) $(OBJ_DIR)$(BUILTINS) $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ))
 	@ $(COMP) $(CFLAGS) $(addprefix $(OBJ_DIR), $(OBJ)) $(LIB) -o $@ -lreadline
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
