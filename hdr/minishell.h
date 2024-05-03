@@ -163,5 +163,7 @@ void	execline(t_list *toexec, int *err, int *exc, t_envp *envp);
 //////////////////////////////////////////////
 
 int		dup_envp(char ***envp_ptr);
+char	*increment_shlvl(char *old_shlvl);
+int		check_numeric(char *str);
 
 #endif
