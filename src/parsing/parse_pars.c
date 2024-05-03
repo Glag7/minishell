@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:25 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/02 20:01:44 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/03 14:38:47 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ static int	check_pars(t_list *pars)
 				&& ((t_tok *)pars->next->content)->type != tok->type)
 				return (1);
 		}
+		if ((tok->tok == UNDEF && pars->next && ((t_tok *)pars->next->content)->tok == PAR
+			&& ((t_tok *)pars->next->content)->type == OPEN)
+			|| (tok->tok == PAR && tok->type == CLOSE && pars->next
+				&& ((t_tok *)pars->next->content)->tok == UNDEF))
+			return (1);
 		pars = pars->next;
 	}
 	return (plevel != 0);
