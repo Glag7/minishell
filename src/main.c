@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/03 17:41:08 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 13:58:20 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ static void	exec_line(char *s, int *err, int *exc, t_envp *senvp)
 {
 	t_list	*toexec;
 
+	if (s == NULL)
+		*err = ERR_BYEBYE;
 	if (s == NULL || *s == 0)
 		return ;
 	add_history(s);
@@ -116,8 +118,7 @@ int	main(int argc, char **argv, char **envp)
 	exit_code = 0;
 	//if (err == 0)
 	//sig handler
-	s = (char *)1;
-	while (err == 0 && s)
+	while (err == 0)
 	{
 		s = readline("coquillage de petite taille > ");
 		exec_line(s, &err, &exit_code, &senvp);

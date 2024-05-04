@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/02 20:03:22 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 13:55:31 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /* ----- INCLUDES ----- */
 
 # include "libft.h"
+# include <fcntl.h>
 # include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -27,6 +28,7 @@
 
 /* COMMON */
 
+# define ERR_BYEBYE	-1
 # define ERR_AINTNOWAY	3
 
 # define MSG_MALLOC	"minishell: malloc: epic fail\n"
