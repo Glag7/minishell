@@ -1,4 +1,6 @@
 
+pas de prompt si pas tty ?
+
 //126 not executable, 127 not found
 
 integrer les builtins

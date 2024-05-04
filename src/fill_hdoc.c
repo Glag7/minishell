@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:46:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 13:39:44 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 17:03:12 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	inc_name(char *name)
 	int		i;
 	char	done;
 
-	name++;
 	i = 0;
 	done = 1;
 	while ((i == 0 || !done) && name[i])
@@ -44,14 +43,11 @@ static void	inc_name(char *name)
 static int	open_file(char *name)
 {
 	int	fd;
-	int	err;
 
-	fd = -1;
-	ft_memset(name, '0', 52);
-	name[1] = 47;
+	ft_memcpy(name, "/tmp/./", 6);
+	ft_memset(name + 1, '0', 52);
 	name[51] = 0;
-	name[0] = '.';
-	while (fd == -1)
+	while (name[6] == '/' || fd == -1)
 	{
 		inc_name(name);
 		if (access(name, F_OK))
@@ -59,9 +55,9 @@ static int	open_file(char *name)
 			fd = open(name, O_CREAT | O_EXCL | O_WRONLY, 0644);
 			if (fd == -1 && errno != EEXIST)
 			{
-				err = errno;
+				fd = errno;
 				ft_perror("minishell: heredoc: ");
-				ft_perror(strerror(err));
+				ft_perror(strerror(fd));
 				ft_perror("\n");
 				return (-1);
 			}
@@ -70,10 +66,11 @@ static int	open_file(char *name)
 	return (fd);
 }
 
-//free name si err
-static int	fill_file(char *name, t_str lim, t_list **hdocs, int *err) 
+static int	fill_file(char *name, t_str lim, t_list **hdocs, int *err)
 {
-	int	fd;
+	int		fd;
+	int		tmperr;
+	pid_t	pid;
 
 	fd = open_file(name);
 	if (fd == -1)
@@ -81,8 +78,22 @@ static int	fill_file(char *name, t_str lim, t_list **hdocs, int *err)
 		free(name);
 		return (1);
 	}
-	//add to hdocs
-	//input
+	pid = fork();
+	if (pid == -1)
+	{
+		tmperr = errno;
+		free(name);
+		close(fd);
+		ft_perror("minishell: fork: ");
+		ft_perror(strerror(tmperr));
+		ft_perror("\n");
+	}
+	else if (pid == 0)//free :(
+		exit(0);
+	else
+		waitpid(pid, 0, 0);//signaux
+	close(fd);
+	return (0);
 }
 
 //unlink where (il faut unlink les fichiers crees)
@@ -95,7 +106,7 @@ int	fill_heredocs(t_list *lst, t_list **hdocs, int *exc, int *err)
 	{
 		if (((t_tok *)lst->content)->tok == HDOC)
 		{
-			name = (t_str){malloc(52), 51};
+			name = (t_str){malloc(57), 56};
 			if (name.s == NULL)
 			{
 				*err = ERR_AINTNOWAY;
@@ -108,6 +119,7 @@ int	fill_heredocs(t_list *lst, t_list **hdocs, int *exc, int *err)
 				*exc = 2;
 				return (12345);
 			}
+			//add to hdocs
 			free(((t_tok *)lst->content)->hdoc.lim.s);
 			((t_tok *)lst->content)->hdoc.lim = name;
 		}

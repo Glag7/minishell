@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 13:55:31 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 17:07:50 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,6 @@ void	parse_redir(t_list **lst, int *err, int *exc);
 int		check_redir(t_list *lst);
 void	remove_dup_par(t_list **lst);
 
-//free
-void	free_lbuild(void *tok_);
-
 ////////////////////////////////////////////
 
 /* BUILTINS */
@@ -160,12 +157,29 @@ void	remove_var(char **envp, char *var, void (*del)(void *));
 
 /* EXEC */
 
+typedef struct s_mini
+{
+	char	*prompt;
+	char	*s;
+	t_list	*lst;
+	t_list	*hdocs;
+	t_envp	envp;
+	int		exc;
+	int		err;
+}	t_data;
+
 void	execline(t_list *toexec, int *err, int *exc, t_envp *envp);
+
+void	exit_fork(t_list *lexec, char **envp, int exc);
 
 //////////////////////////////////////////////
 
 int		dup_envp(char ***envp_ptr);
 char	*increment_shlvl(char *old_shlvl);
 int		check_numeric(char *str);
+
+//free
+void	free_lbuild(void *tok_);
+void	free_lexec(void *tok_);
 
 #endif

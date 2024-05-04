@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 13:58:20 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 16:58:41 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,18 @@ static void	exec_line(char *s, int *err, int *exc, t_envp *senvp)
 	if (s == NULL)
 		*err = ERR_BYEBYE;
 	if (s == NULL || *s == 0)
-		return ;
-	add_history(s);
-	toexec = parse_line(s, err, exc);
-	if (toexec == NULL)
 	{
 		free(s);
 		return ;
 	}
-	execline(toexec, err, exc, senvp);
-	ft_lstclear(&toexec, &debug);//&free_exec
+	add_history(s);
+	toexec = parse_line(s, err, exc);
+	if (toexec == NULL)
+		return ;
+	execline(toexec, err, exc, senvp);//is faut free s
+	ft_lstclear(&toexec, &free_lexec);
 	//signaux
-	free(s);
-}
+}//todo t_minishell avec le prompt, la liste, les hdocs
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -122,6 +121,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		s = readline("coquillage de petite taille > ");
 		exec_line(s, &err, &exit_code, &senvp);
+		free(s);
 	}
 	check_err(err);
 	ft_freearr(envp);
