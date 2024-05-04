@@ -39,6 +39,7 @@ SRC = main.c \
       execline.c \
       fill_hdoc.c \
       dup_envp.c \
+      dup_envp_shlvl.c \
       output.c
 
 OBJ = $(SRC:.c=.o)
