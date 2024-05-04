@@ -40,6 +40,7 @@ SRC = main.c \
       free_lst.c \
       execline.c \
       fill_hdoc.c \
+      fill_file.c \
       dup_envp.c \
       dup_envp_shlvl.c \
       output.c

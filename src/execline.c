@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:06:21 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 17:58:04 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 20:45:06 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ void	execline(t_mini *mini)
 {
 	mini->hdocs = NULL;
 	if (fill_heredocs(mini->exec, mini))//SIGNAUX
-		return ;
+		return ;//XXX non
 	//start_exec
 	if (mini->forked == 0)
 		ft_lstclear(&mini->hdocs, &wrap_unlink);
+	else
+		ft_lstclear(&mini->hdocs, NULL);
 }

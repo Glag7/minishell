@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:46:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 17:57:49 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 20:45:42 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,36 @@ static void	inc_name(char *name)
 	}
 }
 
-static int	open_file(char *name)
+static int	add_name(t_mini *mini, char *name)
+{
+	t_list	*tmp;
+
+	tmp = ft_lstnew(name);
+	if (name == NULL || tmp == NULL)
+	{
+		mini->err = ERR_AINTNOWAY;
+		mini->exc = 2;
+		unlink(name);
+		free(name);
+		free(tmp);
+		ft_lstclear(&mini->hdocs, &wrap_unlink);
+		return (1);
+	}
+	ft_lstadd_back(&mini->hdocs, tmp);
+	return (0);
+}
+
+static int	get_fd(char *name)
 {
 	int	fd;
 
-	ft_memcpy(name, "/tmp/./", 6);
-	ft_memset(name + 1, '0', 52);
-	name[51] = 0;
-	while (name[6] == '/' || fd == -1)
+	fd = -1;
+	ft_memset(name + 6, '0', 50);
+	ft_memcpy(name, "/tmp/./", 7);
+	name[56] = 0;
+	while (fd == -1)
 	{
-		inc_name(name);
+		inc_name(name + 6);
 		if (access(name, F_OK))
 		{
 			fd = open(name, O_CREAT | O_EXCL | O_WRONLY, 0644);
@@ -59,6 +79,7 @@ static int	open_file(char *name)
 				ft_perror("minishell: heredoc: ");
 				ft_perror(strerror(fd));
 				ft_perror("\n");
+				free(name);
 				return (-1);
 			}
 		}
@@ -66,38 +87,27 @@ static int	open_file(char *name)
 	return (fd);
 }
 
-static int	fill_file(char *name, t_str lim, t_list **hdocs, int *err)
+static int	open_file(t_mini *mini, char *name)
 {
-	int		fd;
-	int		tmperr;
-	pid_t	pid;
+	int	fd;
 
-	fd = open_file(name);
-	if (fd == -1)
+	if (name == NULL)
 	{
-		free(name);
-		return (1);
+		mini->err = ERR_AINTNOWAY;
+		mini->exc = 2;
+		ft_lstclear(&mini->hdocs, &wrap_unlink);
+		return (-1);
 	}
-	pid = fork();
-	if (pid == -1)
+	fd = get_fd(name);
+	if (fd != -1 && add_name(mini, name))
 	{
-		tmperr = errno;
-		free(name);
 		close(fd);
-		ft_perror("minishell: fork: ");
-		ft_perror(strerror(tmperr));
-		ft_perror("\n");
+		fd = -1;
 	}
-	else if (pid == 0)//free :(
-		exit(0);
-	else
-		waitpid(pid, 0, 0);//signaux
-	close(fd);
-	return (0);
+	return (fd);
 }
 
-//unlink where (il faut unlink les fichiers crees)
-//faire une liste chainee
+//XXX passer ne void
 int	fill_heredocs(t_list *lst, t_mini *mini)
 {
 	t_str	name;
@@ -107,19 +117,9 @@ int	fill_heredocs(t_list *lst, t_mini *mini)
 		if (((t_tok *)lst->content)->tok == HDOC)
 		{
 			name = (t_str){malloc(57), 56};
-			if (name.s == NULL)
-			{
-				mini->err = ERR_AINTNOWAY;
-				mini->exc = 2;
-				return (93);
-			}
-			if (fill_file(name.s,
-				((t_tok *)lst->content)->hdoc.lim, &mini->hdocs, &mini->err))
-			{
-				mini->exc = 2;
-				return (12345);
-			}
-			//add to hdocs
+			if (fill_file(open_file(mini, name.s),
+					((t_tok *)lst->content)->hdoc.lim, mini))
+				return (12345);//XXX garder le return
 			free(((t_tok *)lst->content)->hdoc.lim.s);
 			((t_tok *)lst->content)->hdoc.lim = name;
 		}

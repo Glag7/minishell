@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 17:56:41 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 20:28:59 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # define ERR_BYEBYE	-1
 # define ERR_AINTNOWAY	3
+# define ERR_SHUTUP	111
 
 # define MSG_MALLOC	"minishell: malloc: epic fail\n"
 
@@ -171,7 +172,8 @@ typedef struct s_mini
 }	t_mini;
 
 void	execline(t_mini *mini);
-int	fill_heredocs(t_list *lst, t_mini *mini);
+int		fill_heredocs(t_list *lst, t_mini *mini);
+int		fill_file(int fd, t_str lim, t_mini *mini);
 void	wrap_unlink(void *name);
 
 //////////////////////////////////////////////
