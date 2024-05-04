@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static bool	check_envp(int argc, char **envp, char **argv)
+static int	check_envp(int argc, char **envp, char **argv)
 {
 	if (argc >= 3)
 	{
@@ -49,33 +49,47 @@ static char	*get_absolute_path(char *arg)
 	return (pathname);
 }
 
-static char	change_directory(t_envp *envp_status, char *pathname,
-		char *savepoint_cwd, int error)
+static char	*get_savepoint(char *pathname)
 {
-	savepoint_cwd = getcwd(NULL, 0);
-	if (savepoint_cwd == NULL)
+	char	*savepoint;
+
+	savepoint = getcwd(NULL, 0);
+	if (savepoint == NULL)
 	{
 		free(pathname);
-		ft_perror("minishell: cd: getcwd(): malloc(): \
-		failed memory allocation\n");
-		return (2);
+		ft_perror("minishell: cd: getcwd(): malloc(): failed memory \
+			allocation\n");
+		return (NULL);
 	}
+	return (savepoint);
+}
+
+static int	change_directory(t_envp *envp_status, char *pathname)
+{
+	int		error;
+	char	*savepoint;
+
+	savepoint = get_savepoint(pathname);
+	if (savepoint == NULL)
+		return (2);
 	error = chdir(pathname);
 	free(pathname);
 	if (error != 0)
 	{
-		free(savepoint_cwd);
-		perror(strerror(errno));
+		free(savepoint);
+		error = errno;
+		ft_perror("minishell: cd: chdir(): ");
+		perror(strerror(error));
 		return (1);
 	}
 	if (update_cd_envp(envp_status) == 1)
 	{
-		chdir(savepoint_cwd);
-		free(savepoint_cwd);
+		chdir(savepoint);
+		free(savepoint);
 		ft_perror("minishell: cd: malloc(): failed memory allocation\n");
 		return (2);
 	}
-	free(savepoint_cwd);
+	free(savepoint);
 	return (0);
 }
 
@@ -105,5 +119,5 @@ int	builtin_cd(int argc, char **argv, t_envp *envp_status)
 		free(pathname);
 		return (1);
 	}
-	return (change_directory(envp_status, pathname, NULL, 0));
+	return (change_directory(envp_status, pathname));
 }
