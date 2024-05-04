@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 17:07:50 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 17:56:41 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/wait.h>
 
 ////////////////////////
 
@@ -34,7 +35,7 @@
 # define MSG_MALLOC	"minishell: malloc: epic fail\n"
 
 void	ft_perror(char	*s);
-void	check_err(int err);
+void	check_err(int err, int forked);
 
 ///////////////////////
 
@@ -161,19 +162,21 @@ typedef struct s_mini
 {
 	char	*prompt;
 	char	*s;
-	t_list	*lst;
+	t_list	*exec;
 	t_list	*hdocs;
 	t_envp	envp;
 	int		exc;
 	int		err;
-}	t_data;
+	int		forked;
+}	t_mini;
 
-void	execline(t_list *toexec, int *err, int *exc, t_envp *envp);
-
-void	exit_fork(t_list *lexec, char **envp, int exc);
+void	execline(t_mini *mini);
+int	fill_heredocs(t_list *lst, t_mini *mini);
+void	wrap_unlink(void *name);
 
 //////////////////////////////////////////////
 
+void	init_mini(t_mini *mini, int argc, char **argv, char **envp);
 int		dup_envp(char ***envp_ptr);
 char	*increment_shlvl(char *old_shlvl);
 int		check_numeric(char *str);

@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 16:58:41 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:00:31 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static t_list	*parse_line(char *s, int *err, int *exc)
 	parse_hdoc(&tmp, err, exc);
 	parse_var(&tmp, err, exc);
 	parse_wdcard(&tmp, err, exc);
-	parse_redir(&tmp, err, exc);
+	//parse_redir(&tmp, err, exc);
 	if (*err || (tmp == NULL && g_sig == 0))
 		return (NULL);
 	if (g_sig == SIGINT)
@@ -83,51 +83,38 @@ static t_list	*parse_line(char *s, int *err, int *exc)
 	return (tmp);//signaux
 }
 
-static void	exec_line(char *s, int *err, int *exc, t_envp *senvp)
+static void	exec_line(t_mini *mini)
 {
-	t_list	*toexec;
-
-	if (s == NULL)
-		*err = ERR_BYEBYE;
-	if (s == NULL || *s == 0)
-	{
-		free(s);
+	if (mini->s == NULL)
+		mini->err = ERR_BYEBYE;
+	if (mini->s == NULL || *mini->s == 0)
 		return ;
-	}
-	add_history(s);
-	toexec = parse_line(s, err, exc);
-	if (toexec == NULL)
+	add_history(mini->s);
+	mini->exec = parse_line(mini->s, &mini->err, &mini->exc);
+	if (mini->exec == NULL)
 		return ;
-	execline(toexec, err, exc, senvp);//is faut free s
-	ft_lstclear(&toexec, &free_lexec);
+	//execline(mini);
+	//ft_lstclear(&mini->exec, &free_lexec);
+	ft_lstclear(&mini->exec, &debug);
 	//signaux
-}//todo t_minishell avec le prompt, la liste, les hdocs
+}
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*s;
-	t_envp	senvp;
-	int		err;
-	int		exit_code;
+	t_mini	mini;
 
-	(void) argc;
-	(void) argv;
-	err = dup_envp(&envp);
-	senvp = (t_envp) {envp, 1, 1};
-	exit_code = 0;
-	//if (err == 0)
-	//sig handler
-	while (err == 0)
+	init_mini(&mini, argc, argv, envp);
+	while (mini.err == 0)
 	{
-		s = readline("coquillage de petite taille > ");
-		exec_line(s, &err, &exit_code, &senvp);
-		free(s);
+		mini.s = readline("coquillage de petite taille > ");
+		exec_line(&mini);
+		free(mini.s);
 	}
-	check_err(err);
-	ft_freearr(envp);
+	check_err(mini.err, mini.forked);
+	ft_freearr(mini.envp.envp);
 	rl_clear_history();
 	close(0);
 	close(1);
 	close(2);
-	return (exit_code);
+	return (mini.exc);
 }

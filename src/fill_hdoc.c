@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:46:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 17:03:12 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 17:57:49 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static int	fill_file(char *name, t_str lim, t_list **hdocs, int *err)
 
 //unlink where (il faut unlink les fichiers crees)
 //faire une liste chainee
-int	fill_heredocs(t_list *lst, t_list **hdocs, int *exc, int *err)
+int	fill_heredocs(t_list *lst, t_mini *mini)
 {
 	t_str	name;
 
@@ -109,14 +109,14 @@ int	fill_heredocs(t_list *lst, t_list **hdocs, int *exc, int *err)
 			name = (t_str){malloc(57), 56};
 			if (name.s == NULL)
 			{
-				*err = ERR_AINTNOWAY;
-				*exc = 2;
+				mini->err = ERR_AINTNOWAY;
+				mini->exc = 2;
 				return (93);
 			}
 			if (fill_file(name.s,
-				((t_tok *)lst->content)->hdoc.lim, hdocs, err))
+				((t_tok *)lst->content)->hdoc.lim, &mini->hdocs, &mini->err))
 			{
-				*exc = 2;
+				mini->exc = 2;
 				return (12345);
 			}
 			//add to hdocs

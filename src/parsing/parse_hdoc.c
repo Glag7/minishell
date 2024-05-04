@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:13:25 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/04/24 17:47:43 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:03:35 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	parse_hdoc(t_list **lst, int *err, int *exc)
 					ft_perror(MSG_HDOC);
 				*exc = 2;
 				ft_lstclear(lst, &free_lbuild);
+				return ;
 			}
-			return ;
 		}
 		tmp = tmp->next;
 	}

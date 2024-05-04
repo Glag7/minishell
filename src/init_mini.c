@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_fork.c                                        :+:      :+:    :+:   */
+/*   init_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/04 15:38:12 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 17:03:53 by glaguyon         ###   ########.fr       */
+/*   Created: 2024/05/04 17:12:19 by glaguyon          #+#    #+#             */
+/*   Updated: 2024/05/04 17:25:03 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_fork(t_list *lexec, char **envp, int exc)
+void	init_mini(t_mini *mini, int argc, char **argv, char **envp)
 {
-	ft_lstclear(&lexec, &free_lexec);
-	ft_freearr(envp);
-	close(0);
-	close(1);
-	close(2);
-	exit(exc);
+	(void) argc;
+	(void) argv;
+	mini->exc = 0;
+	mini->forked = 0;
+	if (isatty(0))
+		mini->prompt = "coquillage de petite taille > ";
+	else
+		mini->prompt = NULL;
+	mini->err = dup_envp(&envp);
+	mini->envp = (t_envp) {envp, 1, 1};
+	if (mini->err == 0)
+		mini->err = 0;//sig_handler
 }

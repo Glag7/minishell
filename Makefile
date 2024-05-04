@@ -35,9 +35,10 @@ SRC = main.c \
       $(BUILTINS)pwd.c \
       $(BUILTINS)unset.c \
       \
+      init_mini.c \
+      wrap_unlink.c \
       free_lst.c \
       execline.c \
-      exit_fork.c \
       fill_hdoc.c \
       dup_envp.c \
       dup_envp_shlvl.c \

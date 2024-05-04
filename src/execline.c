@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:06:21 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 17:04:12 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/04 17:58:04 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,12 @@ int	exec_pipeline()
 
 //avant chaque pipeline gnl parse_quote, parse_var, strjoin (mieux), write
 
-void	execline(t_list *toexec, int *err, int *exc, t_envp *envp)
+void	execline(t_mini *mini)
 {
-	t_list	*hdocs;
-	int		forked;
-
-	hdocs = NULL;
-	if (fill_heredocs(toexec, &hdocs, exc, err))//SIGNAUX
+	mini->hdocs = NULL;
+	if (fill_heredocs(mini->exec, mini))//SIGNAUX
 		return ;
-	//faire exec dans une autre fonction les hdocs sont a part
-	if (forked)
-		exit_fork(toexec, envp->envp, *exc);
-	ft_lstclear(&hdocs, &unlink);
+	//start_exec
+	if (mini->forked == 0)
+		ft_lstclear(&mini->hdocs, &wrap_unlink);
 }
