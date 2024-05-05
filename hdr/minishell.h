@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 14:31:10 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/05 16:18:05 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # include "libft.h"
 # include <fcntl.h>
+# include <termios.h>
 # include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -182,6 +183,7 @@ void	init_mini(t_mini *mini, int argc, char **argv, char **envp);
 int		dup_envp(char ***envp_ptr);
 char	*increment_shlvl(char *old_shlvl);
 int		check_numeric(char *str);
+void	show_ctl(bool show);
 
 //free
 void	free_lbuild(void *tok_);

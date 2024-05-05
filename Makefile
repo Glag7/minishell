@@ -35,6 +35,7 @@ SRC = main.c \
       $(BUILTINS)pwd.c \
       $(BUILTINS)unset.c \
       \
+      show_ctl.c \
       init_mini.c \
       wrap_unlink.c \
       free_lst.c \
