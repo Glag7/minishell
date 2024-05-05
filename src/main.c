@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 20:35:29 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/05 15:44:05 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ static void	exec_line(t_mini *mini)
 	mini->exec = parse_line(mini->s, &mini->err, &mini->exc);
 	if (mini->exec == NULL)
 		return ;
-	execline(mini);
-	ft_lstclear(&mini->exec, &free_lexec);
-	//ft_lstclear(&mini->exec, &debug);
+	//execline(mini);
+	//ft_lstclear(&mini->exec, &free_lexec);
+	ft_lstclear(&mini->exec, &debug);
 	//signaux
 }
 
@@ -106,6 +106,7 @@ int	main(int argc, char **argv, char **envp)
 	init_mini(&mini, argc, argv, envp);
 	while (mini.err == 0)
 	{
+		printf("gay\n");
 		mini.s = readline(mini.prompt);
 		exec_line(&mini);
 		free(mini.s);

@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:22:03 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 14:32:35 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/05 15:57:58 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int	fill_file(int fd, t_str lim, t_mini *mini)
 			close(fd);
 			ft_lstclear(&mini->hdocs, &wrap_unlink);
 			mini->exc = 2;
-			return (1);
 		}
+		return (1);
 	}
 	else
 		waitpid(pid, 0, 0);//signaux + exitcode
