@@ -6,17 +6,28 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:22:03 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 17:27:49 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/05 19:55:19 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	put_error(int err)
+extern volatile sig_atomic_t	g_sig;
+
+static int	end_loop(char *s, t_str lim)
 {
-	ft_perror("minishell: heredoc: ");
-	ft_perror(strerror(err));
-	ft_perror("\n");
+	if (g_sig == SIGINT)
+	{
+		free(s);
+		return (128 + SIGINT);
+	}
+	if (s == NULL)
+	{
+		ft_perror3("minishell: warning: heredoc delimited by EOF (wanted '",
+			lim.s, "')\n");
+		return (0);
+	}
+	return (0);
 }
 
 static int	get_input(int fd, t_str lim)
@@ -27,21 +38,17 @@ static int	get_input(int fd, t_str lim)
 	while (1)
 	{
 		s = readline("hdoc > ");
-		if (s == NULL)
-		{
-			ft_perror("minishell: warning: heredocument delimited by EOF (wanted '");
-			ft_perror(lim.s);
-			ft_perror("')\n");
-			break ;
-		}
+		if (g_sig == SIGINT || s == NULL)
+			return (end_loop(s, lim));
 		if (ft_strncmp(lim.s, s, -1) == 0)
 			break ;
 		len = ft_strlen(s);
 		s[len] = '\n';
 		if (write(fd, s, len + 1) == -1)
 		{
-			put_error(errno);
-			return (1);
+			ft_perror3("minishell: heredoc: ", strerror(errno), "\n");
+			free(s);
+			return (2);
 		}
 		free(s);
 	}
@@ -49,39 +56,45 @@ static int	get_input(int fd, t_str lim)
 	return (0);
 }
 
+static int	do_hdoc(int fd, t_mini *mini, t_str lim)
+{
+	int	res;
+
+	sig_mode(SIG_HDOC);
+	mini->exc = 0;
+	mini->err = ERR_SHUTUP;
+	mini->forked = 1;
+	res = get_input(fd, lim);
+	sig_mode(SIG_IGNORE);
+	close(fd);
+	if (res)
+	{
+		ft_lstclear(&mini->hdocs, &wrap_unlink);
+		mini->exc = res;
+		return (1);
+	}
+	return (1);
+}
+
 int	fill_file(int fd, t_str lim, t_mini *mini)
 {
-	int		tmperr;
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
 	{
-		tmperr = errno;
-		ft_perror("minishell: fork: ");
-		ft_perror(strerror(tmperr));
-		ft_perror("\n");
+		ft_perror3("minishell: fork: ", strerror(errno), "\n");
 		close(fd);
-		ft_lstclear(&mini->hdocs, &wrap_unlink);
 		mini->exc = 2;
 		mini->err = ERR_SHUTUP;
 		return (1);
 	}
 	else if (pid == 0)
-	{
-		mini->exc = 0;
-		mini->err = ERR_SHUTUP; 
-		mini->forked = 1;
-		if (get_input(fd, lim))
-		{
-			close(fd);
-			ft_lstclear(&mini->hdocs, &wrap_unlink);
-			mini->exc = 2;
-			return (1);
-		}
-	}
-	else
-		waitpid(pid, 0, 0);//signaux + exitcode
+		return (do_hdoc(fd, mini, lim));
+	waitpid(pid, &status, 0);
+	sig_mode(SIG_INTER);
+	mini->exc = WEXITSTATUS(status);
 	close(fd);
-	return (mini->forked);
+	return (mini->forked || mini->exc);
 }

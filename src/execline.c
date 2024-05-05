@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:06:21 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 14:00:33 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/05 20:09:04 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ int	exec_pipeline()
 void	execline(t_mini *mini)
 {
 	mini->hdocs = NULL;
-	fill_heredocs(mini->exec, mini);//SIGNAUX
+	fill_heredocs(mini->exec, mini);
+	//TODO, parsing des pipelines, remplacement des variables des hdocs
 	//if (mini->err == 0)
+	//{
+	//sig_mod(SIG_EXEC)//pas ici
 	//start_exec
-	if (mini->forked == 0)
-		ft_lstclear(&mini->hdocs, &wrap_unlink);
-	else
-		ft_lstclear(&mini->hdocs, NULL);
+	//sig_mode(SIG_IGNORE);
+	//}
 }

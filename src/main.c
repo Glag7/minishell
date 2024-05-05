@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 17:22:03 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/05 20:04:27 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static t_list	*parse_line(char *s, int *err, int *exc)
 
 static void	exec_line(t_mini *mini)
 {
+	sig_mode(SIG_IGNORE);
 	if (g_sig == SIGINT)
 	{
 		mini->exc = 128 + g_sig;
@@ -93,8 +94,11 @@ static void	exec_line(t_mini *mini)
 	if (mini->exec == NULL)
 		return ;
 	execline(mini);
+	if (mini->forked == 0)
+		ft_lstclear(&mini->hdocs, &wrap_unlink);
+	else
+		ft_lstclear(&mini->hdocs, NULL);
 	ft_lstclear(&mini->exec, &free_lexec);
-	//ft_lstclear(&mini->exec, &debug);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -104,6 +108,7 @@ int	main(int argc, char **argv, char **envp)
 	init_mini(&mini, argc, argv, envp);
 	while (mini.err == 0)
 	{
+		sig_mode(SIG_INTER);
 		mini.s = readline(mini.prompt);
 		exec_line(&mini);
 		free(mini.s);

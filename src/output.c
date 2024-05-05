@@ -6,11 +6,18 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 19:14:01 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 17:30:50 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/05 19:10:52 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_perror3(char	*s1, char *s2, char *s3)
+{
+	write(2, s1, ft_strlen(s1));
+	write(2, s2, ft_strlen(s2));
+	write(2, s3, ft_strlen(s3));
+}
 
 void	ft_perror(char	*s)
 {

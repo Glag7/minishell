@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:46:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 17:29:12 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/05 19:03:07 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	fill_heredocs(t_list *lst, t_mini *mini)
 {
 	t_str	name;
 	int		fd;
+	int		err;
 
 	while (lst)
 	{
@@ -126,14 +127,11 @@ void	fill_heredocs(t_list *lst, t_mini *mini)
 			fd = open_file(mini, name.s);
 			if (fd == -1)
 				return ;
-			if (fill_file(fd, ((t_tok *)lst->content)->hdoc.lim, mini))
-			{
-				free(((t_tok *)lst->content)->hdoc.lim.s);
-				((t_tok *)lst->content)->hdoc.lim = name;
-				return ;
-			}
+			err = fill_file(fd, ((t_tok *)lst->content)->hdoc.lim, mini);
 			free(((t_tok *)lst->content)->hdoc.lim.s);
 			((t_tok *)lst->content)->hdoc.lim = name;
+			if (err)
+				return ;
 		}
 		lst = lst->next;
 	}

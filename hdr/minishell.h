@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 16:18:05 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/05 19:11:48 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define MSG_MALLOC	"minishell: malloc: epic fail\n"
 
 void	ft_perror(char	*s);
+void	ft_perror3(char	*s1, char *s2, char *s3);
 void	check_err(int err, int forked);
 
 ///////////////////////
@@ -183,10 +184,19 @@ void	init_mini(t_mini *mini, int argc, char **argv, char **envp);
 int		dup_envp(char ***envp_ptr);
 char	*increment_shlvl(char *old_shlvl);
 int		check_numeric(char *str);
-void	show_ctl(bool show);
 
 //free
 void	free_lbuild(void *tok_);
 void	free_lexec(void *tok_);
+
+/* SIGNAL */
+
+# define SIG_IGNORE 0
+# define SIG_INTER 1
+# define SIG_HDOC 2
+# define SIG_EXEC 4
+
+void	sig_mode(int mode);
+///////////////////////////////////////////
 
 #endif
