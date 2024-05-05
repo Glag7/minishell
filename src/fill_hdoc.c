@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:46:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 20:45:42 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/05 14:31:01 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,6 @@ static void	inc_name(char *name)
 	}
 }
 
-static int	add_name(t_mini *mini, char *name)
-{
-	t_list	*tmp;
-
-	tmp = ft_lstnew(name);
-	if (name == NULL || tmp == NULL)
-	{
-		mini->err = ERR_AINTNOWAY;
-		mini->exc = 2;
-		unlink(name);
-		free(name);
-		free(tmp);
-		ft_lstclear(&mini->hdocs, &wrap_unlink);
-		return (1);
-	}
-	ft_lstadd_back(&mini->hdocs, tmp);
-	return (0);
-}
-
 static int	get_fd(char *name)
 {
 	int	fd;
@@ -87,6 +68,24 @@ static int	get_fd(char *name)
 	return (fd);
 }
 
+static int	add_name(t_mini *mini, char *name)
+{
+	t_list	*tmp;
+
+	tmp = ft_lstnew(name);
+	if (tmp == NULL)
+	{
+		mini->err = ERR_AINTNOWAY;
+		mini->exc = 2;
+		unlink(name);
+		free(name);
+		ft_lstclear(&mini->hdocs, &wrap_unlink);
+		return (1);
+	}
+	ft_lstadd_back(&mini->hdocs, tmp);
+	return (0);
+}
+
 static int	open_file(t_mini *mini, char *name)
 {
 	int	fd;
@@ -99,7 +98,14 @@ static int	open_file(t_mini *mini, char *name)
 		return (-1);
 	}
 	fd = get_fd(name);
-	if (fd != -1 && add_name(mini, name))
+	if (fd == -1)
+	{
+		free(name);
+		mini->exc = 2;
+		ft_lstclear(&mini->hdocs, &wrap_unlink);
+		return (-1);
+	}
+	if (add_name(mini, name))
 	{
 		close(fd);
 		fd = -1;
@@ -107,23 +113,24 @@ static int	open_file(t_mini *mini, char *name)
 	return (fd);
 }
 
-//XXX passer ne void
-int	fill_heredocs(t_list *lst, t_mini *mini)
+void	fill_heredocs(t_list *lst, t_mini *mini)
 {
 	t_str	name;
+	int		fd;
 
 	while (lst)
 	{
 		if (((t_tok *)lst->content)->tok == HDOC)
 		{
 			name = (t_str){malloc(57), 56};
-			if (fill_file(open_file(mini, name.s),
-					((t_tok *)lst->content)->hdoc.lim, mini))
-				return (12345);//XXX garder le return
+			fd = open_file(mini, name.s);
+			if (fd == -1)
+				return ;
+			if (fill_file(fd, ((t_tok *)lst->content)->hdoc.lim, mini))
+				return ;
 			free(((t_tok *)lst->content)->hdoc.lim.s);
 			((t_tok *)lst->content)->hdoc.lim = name;
 		}
 		lst = lst->next;
 	}
-	return (0);
 }

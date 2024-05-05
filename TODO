@@ -1,5 +1,9 @@
 
-pas de prompt si pas tty ?
+pas de prompt si pas tty ? + gnl ou readline ?
+
+pour les heredocs pipe le remplaceur de variables a la commande ? catch le sigpipe
+fd lecture, unlink, nouveau avec 2 fd, ecrire dedans
+
 
 //126 not executable, 127 not found
 
@@ -12,16 +16,8 @@ attention aux messages de parsing
 $_ dans export oyu pas ?
 mettre a minishell ou pas ?
 
-SHLEVEL, gerer
-PWD
 
-mettre a jour les variables telles que SHELL ?
-
-shlevel
-
-split sur && ||, construire l'arbre (penser aux parentheses qui font des subtree)
-une pipeline par branche, la pipeline est une liste chainee de char **(non) ou d'arbres binaires
-ensuite (en meme temps en vrai) le parcourir et enlever les redirections et heredocs, puis mettre les ordres de remplacement
+cd: aller dans un dossier puis le supprimer
 
 attention pour la fusion des chaines pebser a pas fusionner les chaines vides si y a un ws avant ou apres
 

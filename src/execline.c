@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:06:21 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/04 20:45:06 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/05 14:00:33 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	exec_pipeline()
 {
+	/*
 	//while //par_open skip
 
 	//pour chaque pipe
@@ -26,7 +27,7 @@ int	exec_pipeline()
 	//do hdoc + redirs
 	//extract cmand
 	//do cmand
-	//check sigsegv ?
+	//check sigsegv ?*/
 	return (0);
 }
 
@@ -35,8 +36,8 @@ int	exec_pipeline()
 void	execline(t_mini *mini)
 {
 	mini->hdocs = NULL;
-	if (fill_heredocs(mini->exec, mini))//SIGNAUX
-		return ;//XXX non
+	fill_heredocs(mini->exec, mini);//SIGNAUX
+	//if (mini->err == 0)
 	//start_exec
 	if (mini->forked == 0)
 		ft_lstclear(&mini->hdocs, &wrap_unlink);
