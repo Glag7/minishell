@@ -6,7 +6,7 @@
 /*   By: glag <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 00:54:28 by glag              #+#    #+#             */
-/*   Updated: 2024/04/29 01:07:20 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/05 17:10:22 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ int	check_redir(t_list *lst)
 			|| (tok->tok == UNDEF && (tok->quote.qtype
 					|| notempty(tok->quote.str))))
 			need_txt = 0;
+		else if ((tok->tok == UNDEF && tok->quote.qtype == 0
+				&& !notempty(tok->quote.str)))
+			;
 		else if (need_txt)
 			return (1);
 		lst = lst->next;
