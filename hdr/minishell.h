@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/07 16:24:52 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:51:21 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,9 +173,12 @@ typedef struct s_mini
 	int		forked;
 }	t_mini;
 
-void	execline(t_mini *mini);
+void	execline(t_mini *mini, t_list *exec);
 void	fill_heredocs(t_list *lst, t_mini *mini);
 int		fill_file(int fd, t_str lim, t_mini *mini);
+
+int		hdoc_replace(t_mini *mini, t_hdoc hdoc);
+t_str	varchr(t_str s, char **envp);
 
 //////////////////////////////////////////////
 

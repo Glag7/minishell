@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/07 16:33:01 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:45:55 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ static void	exec_line(t_mini *mini)
 	mini->exec = parse_line(mini->s, &mini->err, &mini->exc);
 	if (mini->exec == NULL)
 		return ;
-	execline(mini);
+	mini->hdocs = NULL;
+	fill_heredocs(mini->exec, mini);
+	if (mini->err == 0)
+		execline(mini, mini->exec);
 	if (mini->forked == 0)
 		ft_lstclear(&mini->hdocs, &wrap_unlink);
 	else

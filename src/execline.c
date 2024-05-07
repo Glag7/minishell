@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:06:21 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 20:09:04 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/07 20:13:35 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 
 int	exec_pipeline()
 {
+	//TODO, parsing des pipelines, remplacement des variables des hdocs
+	//if (mini->err == 0)
+	//{
+	//sig_mod(SIG_EXEC)//pas ici
+	//start_exec
+	//sig_mode(SIG_IGNORE);
+	//}
 	/*
 	//while //par_open skip
 
@@ -33,15 +40,14 @@ int	exec_pipeline()
 
 //avant chaque pipeline gnl parse_quote, parse_var, strjoin (mieux), write
 
-void	execline(t_mini *mini)
+void	execline(t_mini *mini, t_list *exec)
 {
-	mini->hdocs = NULL;
-	fill_heredocs(mini->exec, mini);
-	//TODO, parsing des pipelines, remplacement des variables des hdocs
-	//if (mini->err == 0)
-	//{
-	//sig_mod(SIG_EXEC)//pas ici
-	//start_exec
-	//sig_mode(SIG_IGNORE);
-	//}
+	exit(hdoc_replace(mini, ((t_tok *)exec->content)->hdoc));//
+	if (((t_tok *)exec->content)->tok == PAR)
+	{
+		//find end
+		//if pipe pipe
+		//else exit code
+		//start fork
+	}
 }

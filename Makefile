@@ -44,7 +44,9 @@ SRC = main.c \
       fill_file.c \
       dup_envp.c \
       dup_envp_shlvl.c \
-      output.c
+      output.c \
+      hdoc_replace.c \
+      varchr.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -54,7 +56,7 @@ all : $(NAME)
 bonus : all
 
 $(LIB) :
-	@ make -C libft/ char lst tstr math
+	@ make -C libft/ char lst tstr math file
 
 $(OBJ_DIR) :
 	@ mkdir -p $(OBJ_DIR)
