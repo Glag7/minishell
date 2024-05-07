@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 19:11:48 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:24:52 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,6 @@ typedef struct s_mini
 void	execline(t_mini *mini);
 void	fill_heredocs(t_list *lst, t_mini *mini);
 int		fill_file(int fd, t_str lim, t_mini *mini);
-void	wrap_unlink(void *name);
 
 //////////////////////////////////////////////
 
@@ -198,5 +197,9 @@ void	free_lexec(void *tok_);
 
 void	sig_mode(int mode);
 ///////////////////////////////////////////
+
+//wrap
+void	wrap_unlink(void *name);
+void	wrap_freearr(void *envp);
 
 #endif

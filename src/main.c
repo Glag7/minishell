@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 20:04:27 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:26:33 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	main(int argc, char **argv, char **envp)
 		free(mini.s);
 	}
 	check_err(mini.err, mini.forked);
-	ft_freearr(mini.envp.envp);
+	wrap_freearr(mini.envp.envp);
 	rl_clear_history();
 	close(0);
 	close(1);

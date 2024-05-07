@@ -37,7 +37,7 @@ SRC = main.c \
       \
       sig.c \
       init_mini.c \
-      wrap_unlink.c \
+      wrap.c \
       free_lst.c \
       execline.c \
       fill_hdoc.c \
