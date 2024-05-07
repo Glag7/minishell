@@ -6,60 +6,13 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/07 16:26:33 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:33:01 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t	g_sig = 0;
-
-void	debug(void *tok_)
-{
-	t_tok		*tok;
-	t_quote		slice;
-	static char	*yesno[2] = {"no", "yes"};
-	static char	*type[4] = {"in", "out", "???", "app"};
-
-	tok = tok_;
-	if (tok->tok == UNDEF)
-	{
-		slice = tok->quote;
-		printf("=====\n\"%.*s\"\nLEN:\t%4zu\nQTYPE:\t%4d\n=====\n",
-			(int)slice.str.len, slice.str.s, slice.str.len, slice.qtype);
-	}
-	else if (tok->tok == PAR)
-	{
-		if (tok->type == CLOSE)
-			printf("=====\nPAR_CLOSE:\t)\n=====\n");
-		else
-			printf("=====\nPAR_OPEN:\t(\n=====\n");
-	}
-	else if (tok->tok == PIPE)
-		printf("=====\nPIPE:\t|\n=====\n");
-	else if (tok->tok == OP)
-	{
-		if (tok->type == AND)
-			printf("=====\nOP_AND:\t&&\n=====\n");
-		else
-			printf("=====\nOP_OR:\t||\n=====\n");
-	}
-	else if (tok->tok == HDOC)
-		printf("=====\nHDOC:\t<<\nLIM:\t'%.*s'\nLEN:\t%zu\nEXP:\t%s\n=====\n",
-			(int)tok->hdoc.lim.len,
-			tok->hdoc.lim.s, tok->hdoc.lim.len, yesno[tok->hdoc.expand]);
-	else if (tok->tok == VAR)
-		printf("=====\nVAR:\t$\nNAME:\t'%.*s'\nLEN:\t%zu\nQTYPE:\t%d\n=====\n",
-			(int)tok->s.len, tok->var.s.s, tok->var.s.len, tok->var.qtype);
-	else if (tok->tok == WDCARD)
-		printf("=====\nWDCARD:\t*\n=====\n");
-	else if (tok->tok == REDIR)
-		printf("=====\nREDIR\nTYPE:\t%s\n=====\n",
-			type[tok->redir]);
-	else
-		printf("wtf, error\n");
-	free_lbuild(tok);
-}
 
 static t_list	*parse_line(char *s, int *err, int *exc)
 {
