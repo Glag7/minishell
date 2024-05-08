@@ -1,4 +1,40 @@
 
+int	exec_pipeline()
+{
+	//TODO, parsing des pipelines, remplacement des variables des hdocs
+	//if (mini->err == 0)
+	//{
+	//sig_mod(SIG_EXEC)//pas ici
+	//start_exec
+	//sig_mode(SIG_IGNORE);
+	//}
+	/*
+	//while //par_open skip
+
+	//pour chaque pipe
+	//vars
+	//word splitting
+	//redirs
+	//wdcards
+	//replace var hdoc
+	//do pipe if needed
+	//do hdoc + redirs
+	//extract cmand
+	//do cmand
+	//check sigsegv ?*/
+	return (0);
+}
+
+//avant chaque pipeline gnl parse_quote, parse_var, strjoin (mieux), write
+
+//fork
+//find end
+//if pipe pipe
+//else exit code
+//start fork
+
+
+
 pas de prompt si pas tty ? + gnl ou readline ?
 
 pour les heredocs pipe le remplaceur de variables a la commande ? catch le sigpipe

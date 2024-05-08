@@ -48,7 +48,8 @@ SRC = main.c \
       fill_hdoc.c \
       fill_file.c \
       hdoc_replace.c \
-      varchr.c
+      varchr.c \
+      waitall.c
 
 OBJ = $(SRC:.c=.o)
 
