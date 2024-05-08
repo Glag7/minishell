@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:06:21 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/07 20:13:35 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/08 17:59:44 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,24 @@ int	exec_pipeline()
 
 //avant chaque pipeline gnl parse_quote, parse_var, strjoin (mieux), write
 
+//fork
+//find end
+//if pipe pipe
+//else exit code
+//start fork
+
 void	execline(t_mini *mini, t_list *exec)
 {
-	exit(hdoc_replace(mini, ((t_tok *)exec->content)->hdoc));//
-	if (((t_tok *)exec->content)->tok == PAR)
+	while (!(((t_tok *)exec->content)->tok == PAR
+			&& ((t_tok *)exec->content)->type == CLOSE))
 	{
-		//find end
-		//if pipe pipe
-		//else exit code
-		//start fork
+		if (((t_tok *)exec->content)->tok == PAR)
+		{
+			//fork
+		}
+		else
+		{
+			//exec
+		}
 	}
 }

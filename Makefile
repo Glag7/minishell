@@ -10,6 +10,7 @@ HDR_DIR = hdr/
 
 PARSING = parsing/
 BUILTINS = builtins/
+COMMON = common/
 
 SRC = main.c \
       $(PARSING)parse_quotes.c \
@@ -35,16 +36,17 @@ SRC = main.c \
       $(BUILTINS)pwd.c \
       $(BUILTINS)unset.c \
       \
-      sig.c \
-      init_mini.c \
-      wrap.c \
-      free_lst.c \
+      $(COMMON)sig.c \
+      $(COMMON)init_mini.c \
+      $(COMMON)wrap.c \
+      $(COMMON)free_lst.c \
+      $(COMMON)dup_envp.c \
+      $(COMMON)dup_envp_shlvl.c \
+      $(COMMON)output.c \
+      \
       execline.c \
       fill_hdoc.c \
       fill_file.c \
-      dup_envp.c \
-      dup_envp_shlvl.c \
-      output.c \
       hdoc_replace.c \
       varchr.c
 
@@ -67,7 +69,10 @@ $(OBJ_DIR)$(PARSING) : $(OBJ_DIR)
 $(OBJ_DIR)$(BUILTINS) : $(OBJ_DIR)
 	@ mkdir -p $(OBJ_DIR)$(BUILTINS)
 
-$(NAME) : $(LIB) $(OBJ_DIR)$(PARSING) $(OBJ_DIR)$(BUILTINS) $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ))
+$(OBJ_DIR)$(COMMON) : $(OBJ_DIR)
+	@ mkdir -p $(OBJ_DIR)$(COMMON)
+
+$(NAME) : $(LIB) $(OBJ_DIR)$(PARSING) $(OBJ_DIR)$(COMMON) $(OBJ_DIR)$(BUILTINS) $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ))
 	@ $(COMP) $(CFLAGS) $(addprefix $(OBJ_DIR), $(OBJ)) $(LIB) -o $@ -lreadline
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
