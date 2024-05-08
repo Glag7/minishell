@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 16:53:06 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/07 20:10:48 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:24:01 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ static int	get_line(t_mini *mini, t_list **lst, t_str *s, int fd)
 	return (0);
 }
 
-static void	replace_var_hdoc(t_list *lst, char **envp)
+static size_t	replace_var_hdoc(t_list *lst, char **envp)
 {
 	t_tok	*tok;
 	t_str	tmp;
+	size_t	len;
 
+	len = 0;
 	while (lst)
 	{
 		tok = (t_tok *)lst->content;
@@ -55,37 +57,32 @@ static void	replace_var_hdoc(t_list *lst, char **envp)
 			*tok = (t_tok){.tok = UNDEF, .quote = {.qtype = 0, .str = tmp}};
 		}
 		*(t_str *)tok = (t_str)tok->quote.str;
+		len += ((t_str *)lst->content)->len;
 		lst = lst->next;
 	}
+	return (len);
 }
 
-static int	add_dst(t_mini *mini, t_list *lst, int dst, char *tofree)
+static int	add_dst(t_mini *mini, t_list *lst, int dst, t_str data)
 {
-	t_list	*tmp;
-	size_t	len;
 	t_str	line;
 
-	tmp = lst;
-	len = 0;
-	while (tmp)
-	{
-		len += ((t_str *)tmp->content)->len;
-		tmp = tmp->next;
-	}
-	line = ft_lsttstr_to_tstr(&lst, len, &free, NULL);
-	free(tofree);
+	line = ft_lsttstr_to_tstr(&lst, data.len, &free, NULL);
+	free(data.s);
 	if (line.s == NULL)
 	{
 		mini->exc = 2;
 		mini->err = ERR_AINTNOWAY;
+		ft_gnl_tstr(-1025, 0);
 		return (1);
 	}
 	if (write(dst, line.s, line.len) == -1)
 	{
+		free(line.s);
 		mini->exc = 2;
 		mini->err = ERR_SHUTUP;
+		ft_gnl_tstr(-1025, 0);
 		ft_perror3("minishell: hdoc: ", strerror(errno), "\n");
-		free(line.s);
 		return (1);
 	}
 	free(line.s);
@@ -110,8 +107,8 @@ static int	replace_vars(t_mini *mini, int dst, int src, char **envp)
 			ft_gnl_tstr(-1025, 0);
 			return (1);
 		}
-		replace_var_hdoc(lst, envp);
-		if (add_dst(mini, lst, dst, s.s))
+		if (add_dst(mini, lst, dst,
+				(t_str){s.s, replace_var_hdoc(lst, envp)}))
 			return (1);
 	}
 	ft_gnl_tstr(-1025, 0);
@@ -128,19 +125,19 @@ int	hdoc_replace(t_mini *mini, t_hdoc hdoc)
 	fd[0] = open(hdoc.lim.s, O_RDONLY);
 	if (fd[0] == -1)
 	{
+		ft_perror3("minishell: heredoc: ", strerror(errno), "\n");
 		mini->exc = 2;
 		mini->err = ERR_SHUTUP;
-		ft_perror3("minishell: heredoc: ", strerror(errno), "\n");
 		return (1);
 	}
 	unlink(hdoc.lim.s);
 	fd[1] = open(hdoc.lim.s, O_CREAT | O_EXCL | O_WRONLY, 0644);
 	if (fd[1] == -1)
 	{
+		ft_perror3("minishell: heredoc: ", strerror(errno), "\n");
 		mini->exc = 2;
 		mini->err = ERR_SHUTUP;
 		close(fd[0]);
-		ft_perror3("minishell: heredoc: ", strerror(errno), "\n");
 		return (1);
 	}
 	err = replace_vars(mini, fd[1], fd[0], mini->envp.envp);
