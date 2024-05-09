@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 17:12:19 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/08 18:25:46 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:15:38 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ void	init_mini(t_mini *mini, int argc, char **argv, char **envp)
 	rl_event_hook = &event;
 	mini->exc = 0;
 	mini->forked = 0;
+	mini->newpipe[0] = -1;
+	mini->newpipe[1] = -1;
+	mini->oldpipe[0] = -1;
+	mini->oldpipe[1] = -1;
 	mini->pids = NULL;
 	if (isatty(0))
 		mini->prompt = "coquillage de petite taille > ";

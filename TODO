@@ -1,4 +1,6 @@
 
+
+fork a 2 si pour exec
 int	exec_pipeline()
 {
 	//TODO, parsing des pipelines, remplacement des variables des hdocs
@@ -95,3 +97,5 @@ expansion de variable puis word splitting puis filename xpansion
 que le word splitting et le filaname expansion peuvent augmenter le nombre de mots
 les arguments explicitements vides sont gardes
 ceux pas explicitement nuls sont enleves (variables)
+
+check les leaks

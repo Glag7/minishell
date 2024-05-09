@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 19:24:38 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/08 20:22:52 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:00:47 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	print_sig(int status)
 		ft_putnbr_fd(sig - 35, 2);
 	if (WCOREDUMP(status))
 		ft_perror(" (core dumped)");
-	if (sig != 13 && sig != 28 && )
+	if (sig == 2 || msg[sig][0])
 		ft_perror("\n");
 }
 
@@ -45,17 +45,22 @@ void	waitall(t_mini *mini)
 {
 	int	status;
 
-	while (mini->pid)
+	if (mini->forked > 1)
 	{
-		if (waitpid(mini->pid->num, &status, 0) == -1)
+		ft_lstclear(&mini->pids, NULL);
+		return ;
+	}
+	while (mini->pids)
+	{
+		if (waitpid(mini->pids->num, &status, 0) == -1)
 		{
-			ft_lstpop(&mini->pid, NULL, 1);
+			ft_lstpop(&mini->pids, NULL, 1);
 			continue ;
 		}
 		if ((mini->err == 0 || mini->err == ERR_BYEBYE) && WIFEXITED(status))
 			mini->exc = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
 			print_sig(status);
-		ft_lstpop(&mini->pid, NULL, 1);
+		ft_lstpop(&mini->pids, NULL, 1);
 	}
 }

@@ -49,7 +49,8 @@ SRC = main.c \
       fill_file.c \
       hdoc_replace.c \
       varchr.c \
-      waitall.c
+      waitall.c \
+      update_pipes.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -59,7 +60,7 @@ all : $(NAME)
 bonus : all
 
 $(LIB) :
-	@ make -C libft/ char lst tstr math file
+	@ make -C libft/ char lst tstr math file print
 
 $(OBJ_DIR) :
 	@ mkdir -p $(OBJ_DIR)

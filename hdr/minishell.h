@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/08 19:30:29 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:35:50 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,9 @@ void	remove_var(char **envp, char *var, void (*del)(void *));
 
 /* EXEC */
 
+# define READ 0
+# define WRITE 1
+
 typedef struct s_mini
 {
 	char	*prompt;
@@ -172,15 +175,20 @@ typedef struct s_mini
 	int		exc;
 	int		err;
 	int		forked;
+	int		oldpipe[2];
+	int		newpipe[2];
 }	t_mini;
 
-void	execline(t_mini *mini, t_list *exec, int in, int out);
+void	execline(t_mini *mini, t_list *exec);
 void	fill_heredocs(t_list *lst, t_mini *mini);
 int		fill_file(int fd, t_str lim, t_mini *mini);
 void	waitall(t_mini *mini);
 
 int		hdoc_replace(t_mini *mini, t_hdoc hdoc);
 t_str	varchr(t_str s, char **envp);
+
+void	close_pipes(t_mini *mini);
+int		update_pipes(t_mini *mini, t_list *exec);
 
 //////////////////////////////////////////////
 
