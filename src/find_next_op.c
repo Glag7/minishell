@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:26:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/09 19:14:53 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/09 19:59:37 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ bool	next_is_pipe(t_list *exec)
 			plevel = 0;
 			while (!(plevel == 1 && tok->tok == PAR && tok->type == CLOSE))
 			{
-				tok = (t_tok *)exec->content;
 				if (tok->tok == PAR)
 					plevel += (tok->type == OPEN) - (tok->type == CLOSE);
 				exec = exec->next;
+				tok = (t_tok *)exec->content;
 			}
 		}
 		exec = exec->next;
@@ -57,10 +57,10 @@ t_list	*find_next_op(t_list *exec)
 			plevel = 0;
 			while (!(plevel == 1 && tok->tok == PAR && tok->type == CLOSE))
 			{
-				tok = (t_tok *)exec->content;
 				if (tok->tok == PAR)
 					plevel += (tok->type == OPEN) - (tok->type == CLOSE);
 				exec = exec->next;
+				tok = (t_tok *)exec->content;
 			}
 		}
 		exec = exec->next;
@@ -86,10 +86,10 @@ t_list	*find_next_op_type(t_list *exec, bool type)
 			plevel = 0;
 			while (!(plevel == 1 && tok->tok == PAR && tok->type == CLOSE))
 			{
-				tok = (t_tok *)exec->content;
 				if (tok->tok == PAR)
 					plevel += (tok->type == OPEN) - (tok->type == CLOSE);
 				exec = exec->next;
+				tok = (t_tok *)exec->content;
 			}
 		}
 		exec = exec->next;
