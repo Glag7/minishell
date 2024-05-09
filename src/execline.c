@@ -6,18 +6,34 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:06:21 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/09 15:40:11 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/09 19:07:42 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	manage_fork(t_mini *mini, t_list **exec)
+{
+	*exec = (*exec)->next;
+	ft_lstclear(&mini->pids, NULL);
+	mini->forked = 1;
+	if ((mini->oldpipe[READ] != -1 && dup2(mini->oldpipe[READ], 0) == -1)
+		|| (mini->newpipe[WRITE] != -1 && dup2(mini->newpipe[WRITE], 1) == -1))
+	{
+		ft_perror3("minishell: dup2: ", strerror(errno), "\n");
+		mini->exc = 2;
+		mini->err = ERR_SHUTUP;
+	}
+	close_pipes(mini);
+	execline(mini, *exec);
+	if (mini->err == 0)
+		mini->err = ERR_SHUTUP;
+}
+
 static void	execfork(t_mini *mini, t_list **exec)
 {
 	t_list	*tmp;
 
-	//get new pipe
-	*exec = (*exec)->next;
 	tmp = ft_lstnew(NULL);
 	if (tmp == NULL)
 	{
@@ -26,38 +42,38 @@ static void	execfork(t_mini *mini, t_list **exec)
 		return ;
 	}
 	ft_lstadd_back(&mini->pids, tmp);
-	tmp->num = fork();//chercher pipe
+	tmp->num = fork();
 	if (tmp->num == -1)
-	{//dup2
+	{
 		ft_perror3("minishell: fork: ", strerror(errno), "\n");
 		mini->exc = 2;
 		mini->err = ERR_SHUTUP;
 	}
 	else if (tmp->num == 0)
-	{
-		mini->forked = 1;
-		execline(mini, *exec);
-		if (mini->err == 0)
-			mini->err = ERR_SHUTUP;
-	}
-	//*exec = find_next_op(*exec);
-}//FERMER PIPES EHEN ERREUR
+		manage_fork(mini, exec);
+	else
+		*exec = find_next_op(*exec);
+}
 
 void	execline(t_mini *mini, t_list *exec)
 {
-	ft_lstclear(&mini->pids, NULL);
 	while (exec && !(((t_tok *)exec->content)->tok == PAR
 			&& ((t_tok *)exec->content)->type == CLOSE)
 		&& !mini->err && !update_pipes(mini, exec))
 	{
 		if (((t_tok *)exec->content)->tok == PAR)
 			execfork(mini, &exec);
-		if (((t_tok *)exec->content)->tok == OP)
+		else if (((t_tok *)exec->content)->tok == OP)
 		{
-			//
+			waitall(mini);
+			exec = find_next_op_type(exec, !!mini->exc);
 		}
 		else
 		{
+			//exec if pipe before && pipe after etc
+			//parsing, fork ou pas
+			//signaux
+			//redir
 			//exec
 		}
 	}

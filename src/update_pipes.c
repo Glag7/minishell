@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:46:43 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/09 15:18:37 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:53:26 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ int	update_pipes(t_mini *mini, t_list *exec)
 	mini->oldpipe[1] = mini->newpipe[1];
 	mini->newpipe[0] = -1;
 	mini->newpipe[1] = -1;
-	while (exec && ((t_tok *)exec->content)->tok != PIPE
-		&& ((t_tok *)exec->content)->tok != OP)
-		exec = exec->next;
-	if (!exec || ((t_tok *)exec->content)->tok != PIPE
+	if (next_is_pipe(exec) == 0
 		|| pipe(mini->newpipe) != -1)
 		return (0);
 	ft_perror3("minishell: pipe: ", strerror(errno), "\n");

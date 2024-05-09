@@ -50,7 +50,8 @@ SRC = main.c \
       hdoc_replace.c \
       varchr.c \
       waitall.c \
-      update_pipes.c
+      update_pipes.c \
+      find_next_op.c
 
 OBJ = $(SRC:.c=.o)
 

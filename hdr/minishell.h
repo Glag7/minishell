@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/09 15:35:50 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:56:31 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,10 @@ t_str	varchr(t_str s, char **envp);
 
 void	close_pipes(t_mini *mini);
 int		update_pipes(t_mini *mini, t_list *exec);
+
+bool	next_is_pipe(t_list *exec);
+t_list	*find_next_op(t_list *exec);
+t_list	*find_next_op_type(t_list *exec, bool type);
 
 //////////////////////////////////////////////
 
