@@ -51,7 +51,8 @@ SRC = main.c \
       varchr.c \
       waitall.c \
       update_pipes.c \
-      find_next_op.c
+      find_next_op.c \
+      exec_cmd.c
 
 OBJ = $(SRC:.c=.o)
 

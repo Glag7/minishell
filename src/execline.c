@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:06:21 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/09 19:12:46 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:06:32 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,7 @@ void	execline(t_mini *mini, t_list *exec)
 				exec = exec->next;
 		}
 		else
-		{
-			exec = exec->next;//rm
-			//exec if pipe before && pipe after etc
-			//parsing, fork ou pas
-			//signaux
-			//redir
-			//exec
-		}
+			exec_cmd(mini, &exec);
 	}
 	close_pipes(mini);
 	waitall(mini);
