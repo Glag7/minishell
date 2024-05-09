@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:26:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/09 19:00:48 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/09 19:14:53 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	next_is_pipe(t_list *exec)
 		}
 		exec = exec->next;
 	}
-	if (exec && tok->tok == PIPE)
+	if (exec && ((t_tok *)exec->content)->tok == PIPE)
 		return (1);
 	return (0);
 }
@@ -65,7 +65,7 @@ t_list	*find_next_op(t_list *exec)
 		}
 		exec = exec->next;
 	}
-	if (exec && tok->tok == PIPE)
+	if (exec && ((t_tok *)exec->content)->tok == PIPE)
 		return (exec->next);
 	return (exec);
 }
