@@ -29,7 +29,7 @@ static void	manage_cmd_fork(t_mini *mini, t_cmd *cmd)
 	else
 		do_cmd(mini, cmd);
 	if (mini->err == 0)
-		mini->err = ERR_SHUTUP;
+		mini->err = ERR_BYEBYE;
 }
 
 static void	cmd_fork(t_mini *mini, t_list **exec, t_cmd *cmd)
