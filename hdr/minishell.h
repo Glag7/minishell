@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/09 20:06:05 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/10 14:42:15 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,17 @@ typedef struct s_mini
 	int		newpipe[2];
 }	t_mini;
 
+typedef struct s_cmd
+{
+	char	**cmd;
+	t_list	*redir;
+	bool	fork;
+	bool	builtin;
+}	t_cmd;
+
 void	execline(t_mini *mini, t_list *exec);
 void	exec_cmd(t_mini *mini, t_list **exec);
+int		parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd);
 void	fill_heredocs(t_list *lst, t_mini *mini);
 int		fill_file(int fd, t_str lim, t_mini *mini);
 void	waitall(t_mini *mini);
@@ -205,6 +214,7 @@ int		check_numeric(char *str);
 //free
 void	free_lbuild(void *tok_);
 void	free_lexec(void *tok_);
+void	free_lredir(void *tok_);
 
 /* SIGNAL */
 

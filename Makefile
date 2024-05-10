@@ -52,7 +52,9 @@ SRC = main.c \
       waitall.c \
       update_pipes.c \
       find_next_op.c \
-      exec_cmd.c
+      exec_cmd.c \
+      parse_cmd.c \
+      do_cmd.c
 
 OBJ = $(SRC:.c=.o)
 

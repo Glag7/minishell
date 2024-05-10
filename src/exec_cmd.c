@@ -6,20 +6,70 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:03:39 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/09 20:07:34 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/10 14:59:40 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//si erreur close pipes !!!!!!!!!!!!!!!
+static void	manage_cmd_fork(t_mini *mini, t_cmd *cmd)
+{
+	ft_lstclear(&mini->pids, NULL);
+	mini->forked = 2;
+	if ((mini->oldpipe[READ] != -1 && dup2(mini->oldpipe[READ], 0) == -1)
+		|| (mini->newpipe[WRITE] != -1 && dup2(mini->newpipe[WRITE], 1) == -1))
+	{
+		ft_perror3("minishell: dup2: ", strerror(errno), "\n");
+		mini->exc = 2;
+		mini->err = ERR_SHUTUP;
+	}
+	close_pipes(mini);
+	if (cmd->builtin)
+		do_builtin(mini, cmd);
+	else
+		do_cmd(mini, cmd);
+	if (mini->err == 0)
+		mini->err = ERR_SHUTUP;
+}
+
+static void	cmd_fork(t_mini *mini, t_list **exec, t_cmd *cmd)
+{
+	t_list	*tmp;
+
+	tmp = ft_lstnew(NULL);
+	if (tmp == NULL)
+	{
+		mini->exc = 2;
+		mini->err = ERR_AINTNOWAY;
+		return ;
+	}
+	ft_lstadd_back(&mini->pids, tmp);
+	tmp->num = fork();
+	if (tmp->num == -1)
+	{
+		ft_perror3("minishell: fork: ", strerror(errno), "\n");
+		mini->exc = 2;
+		mini->err = ERR_SHUTUP;
+	}
+	else if (tmp->num == 0)
+		manage_cmd_fork(mini, cmd);
+	else
+		*exec = find_next_op(*exec);
+}
+
 void	exec_cmd(t_mini *mini, t_list **exec)
 {
-	*exec = (*exec)->next;//rm
-	//exec if pipe before && pipe after etc
-	//parsing, fork ou pas
-	//signaux
-	//redir
-	//exec
+	t_cmd	cmd;
 
+	if (parse_cmd(mini, *exec, &cmd))
+		return ;
+	if (cmd.fork)
+		cmd_fork(mini, exec, &cmd);
+	else
+	{
+		do_builtin(mini, &cmd);
+		*exec = find_next_op(*exec);
+	}
+	ft_freearr(cmd.cmd);
+	ft_lstclear(&cmd.redir, &free_lredir);
 }

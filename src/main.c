@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/09 14:12:18 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/10 14:12:19 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	exec_line(t_mini *mini)
 		ft_lstclear(&mini->hdocs, &wrap_unlink);
 	else
 		ft_lstclear(&mini->hdocs, NULL);
-	ft_lstclear(&mini->exec, &free_lexec);
+	ft_lstclear(&mini->exec, &free_lbuild);
 }
 
 int	main(int argc, char **argv, char **envp)

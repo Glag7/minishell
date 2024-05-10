@@ -1,4 +1,5 @@
 
+free_lst, exec_cmd, parse_cmd, do_cmd
 
 fork a 2 si pour exec
 int	exec_pipeline()
