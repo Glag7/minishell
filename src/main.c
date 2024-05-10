@@ -68,6 +68,8 @@ int	main(int argc, char **argv, char **envp)
 		mini.s = readline(mini.prompt);
 		exec_line(&mini);
 		free(mini.s);
+		if (mini->forked && mini->err == 0)
+			mini->err = ERR_BYEBYE;
 	}
 	check_err(mini.err, mini.forked);
 	wrap_freearr(mini.envp.envp);
