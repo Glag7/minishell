@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:12:46 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 18:42:06 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:32:36 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ static void	handle_inter(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\001\033[%dC\002^C\n", (int) ft_strlen(rl_prompt) + rl_point);
 		g_sig = sig;
+		//ft_perror("\001\033[");
+		//ft_putnbr_fd((int) ft_strlen(rl_prompt) + rl_point, 2);
+		//ft_perror("C\002^C\n");
+		ft_perror("^C\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
@@ -46,7 +49,9 @@ static void	handle_inter(int sig)
 static void	handle_hdoc(int sig)
 {
 	g_sig = sig;
-	printf("\001\033[%dC\002^C", (int) ft_strlen(rl_prompt) + rl_point);
+	ft_perror("\001\033[");
+	ft_putnbr_fd((int) ft_strlen(rl_prompt) + rl_point, 2);
+	ft_perror("C\002^C");
 	rl_replace_line("", 0);
 	rl_done = 1;
 }

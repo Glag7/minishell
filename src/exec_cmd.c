@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:03:39 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/10 14:59:40 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/10 15:22:42 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	exec_cmd(t_mini *mini, t_list **exec)
 		do_builtin(mini, &cmd);
 		*exec = find_next_op(*exec);
 	}
-	ft_freearr(cmd.cmd);
+	if (cmd.cmd)
+		ft_freearr(cmd.cmd);
 	ft_lstclear(&cmd.redir, &free_lredir);
 }

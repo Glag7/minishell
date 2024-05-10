@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 19:43:20 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/07 20:11:16 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:01:32 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 t_str	varchr(t_str s, char **envp)
 {
+	if (!envp)
+		return ((t_str){0, 0});
 	while (*envp)
 	{
 		if (ft_strncmp(s.s, *envp, s.len) == 0

@@ -6,14 +6,48 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:14:35 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/10 14:42:04 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:03:15 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static t_list	*dup_exec(t_list *exec, t_mini *mini)
+{
+	t_list	*lst;
+	t_list	*tmp;
+	t_tok	*tok;
+
+	lst = NULL;
+	while (exec && ((t_tok *)exec->content)->tok != PIPE
+		&& ((t_tok *)exec->content)->tok != OP
+		&& ((t_tok *)exec->content)->tok != PAR)
+	{
+		tok = malloc(sizeof(*tok));
+		tmp = ft_lstnew(tok);
+		if (tok == NULL || tmp == NULL)
+		{
+			mini->err = ERR_AINTNOWAY;
+			mini->exc = 2;
+			free(tok);
+			free(tmp);
+			ft_lstclear(&lst, &free_lexec);
+			return (NULL);
+		}
+		if (tok->tok == VAR)
+			tok->var.s = varchr(tok->var.s, mini->envp.envp);
+		exec = exec->next;
+	}
+}
+
 int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 {
+	t_list	*toparse;
+	t_list	*tmp;
+
+	*cmd = (t_cmd){0, 0, 0, 0};
+	return (0);
+	toparse = dup_exec(exec, mini);
 	//free_lexec
 	//exec if pipe before && pipe after etc
 	//parsing, fork ou pas
