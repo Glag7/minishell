@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 17:12:19 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/10 16:30:04 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:49:15 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	init_mini(t_mini *mini, int argc, char **argv, char **envp)
 {
 	(void) argc;
 	(void) argv;
+	rl_catch_signals = 0;
 	rl_outstream = stderr;
 	rl_event_hook = &event;
 	mini->exc = 0;
