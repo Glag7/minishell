@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:02:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/16 19:16:02 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/17 00:33:40 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,12 @@ static int	split_lastword(t_list *start, t_list *curr, size_t i)
 		return (1);
 	}
 	*tok = *(t_tok *)curr->content;
-	tok->quote.str = (t_str){tok->quote.str.s + i, tok->quote.str.len - i};
-	((t_tok *)curr->content)->quote.str.len = i;
+	if (((t_tok *)curr->content)->tok == UNDEF
+		&& ((t_tok *)curr->content)->quote.qtype == 0)
+	{
+		tok->quote.str = (t_str){tok->quote.str.s + i, tok->quote.str.len - i};
+		((t_tok *)curr->content)->quote.str.len = i;
+	}
 	start->next = tmp;
 	tmp->next = curr->next;
 	curr->next = NULL;
@@ -59,13 +63,15 @@ static int	add_filename(t_list *start, t_list *curr)
 		{
 			i = 0;
 			while (i < tok->quote.str.len
-				&& ft_in(tok->quote.str.s[i], " \t\n") != -1)
+				&& ft_in(tok->quote.str.s[i], " \t\n") == -1)
 				i++;
 			if (ft_in(tok->quote.str.s[i], " \t\n") != -1)
 				break ;
 		}
 		curr = curr->next;
 	}
+	if (!curr)
+		start->next = NULL;
 	if (curr && split_lastword(start, curr, i))
 		return (1);
 	return (0);
@@ -85,7 +91,7 @@ static int	get_filename(t_mini *mini, t_list *start, t_cmd *cmd)
 		while (i < tok->quote.str.len
 			&& ft_in(tok->quote.str.s[i], " \t\n") != -1)
 			i++;
-		if (ft_in(tok->quote.str.s[i], " \t\n") != -1)
+		if (ft_in(tok->quote.str.s[i], " \t\n") == -1)
 			break ;
 		start = curr;
 		curr = curr->next;

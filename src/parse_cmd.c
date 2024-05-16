@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:14:35 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/16 19:25:20 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/17 00:23:27 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ static t_list	*dup_exec(t_list *exec, t_mini *mini)
 			ft_lstclear(&lst, &free);
 			return (NULL);
 		}
+		ft_lstadd_back(&lst, tmp);
 		*tok = *(t_tok *)exec->content;
-		if (tok->tok == VAR)
+		if (tok->tok == VAR)//TODO make this another func
 			tok->var.s = varchr(tok->var.s, mini->envp.envp);
 		exec = exec->next;
 	}
@@ -65,6 +66,7 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 	//signaux
 	//redir
 	//exec
+	//
 	ft_lstclear(&toparse, &free);
-	return (1);
+	return (0);
 }

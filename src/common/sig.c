@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:12:46 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/10 16:50:33 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/16 23:56:19 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	handle_hdoc(int sig)
 
 void	sig_mode(int mode)
 {
+	return ;
 	if (mode == SIG_IGNORE)
 	{
 		signal(SIGINT, SIG_IGN);
