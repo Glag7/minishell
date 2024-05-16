@@ -48,7 +48,6 @@ static void	handle_hdoc(int sig)
 
 void	sig_mode(int mode)
 {
-	return ;
 	if (mode == SIG_IGNORE)
 	{
 		signal(SIGINT, SIG_IGN);
