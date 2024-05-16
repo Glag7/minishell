@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/10 14:42:15 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:20:31 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,12 @@ typedef struct s_cmd
 	bool	fork;
 	bool	builtin;
 }	t_cmd;
+
+typedef struct s_redir
+{
+	int		redir;
+	char	**strs;
+}	t_redir;
 
 void	execline(t_mini *mini, t_list *exec);
 void	exec_cmd(t_mini *mini, t_list **exec);

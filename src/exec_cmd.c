@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:03:39 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/10 15:22:42 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:50:09 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	exec_cmd(t_mini *mini, t_list **exec)
 {
 	t_cmd	cmd;
 
+	cmd = (t_cmd){0, 0, 0, 0};
 	if (parse_cmd(mini, *exec, &cmd))
 		return ;
 	if (cmd.fork)

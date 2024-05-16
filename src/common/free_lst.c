@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:34:47 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/10 17:17:02 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:52:53 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	free_lexec(void *tok_)//?
 	free(tok);
 }
 
-void	free_lredir(void *tok_)
+void	free_lredir(void *tok_)//?
 {
 	t_tok	*tok;
 
 	tok = tok_;
 	if (tok->tok == REDIR)
-		free(tok->var.s.s);
+		free(tok->var.s.s);//char **
 	else if (tok->tok == VAR)
-		free(tok->var.s.s);
+		free(tok->var.s.s);// ???
 	free(tok);
 }
