@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:14:35 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/16 19:11:04 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:25:20 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static t_list	*dup_exec(t_list *exec, t_mini *mini)
 			ft_lstclear(&lst, &free);
 			return (NULL);
 		}
+		*tok = *(t_tok *)exec->content;
 		if (tok->tok == VAR)
 			tok->var.s = varchr(tok->var.s, mini->envp.envp);
 		exec = exec->next;
@@ -44,7 +45,6 @@ static t_list	*dup_exec(t_list *exec, t_mini *mini)
 int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 {
 	t_list				*toparse;
-	t_list				*tmp;
 	static const t_tok	space = {UNDEF, .quote = {0, .str = {" ", 1}}};
 
 	toparse = dup_exec(exec, mini);
@@ -66,5 +66,5 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 	//redir
 	//exec
 	ft_lstclear(&toparse, &free);
-	return (0);
+	return (1);
 }

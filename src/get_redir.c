@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:02:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/16 19:09:53 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:16:02 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static inline void	clean_error(t_mini *mini, t_cmd *cmd,
 	free(tmp);
 }
 
-static int	split_lastword(t_list *start, t_list *curr,
-	t_cmd *cmd, size_t i)
+static int	split_lastword(t_list *start, t_list *curr, size_t i)
 {
 	t_list	*tmp;
 	t_tok	*tok;
@@ -47,7 +46,7 @@ static int	split_lastword(t_list *start, t_list *curr,
 	return (0);
 }
 
-static int	add_filename(t_list *start, t_list *curr, t_cmd *cmd)
+static int	add_filename(t_list *start, t_list *curr)
 {
 	t_tok	*tok;
 	size_t	i;
@@ -67,7 +66,7 @@ static int	add_filename(t_list *start, t_list *curr, t_cmd *cmd)
 		}
 		curr = curr->next;
 	}
-	if (curr && split_lastword(start, curr, cmd, i))
+	if (curr && split_lastword(start, curr, i))
 		return (1);
 	return (0);
 }
@@ -93,7 +92,7 @@ static int	get_filename(t_mini *mini, t_list *start, t_cmd *cmd)
 		tok = ((t_tok *)curr->content);
 	}
 	ft_lstadd_back(&cmd->redir, curr);
-	if (add_filename(start, curr, cmd))
+	if (add_filename(start, curr))
 	{
 		clean_error(mini, cmd, NULL, NULL);
 		return (1);

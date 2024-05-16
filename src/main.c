@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/10 14:12:19 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:13:14 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int	main(int argc, char **argv, char **envp)
 		mini.s = readline(mini.prompt);
 		exec_line(&mini);
 		free(mini.s);
-		if (mini->forked && mini->err == 0)
-			mini->err = ERR_BYEBYE;
+		if (mini.forked && mini.err == 0)
+			mini.err = ERR_BYEBYE;
 	}
 	check_err(mini.err, mini.forked);
 	wrap_freearr(mini.envp.envp);
