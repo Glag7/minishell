@@ -25,9 +25,6 @@ static void	manage_fork(t_mini *mini, t_list **exec)
 		mini->err = ERR_SHUTUP;
 	}
 	close_pipes(mini);
-	execline(mini, *exec);
-	if (mini->err == 0)
-		mini->err = ERR_SHUTUP;
 }
 
 static void	execfork(t_mini *mini, t_list **exec)
