@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/16 13:20:31 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:49:38 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,12 +190,14 @@ typedef struct s_cmd
 typedef struct s_redir
 {
 	int		redir;
-	char	**strs;
+	char	**filename;
 }	t_redir;
 
 void	execline(t_mini *mini, t_list *exec);
 void	exec_cmd(t_mini *mini, t_list **exec);
 int		parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd);
+int		get_redir(t_mini *mini, t_list *toparse,
+			const t_tok space, t_cmd *cmd);
 void	fill_heredocs(t_list *lst, t_mini *mini);
 int		fill_file(int fd, t_str lim, t_mini *mini);
 void	waitall(t_mini *mini);
