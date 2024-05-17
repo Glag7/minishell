@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:22:03 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 19:55:19 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/17 23:17:34 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ static int	end_loop(char *s, t_str lim)
 	return (0);
 }
 
-static int	get_input(int fd, t_str lim)
+static int	get_input(t_mini *mini, int fd, t_str lim)
 {
 	char	*s;
 	size_t	len;
 
 	while (1)
 	{
-		s = readline("hdoc > ");
+		s = readline(mini->hprompt);
 		if (g_sig == SIGINT || s == NULL)
 			return (end_loop(s, lim));
 		if (ft_strncmp(lim.s, s, -1) == 0)
@@ -64,7 +64,7 @@ static int	do_hdoc(int fd, t_mini *mini, t_str lim)
 	mini->exc = 0;
 	mini->err = ERR_SHUTUP;
 	mini->forked = 1;
-	res = get_input(fd, lim);
+	res = get_input(mini, fd, lim);
 	sig_mode(SIG_IGNORE);
 	close(fd);
 	if (res)

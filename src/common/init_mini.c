@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 17:12:19 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/17 14:29:39 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/17 23:19:16 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ void	init_mini(t_mini *mini, int argc, char **argv, char **envp)
 	mini->pids = NULL;
 	if (isatty(0))
 	{
+		mini->hprompt = "icidocument > ";
 		mini->prompt = "coquillage de petite taille > ";
 		rl_event_hook = &event;
 	}
 	else
 	{
+		mini->hprompt = NULL;
 		rl_completion_entry_function = &foo;
 		mini->prompt = NULL;
 	}

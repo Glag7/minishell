@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:12:46 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/16 23:56:19 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/17 23:23:17 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	show_ctl(bool show)
 {
 	struct termios	termios_data;
 
+	if (!isatty(0))
+		return ;
 	tcgetattr(0, &termios_data);
 	if (show)
 		termios_data.c_lflag |= ECHOCTL;

@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/16 15:49:38 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/17 23:18:01 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ void	remove_var(char **envp, char *var, void (*del)(void *));
 typedef struct s_mini
 {
 	char	*prompt;
+	char	*hprompt;
 	char	*s;
 	t_list	*exec;
 	t_list	*hdocs;
