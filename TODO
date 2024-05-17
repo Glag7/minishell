@@ -1,6 +1,9 @@
 
 free_lst, exec_cmd, parse_cmd, do_cmd
 
+FIX PIPED MINISHELL
+set different message for hdoc
+
 fork a 2 si pour exec
 int	exec_pipeline()
 {

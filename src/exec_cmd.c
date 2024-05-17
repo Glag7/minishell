@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:03:39 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/17 00:19:29 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/17 13:25:52 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,5 @@ void	exec_cmd(t_mini *mini, t_list **exec)
 	}
 	if (cmd.cmd)
 		ft_freearr(cmd.cmd);
-	ft_lstclear(&cmd.redir, &free);//do not use free
+	ft_lstclear(&cmd.redir, &free);//use free_lredir
 }

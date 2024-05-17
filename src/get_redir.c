@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:02:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/17 00:33:40 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/17 13:53:10 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,20 @@ static int	split_lastword(t_list *start, t_list *curr, size_t i)
 	t_list	*tmp;
 	t_tok	*tok;
 
-	tok = malloc(sizeof(*tok));
-	tmp = ft_lstnew(tok);
-	if (tmp == NULL || tok == NULL)
-	{
-		free(tmp);
-		free(tok);
-		start->next = curr->next;
-		curr->next = NULL;
-		return (1);
-	}
-	*tok = *(t_tok *)curr->content;
 	if (((t_tok *)curr->content)->tok == UNDEF
 		&& ((t_tok *)curr->content)->quote.qtype == 0)
 	{
+		tok = malloc(sizeof(*tok));
+		tmp = ft_lstnew(tok);
+		if (tmp == NULL || tok == NULL)
+		{
+			free(tmp);
+			free(tok);
+			start->next = curr->next;
+			curr->next = NULL;
+			return (1);
+		}
+		*tok = *(t_tok *)curr->content;
 		tok->quote.str = (t_str){tok->quote.str.s + i, tok->quote.str.len - i};
 		((t_tok *)curr->content)->quote.str.len = i;
 	}
@@ -56,7 +56,8 @@ static int	add_filename(t_list *start, t_list *curr)
 	size_t	i;
 
 	i = 0;
-	while (curr)
+	while (curr && ((t_tok *)curr->content)->tok != HDOC
+		&& ((t_tok *)curr->content)->tok != REDIR)
 	{
 		tok = ((t_tok *)curr->content);
 		if (tok->tok == UNDEF && tok->quote.qtype == 0)
@@ -68,10 +69,11 @@ static int	add_filename(t_list *start, t_list *curr)
 			if (ft_in(tok->quote.str.s[i], " \t\n") != -1)
 				break ;
 		}
+		//iff next hdoc redr null, curr->next = NULL
 		curr = curr->next;
 	}
 	if (!curr)
-		start->next = NULL;
+		start->next = curr;
 	if (curr && split_lastword(start, curr, i))
 		return (1);
 	return (0);
@@ -91,7 +93,7 @@ static int	get_filename(t_mini *mini, t_list *start, t_cmd *cmd)
 		while (i < tok->quote.str.len
 			&& ft_in(tok->quote.str.s[i], " \t\n") != -1)
 			i++;
-		if (ft_in(tok->quote.str.s[i], " \t\n") == -1)
+		if (i < tok->quote.str.len)
 			break ;
 		start = curr;
 		curr = curr->next;
