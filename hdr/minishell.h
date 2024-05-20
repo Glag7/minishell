@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/17 23:18:01 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/20 15:16:54 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ int		fill_file(int fd, t_str lim, t_mini *mini);
 void	waitall(t_mini *mini);
 
 int		hdoc_replace(t_mini *mini, t_hdoc hdoc);
-t_str	varchr(t_str s, char **envp);
+t_str	varchr(t_str s, char **envp, t_mini *mini);
 
 void	close_pipes(t_mini *mini);
 int		update_pipes(t_mini *mini, t_list *exec);
