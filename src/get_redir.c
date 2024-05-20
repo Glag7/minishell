@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:02:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/17 13:53:10 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:13:00 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,21 @@ static int	add_filename(t_list *start, t_list *curr)
 	t_tok	*tok;
 	size_t	i;
 
-	i = 0;
-	while (curr && ((t_tok *)curr->content)->tok != HDOC
-		&& ((t_tok *)curr->content)->tok != REDIR)
+	while (curr)
 	{
 		tok = ((t_tok *)curr->content);
+		i = 0;
 		if (tok->tok == UNDEF && tok->quote.qtype == 0)
 		{
-			i = 0;
 			while (i < tok->quote.str.len
 				&& ft_in(tok->quote.str.s[i], " \t\n") == -1)
 				i++;
-			if (ft_in(tok->quote.str.s[i], " \t\n") != -1)
+			if (i < tok->quote.str.len)
 				break ;
 		}
-		//iff next hdoc redr null, curr->next = NULL
+		if (curr->next && (((t_tok *)curr->next->content)->tok == HDOC
+				|| ((t_tok *)curr->next->content)->tok == REDIR))
+			break ;
 		curr = curr->next;
 	}
 	if (!curr)

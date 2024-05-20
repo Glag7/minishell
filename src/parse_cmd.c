@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:14:35 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/20 15:38:23 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:13:09 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 	//redir
 	//exec
 	*/
-
-	//IF VARLEN == -1 REPLACE
 	ft_lstclear(&toparse, &free);
 	return (0);
 }

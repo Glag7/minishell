@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 19:43:20 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/20 15:49:48 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:13:36 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 static t_str	exitcode(char *numbers, int exc)
 {
-		t_str	s;
+	t_str	s;
 
-		exc = (unsigned char)exc;
-		s.len = 1 + (exc > 9) + (exc > 99);
-		s.s = numbers;
-		if (s.len == 3)
-				numbers += 190 + (exc - 190) * 3;
-		else if (s.len == 2)
-				numbers += 10 + (exc - 10) * 2;
-		else if (s.len == 1)
-				numbers += exc;
-		return (s);
+	exc = (unsigned char)exc;
+	s.len = 1 + (exc > 9) + (exc > 99);
+	s.s = numbers;
+	if (s.len == 3)
+		numbers += 190 + (exc - 190) * 3;
+	else if (s.len == 2)
+		numbers += 10 + (exc - 10) * 2;
+	else if (s.len == 1)
+		numbers += exc;
+	return (s);
 }
 
 t_str	varchr(t_str s, char **envp, t_mini *mini)
