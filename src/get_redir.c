@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:02:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/20 17:13:00 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:25:18 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	split_lastword(t_list *start, t_list *curr, size_t i)
 	t_list	*tmp;
 	t_tok	*tok;
 
+	tmp = start;
 	if (((t_tok *)curr->content)->tok == UNDEF
 		&& ((t_tok *)curr->content)->quote.qtype == 0)
 	{
