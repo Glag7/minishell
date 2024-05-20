@@ -55,6 +55,7 @@ SRC = main.c \
       exec_cmd.c \
       parse_cmd.c \
       get_redir.c \
+      get_fnames.c \
       do_cmd.c
 
 OBJ = $(SRC:.c=.o)

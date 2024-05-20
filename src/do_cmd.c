@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:31:36 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/16 14:55:58 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:28:33 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	do_builtin(t_mini *mini, t_cmd *cmd)
 {
+	//signaux ? peu etre
 	//penser a exc
 	//redir + hdoc
 	//builtin
@@ -22,7 +23,7 @@ void	do_builtin(t_mini *mini, t_cmd *cmd)
 
 void	do_cmd(t_mini *mini, t_cmd *cmd)
 {
-	//signaux
+	//signaux, si erreur siignore ?
 	//redir + hdoc
 	//redir: if name[0] == NULL || name[1] != NULL : bomba
 	//execve + exc
