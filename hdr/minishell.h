@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/22 15:58:17 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/22 18:15:49 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ typedef struct s_redir
 void	execline(t_mini *mini, t_list *exec);
 void	exec_cmd(t_mini *mini, t_list **exec);
 int		parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd);
+int		split_words(t_mini *mini, t_list **lst);
 int		get_fnames(t_mini *mini, t_str **fnames);
 int		get_redir(t_mini *mini, t_list *toparse,
 			const t_tok space, t_cmd *cmd);
