@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:02:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/20 17:25:18 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/22 12:44:32 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,18 +119,18 @@ int	get_redir(t_mini *mini, t_list *toparse,
 	curr = toparse;
 	while (curr)
 	{
-		if (((t_tok *)curr->content)->tok == REDIR)
+		if (((t_tok *)curr->content)->tok == REDIR
+			|| ((t_tok *)curr->content)->tok == HDOC)
 		{
 			tok = malloc(sizeof(*tok));
 			tmp = ft_lstnew(tok);
 			if (tok == NULL || tmp == NULL)
-			{
 				clean_error(mini, cmd, tok, tmp);
+			if (tok == NULL || tmp == NULL)
 				return (1);
-			}
 			*tok = *(t_tok *)curr->content;
 			ft_lstadd_back(&cmd->redir, tmp);
-			if (get_filename(mini, curr, cmd))
+			if (tok->tok != HDOC && get_filename(mini, curr, cmd))
 				return (1);
 			*(t_tok *)curr->content = space;
 		}
