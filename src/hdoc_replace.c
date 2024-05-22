@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 16:53:06 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/08 16:24:01 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/22 13:17:25 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	get_line(t_mini *mini, t_list **lst, t_str *s, int fd)
 	return (0);
 }
 
-static size_t	replace_var_hdoc(t_list *lst, char **envp)
+static size_t	replace_var_hdoc(t_mini *mini, t_list *lst, char **envp)
 {
 	t_tok	*tok;
 	t_str	tmp;
@@ -52,7 +52,7 @@ static size_t	replace_var_hdoc(t_list *lst, char **envp)
 		tok = (t_tok *)lst->content;
 		if (tok->tok == VAR)
 		{
-			tmp = varchr(tok->var.s, envp);
+			tmp = varchr(tok->var.s, envp, mini);
 			free(tok->var.s.s);
 			*tok = (t_tok){.tok = UNDEF, .quote = {.qtype = 0, .str = tmp}};
 		}
@@ -108,7 +108,7 @@ static int	replace_vars(t_mini *mini, int dst, int src, char **envp)
 			return (1);
 		}
 		if (add_dst(mini, lst, dst,
-				(t_str){s.s, replace_var_hdoc(lst, envp)}))
+				(t_str){s.s, replace_var_hdoc(mini, lst, envp)}))
 			return (1);
 	}
 	ft_gnl_tstr(-1025, 0);

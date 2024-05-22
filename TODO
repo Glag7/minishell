@@ -1,8 +1,9 @@
+FIX REDIR
+
 
 free_lst, exec_cmd, parse_cmd, do_cmd
 
-FIX PIPED MINISHELL
-set different message for hdoc
+pas de PATH ? 126
 
 fork a 2 si pour exec
 int	exec_pipeline()

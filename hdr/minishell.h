@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/22 12:16:14 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:58:17 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,7 @@ int		check_numeric(char *str);
 void	free_lbuild(void *tok_);
 void	free_lexec(void *tok_);
 void	free_lredir(void *tok_);
+void	free_fnames(t_str *fnames);
 
 /* SIGNAL */
 

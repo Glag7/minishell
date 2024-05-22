@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:14:35 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/20 17:38:48 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:59:57 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 	if (toparse == NULL)
 		return (1);
 	expand_vars(toparse, mini);
+	fnames = NULL;
 	if (get_redir(mini, toparse, space, cmd) || get_fnames(mini, &fnames))
 	{
 		ft_lstclear(&toparse, &free);
@@ -79,6 +80,7 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 	//redir
 	//exec
 	*/
-	ft_lstclear(&toparse, &free);//tout sauf redir
+	ft_lstclear(&toparse, &free);//tout sauf redir //sus
+	free_fnames(fnames);
 	return (0);
 }
