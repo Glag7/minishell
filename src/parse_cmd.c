@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:14:35 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/22 15:59:57 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:50:33 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,18 @@ static t_list	*dup_exec(t_list *exec, t_mini *mini)
 	return (lst);
 }
 
-static void	expand_vars(t_list *toparse, t_mini *mini)
+static void	expand_vars(t_list *toparse, t_mini *mini, int *has_wdcard)
 {
 	t_tok	*tok;
 
+	*has_wdcard = 0;
 	while (toparse)
 	{
 		tok = (t_tok *)toparse->content;
 		if (tok->tok == VAR)
 			tok->var.s = varchr(tok->var.s, mini->envp.envp, mini);
+		else if (tok->tok == WDCARD)
+			*has_wdcard = 1;
 		toparse = toparse->next;
 	}
 }
@@ -58,14 +61,16 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 {
 	t_list				*toparse;
 	t_str				*fnames;
+	int					has_wdcard;
 	static const t_tok	space = {UNDEF, .quote = {0, .str = {" ", 1}}};
 
 	toparse = dup_exec(exec, mini);
 	if (toparse == NULL)
 		return (1);
-	expand_vars(toparse, mini);
+	expand_vars(toparse, mini, &has_wdcard);
 	fnames = NULL;
-	if (get_redir(mini, toparse, space, cmd) || get_fnames(mini, &fnames))
+	if (get_redir(mini, toparse, space, cmd)
+		|| ( has_wdcard && get_fnames(mini, &fnames)))
 	{
 		ft_lstclear(&toparse, &free);
 		return (1);
@@ -81,6 +86,7 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 	//exec
 	*/
 	ft_lstclear(&toparse, &free);//tout sauf redir //sus
-	free_fnames(fnames);
+	if (fnames)
+		free_fnames(fnames);
 	return (0);
 }
