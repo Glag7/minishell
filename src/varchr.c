@@ -18,13 +18,13 @@ static t_str	exitcode(char *numbers, int exc)
 
 	exc = (unsigned char)exc;
 	s.len = 1 + (exc > 9) + (exc > 99);
-	s.s = numbers;
 	if (s.len == 3)
 		numbers += 190 + (exc - 190) * 3;
 	else if (s.len == 2)
 		numbers += 10 + (exc - 10) * 2;
 	else if (s.len == 1)
 		numbers += exc;
+	s.s = numbers;
 	return (s);
 }
 
