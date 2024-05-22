@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:02:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/22 12:44:32 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:11:30 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,17 @@ static int	get_filename(t_mini *mini, t_list *start, t_cmd *cmd)
 {
 	t_list	*curr;
 	t_tok	*tok;
-	size_t	i;
 
 	curr = start->next;
 	tok = ((t_tok *)curr->content);
 	while (tok->tok == UNDEF && tok->quote.qtype == 0)
 	{
-		i = 0;
-		while (i < tok->quote.str.len
-			&& ft_in(tok->quote.str.s[i], " \t\n") != -1)
-			i++;
-		if (i < tok->quote.str.len)
+		while (tok->quote.str.len
+			&& ft_in(tok->quote.str.s++[0], " \t\n") != -1)
+			tok->quote.str.len--;
+		if (tok->quote.str.len)
+			tok->quote.str.s--;
+		if (tok->quote.str.len)
 			break ;
 		start = curr;
 		curr = curr->next;
