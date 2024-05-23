@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 16:53:06 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/22 13:17:25 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:52:38 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static size_t	replace_var_hdoc(t_mini *mini, t_list *lst, char **envp)
 		tok = (t_tok *)lst->content;
 		if (tok->tok == VAR)
 		{
-			tmp = varchr(tok->var.s, envp, mini);
-			free(tok->var.s.s);
+			tmp = varchr(tok->var.str, envp, mini);
+			free(tok->var.str.s);
 			*tok = (t_tok){.tok = UNDEF, .quote = {.qtype = 0, .str = tmp}};
 		}
 		*(t_str *)tok = (t_str)tok->quote.str;

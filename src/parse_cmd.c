@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:14:35 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/23 14:58:56 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:53:12 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	expand_vars(t_list *toparse, t_mini *mini, int *has_wdcard)
 	{
 		tok = (t_tok *)toparse->content;
 		if (tok->tok == VAR)
-			tok->var.s = varchr(tok->var.s, mini->envp.envp, mini);
+			tok->var.str = varchr(tok->var.str, mini->envp.envp, mini);
 		else if (tok->tok == WDCARD)
 			*has_wdcard = 1;
 		toparse = toparse->next;
@@ -75,6 +75,7 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 		ft_lstclear(&toparse, &free);
 		return (1);
 	}
+	return (0);
 	if (split_words(mini, &toparse) || split_words(mini, &cmd->redir))
 	{
 		ft_lstclear(&cmd->redir, &free_lexec);

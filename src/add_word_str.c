@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:54:34 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/23 15:10:55 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:39:14 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static size_t	get_word_len(t_list *curr)
 	while (curr)
 	{
 		tok = (t_tok *)curr->content;
-		if (tok->tok == VAR || (tok->tok == UNDEF && tok->qtype))
+		if (tok->tok == VAR || (tok->tok == UNDEF && tok->quote.qtype))
 			len += tok->quote.str.len;
 		else if (tok->tok == UNDEF)
 		{
@@ -40,11 +40,46 @@ static size_t	get_word_len(t_list *curr)
 	return (len);
 }
 
-int	add_word_str(t_mini *mini, t_list **lst, t_list **words)
+static void	copy_strings(t_list **lst, t_list *curr, t_str s)
+{
+	size_t	off;
+	t_tok	*tok;
+
+	off = 0;
+	while (off)
+	{
+		tok = (t_tok *)curr->content;
+		if (tok->quote.str.len < off || tok->tok == VAR)
+		{
+			ft_memcpy(s.s + off, tok->quote.str.s, tok->quote.str.len);
+			off += tok->quote.str.len;
+		}
+		else
+		{
+			ft_memcpy(s.s + off, tok->quote.str.s, s.len - off);
+			off += tok->quote.str.len;
+			tok->quote.str.s += s.len - off;
+			tok->quote.str.len -= s.len - off;
+		}
+		curr = curr->next;
+	}
+	*lst = curr;
+}
+
+int	add_word_str(t_mini *mini, t_list **lst, t_list *curr)
 {
 	t_str	s;
 
 	s.len = get_word_len(*lst);
 	s.s = malloc(s.len + 1);
+	if (s.s == NULL)
+	{
+		mini->err = ERR_AINTNOWAY;
+		mini->exc = 2;
+		return (2);
+	}
+	*((t_tok *)curr->content) = (t_tok){TXT, .s = s};
+	copy_strings(lst, *lst, s);
+	s.s[s.len] = 0;
 	return (0);
 }
