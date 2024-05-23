@@ -6,15 +6,11 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:14:08 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/23 13:37:27 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:58:33 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//skip espaces
-//si skipped ajouter undef vide
-//ajouter mot
 
 static int	add_space(t_mini *mini, t_list **words)
 {
@@ -65,6 +61,34 @@ static int	skip_spaces(t_mini *mini, t_list **lst, t_list **words)
 	return (0);
 }
 
+static int	add_word(t_mini *mini, t_list **lst, t_list **words)
+{
+	t_tok	*tok;
+	t_list	*tmp;
+
+	tok = malloc(sizeof(*tok));
+	tmp = ft_lstnew(tok);
+	if (tok == NULL || tmp == NULL)
+	{
+		free(tok);
+		free(tmp);
+		mini->err = ERR_AINTNOWAY;
+		mini->exc = 2;
+		return (2);
+	}
+	ft_lstadd_back(words, tmp);
+	tok->tok = UNDEF;
+	if (((t_tok *)(*lst)->content)->tok == REDIR
+		|| ((t_tok *)(*lst)->content)->tok == HDOC
+		|| ((t_tok *)(*lst)->content)->tok == WDCARD)
+	{
+		*lst = (*lst)->next;
+		*tok = *((t_tok *)(*lst)->content);
+		return (0);
+	}
+	return (add_word_str(mini, lst, words));
+}
+
 int	split_words(t_mini *mini, t_list **lst)
 {
 	t_list	*words;
@@ -76,6 +100,9 @@ int	split_words(t_mini *mini, t_list **lst)
 	while (curr)
 	{
 		res = skip_spaces(mini, &curr, &words);
+		if (res)
+			break ;
+		res = add_word(mini, &curr, &words);
 		if (res)
 			break ;
 	}
