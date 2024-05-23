@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:54:34 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/23 19:23:59 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/23 19:29:46 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,15 @@ static void	copy_strings(t_list **lst, t_list *curr, t_str s)
 	*lst = curr;
 }
 
+static void	skip_empty(t_list **lst, t_list *curr)
+{
+	while (curr && ((t_tok *)curr->content)->tok == UNDEF
+		&& ((t_tok *)curr->content)->quote.qtype
+		&& ((t_tok *)curr->content)->quote.str.len == 0)
+		curr = curr->next;
+	*lst = curr;
+}
+
 int	add_word_str(t_mini *mini, t_list **lst, t_list *curr)
 {
 	t_str	s;
@@ -80,7 +89,9 @@ int	add_word_str(t_mini *mini, t_list **lst, t_list *curr)
 		return (2);
 	}
 	*((t_tok *)curr->content) = (t_tok){TXT, .s = s};
-	copy_strings(lst, *lst, s);
+	if (s.len)
+		copy_strings(lst, *lst, s);
+	skip_empty(lst, *lst);
 	s.s[s.len] = 0;
 	return (0);
 }
