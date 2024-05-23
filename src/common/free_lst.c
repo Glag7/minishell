@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:34:47 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/22 15:57:58 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:58:32 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ void	free_lbuild(void *tok_)
 	free(tok);
 }
 
-void	free_lexec(void *tok_)//?
+void	free_lexec(void *tok_)
 {
 	t_tok	*tok;
 
 	tok = tok_;
+	if (tok->tok == TXT)
+		free(tok->s.s);
 	free(tok);
 }
 

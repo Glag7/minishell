@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:14:35 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/22 18:16:24 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:59:50 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,11 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 		ft_lstclear(&toparse, &free);
 		return (1);
 	}
-	if (split_words(mini, &toparse))
+	if (split_words(mini, &toparse) || split_words(mini, &cmd->redir))
 	{
-		//among us
+		ft_lstclear(&cmd->redir, &free_lexec);
+		ft_lstclear(&toparse, &free_lexec);
+		return (1);
 	}
 	/*garder le tok au debut puis transormer en t_redir au word_splitting	
 	// *: remplacer par une liste chainee de txt
