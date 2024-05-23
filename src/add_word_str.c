@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:54:34 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/23 15:39:14 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/23 19:23:59 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static size_t	get_word_len(t_list *curr)
 		{
 			i = -1;
 			while (++i < tok->quote.str.len
-				&& ft_in(tok->quote.str.s[i], " \t\n") != -1)
+				&& ft_in(tok->quote.str.s[i], " \t\n") == -1)
 				len++;
 			if (i < tok->quote.str.len)
 				break ;
@@ -46,10 +46,10 @@ static void	copy_strings(t_list **lst, t_list *curr, t_str s)
 	t_tok	*tok;
 
 	off = 0;
-	while (off)
+	while (s.len - off > 0)
 	{
 		tok = (t_tok *)curr->content;
-		if (tok->quote.str.len < off || tok->tok == VAR)
+		if (tok->quote.str.len < s.len - off || tok->tok == VAR)
 		{
 			ft_memcpy(s.s + off, tok->quote.str.s, tok->quote.str.len);
 			off += tok->quote.str.len;
@@ -60,6 +60,7 @@ static void	copy_strings(t_list **lst, t_list *curr, t_str s)
 			off += tok->quote.str.len;
 			tok->quote.str.s += s.len - off;
 			tok->quote.str.len -= s.len - off;
+			off = s.len;
 		}
 		curr = curr->next;
 	}

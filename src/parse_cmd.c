@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:14:35 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/23 15:53:12 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:57:26 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,31 +57,33 @@ static void	expand_vars(t_list *toparse, t_mini *mini, int *has_wdcard)
 	}
 }
 
-int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
+static void	replace_var_quote(t_list *toparse)
 {
-	t_list				*toparse;
-	t_str				*fnames;
-	int					has_wdcard;
-	static const t_tok	space = {UNDEF, .quote = {0, .str = {" ", 1}}};
+	t_tok	*tok;
 
-	toparse = dup_exec(exec, mini);
-	if (toparse == NULL)
-		return (1);
-	expand_vars(toparse, mini, &has_wdcard);
-	fnames = NULL;
-	if (get_redir(mini, toparse, space, cmd)
-		|| (has_wdcard && get_fnames(mini, &fnames)))
+	while (toparse)
 	{
-		ft_lstclear(&toparse, &free);
-		return (1);
+		tok = (t_tok *)toparse->content;
+		if (tok->tok == VAR)
+			tok->tok = UNDEF;
+		toparse = toparse->next;
 	}
-	return (0);
-	if (split_words(mini, &toparse) || split_words(mini, &cmd->redir))
+}
+
+static int	parse_cmd_txt(t_mini *mini,
+	t_list *toparse, t_cmd *cmd, int has_wdcard)
+{
+	t_str	*fnames;
+
+	fnames = NULL;
+	if (has_wdcard && get_fnames(mini, &fnames))
 	{
 		ft_lstclear(&cmd->redir, &free_lexec);
 		ft_lstclear(&toparse, &free_lexec);
 		return (1);
 	}
+	//free fnames ici si erreur
+	
 	/*garder le tok au debut puis transormer en t_redir au word_splitting	
 	// *: remplacer par une liste chainee de txt
 	//	non caca pour free, il faut juste traiter le wdcard comme ca
@@ -92,8 +94,34 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 	//redir
 	//exec
 	*/
-	ft_lstclear(&toparse, &free);//tout sauf redir //sus
+	ft_lstclear(&toparse, &free_lexec);//rm or use free
 	if (fnames)
 		free_fnames(fnames);
 	return (0);
+}
+
+int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
+{
+	t_list				*toparse;
+	int					has_wdcard;
+	static const t_tok	space = {UNDEF, .quote = {0, .str = {" ", 1}}};
+
+	toparse = dup_exec(exec, mini);
+	if (toparse == NULL)
+		return (1);
+	expand_vars(toparse, mini, &has_wdcard);
+	if (get_redir(mini, toparse, space, cmd))
+	{
+		ft_lstclear(&toparse, &free);
+		return (1);
+	}
+	replace_var_quote(toparse);
+	replace_var_quote(cmd->redir);
+	if (split_words(mini, &toparse) || split_words(mini, &cmd->redir))
+	{
+		ft_lstclear(&cmd->redir, &free_lexec);
+		ft_lstclear(&toparse, &free_lexec);
+		return (1);
+	}
+	return (parse_cmd_txt(mini, toparse, cmd, has_wdcard));
 }

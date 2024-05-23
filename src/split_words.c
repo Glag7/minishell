@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:14:08 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/23 15:36:44 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:39:04 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	add_word(t_mini *mini, t_list **lst, t_list **words)
 	return (add_word_str(mini, lst, tmp));
 }
 
-int	split_words(t_mini *mini, t_list **lst)//forgor quotes
+int	split_words(t_mini *mini, t_list **lst)
 {
 	t_list	*words;
 	t_list	*curr;
@@ -97,6 +97,7 @@ int	split_words(t_mini *mini, t_list **lst)//forgor quotes
 
 	curr = *lst;
 	words = NULL;
+	res = 0;
 	while (curr)
 	{
 		res = skip_spaces(mini, &curr, &words);
