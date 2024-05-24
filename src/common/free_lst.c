@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:34:47 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/23 15:44:57 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:22:35 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	free_fnames(t_str *fnames)
 {
 	size_t	i;
 
+	if (fnames == NULL)
+		return ;
 	i = 0;
 	while (fnames[i].s)
 	{

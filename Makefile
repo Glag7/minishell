@@ -58,6 +58,7 @@ SRC = main.c \
       get_fnames.c \
       split_words.c \
       add_word_str.c \
+      exp_wdcard.c \
       do_cmd.c
 
 OBJ = $(SRC:.c=.o)
