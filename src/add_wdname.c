@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 18:15:09 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:14:44 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/24 19:26:00 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ int	check_name(t_str *tofind, t_str *name, int any)
 	t_str	tmp;
 
 	tmp = *name;
-	tmp.s = ft_strnstr(name->s, tofind->s, -any);
+	if (any)
+		tmp.s = ft_strnstr(name->s, tofind->s, -1);
+	else
+		tmp.s = ft_strnstr(name->s, tofind->s, 1);
 	if (tmp.s == NULL)
 		return (1);
 	tmp.s += tofind->len;
