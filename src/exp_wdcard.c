@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 13:26:26 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/24 18:13:15 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/24 19:09:24 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static size_t	get_len(t_list *curr)
 			len += tok->s.len;
 		else
 			break ;
+		curr = curr->next;
 	}
 	return (len);
 }
@@ -52,6 +53,7 @@ static void	copy_wdtxt(t_str s, t_list *curr)
 		}
 		else
 			break ;
+		curr = curr->next;
 	}
 	s.s[s.len] = 0;
 }
@@ -89,7 +91,7 @@ static int	replace_wdcard(t_mini *mini, t_list **replace,
 	files = NULL;
 	while (fnames->s)
 	{
-		if (add_wdname(&files, curr))
+		if (add_wdname(&files, curr, *fnames))
 		{
 			ft_lstclear(&files, &free_lexec);
 			mini->err = ERR_AINTNOWAY;
