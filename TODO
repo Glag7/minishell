@@ -1,9 +1,6 @@
 trier les wdcards ?
 
-$, splitting mais pas trop
-
-free_lst, exec_cmd, parse_cmd, do_cmd
-
+signaux parsing et builtins : stop (?)
 pas de PATH ? 126
 
 fork a 2 si pour exec
