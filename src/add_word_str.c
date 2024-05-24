@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:54:34 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/23 19:29:46 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/24 14:30:07 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,10 @@ static void	copy_strings(t_list **lst, t_list *curr, t_str s)
 		else
 		{
 			ft_memcpy(s.s + off, tok->quote.str.s, s.len - off);
-			off += tok->quote.str.len;
 			tok->quote.str.s += s.len - off;
 			tok->quote.str.len -= s.len - off;
+			if (tok->quote.qtype == 0)
+				break ;
 			off = s.len;
 		}
 		curr = curr->next;

@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:14:08 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/23 18:39:04 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/24 14:13:10 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ static int	add_word(t_mini *mini, t_list **lst, t_list **words)
 		|| ((t_tok *)(*lst)->content)->tok == HDOC
 		|| ((t_tok *)(*lst)->content)->tok == WDCARD)
 	{
-		*lst = (*lst)->next;
 		*tok = *((t_tok *)(*lst)->content);
+		*lst = (*lst)->next;
 		return (0);
 	}
 	return (add_word_str(mini, lst, tmp));
