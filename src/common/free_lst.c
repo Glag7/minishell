@@ -6,11 +6,26 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:34:47 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/24 13:22:35 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/24 17:49:58 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_list	*free_wdcard(t_list *lst)
+{
+	t_list	*ret;
+
+	ret = NULL;
+	while (lst && (((t_tok *)lst->content)->tok == WDCARD
+			|| ((t_tok *)lst->content)->tok == TXT))
+	{
+		ret = lst->next;
+		ft_lstdelone(lst, &free_lexec);
+		lst = ret;
+	}
+	return (ret);
+}
 
 void	free_fnames(t_str *fnames)
 {

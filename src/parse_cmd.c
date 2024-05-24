@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 14:31:06 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/24 14:31:23 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/24 15:01:23 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ static int	parse_cmd_txt(t_mini *mini,
 
 	fnames = NULL;
 	if (has_wdcard && (get_fnames(mini, &fnames)
-			|| exp_wdcard(mini, toparse, fnames)
-			|| exp_wdcard(mini, cmd->redir, fnames)))
+			|| (toparse && exp_wdcard(mini, &toparse, fnames))
+			|| (cmd->redir && exp_wdcard(mini, &cmd->redir, fnames))))
 	{
 		ft_lstclear(&cmd->redir, &free_lexec);
 		ft_lstclear(&toparse, &free_lexec);
