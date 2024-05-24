@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 18:15:09 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:26:00 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/24 19:35:17 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	add_wdname(t_list **files, t_list *curr, t_str name)
 	t_str	tmp;
 	bool	any;
 
-	if (!(((t_tok *)curr->content)->tok == TXT 
-		&& ((t_tok *)curr->content)->s.s[0] == '.') && name.s[0] == '.')
+	if (!(((t_tok *)curr->content)->tok == TXT
+			&& ((t_tok *)curr->content)->s.s[0] == '.') && name.s[0] == '.')
 		return (0);
 	tmp = name;
 	any = 0;
