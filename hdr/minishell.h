@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/28 17:04:28 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:07:42 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ int		add_wdname(t_list **files, t_list *curr, t_str name);
 int		get_cmd(t_mini *mini, t_cmd *cmd, t_list *toparse);
 void	fill_heredocs(t_list *lst, t_mini *mini);
 int		build_redirs(t_mini *mini, t_cmd *cmd, t_list *lst);
+int		open_redir(t_mini *mini, t_list *redir, int *inout);
 int		fill_file(int fd, t_str lim, t_mini *mini);
 void	waitall(t_mini *mini);
 

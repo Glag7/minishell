@@ -2,7 +2,12 @@ trier les wdcards ?
 
 builtin return 2 ->quitter
 
-signaux parsing et builtins : stop (?)
+parsing : stop
+pre exec : stop
+redirections : stop ?
+exec : rien
+
+path vide : 127 nosfod
 pas de PATH ? 126
 
 fork a 2 si pour exec

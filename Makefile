@@ -62,7 +62,8 @@ SRC = main.c \
       do_cmd.c \
       add_wdname.c \
       get_cmd.c \
-      build_redirs.c
+      build_redirs.c \
+      open_redir.c
 
 OBJ = $(SRC:.c=.o)
 
