@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:23:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/28 16:00:58 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/28 17:03:51 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,13 @@ void	free_lredir_nofree(void *redir_)
 	free(redir);
 }
 
-int	build_redirs(t_mini *mini, t_cmd *cmd)
+int	build_redirs(t_mini *mini, t_cmd *cmd, t_list *toparse)
 {
 	t_list	*redirs;
 	t_list	*lst;
 	t_tok	*tok;
 
+	ft_lstclear(&toparse, &free);
 	redirs = NULL;
 	lst = cmd->redir;
 	while (lst)

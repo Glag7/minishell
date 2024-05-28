@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 14:31:06 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/28 14:38:17 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/28 17:02:11 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,15 @@ static int	parse_cmd_txt(t_mini *mini,
 	free_fnames(fnames);
 	if (get_cmd(mini, cmd, toparse))
 		return (1);
-	//builtin ?
-	//fork ?
+	cmd->builtin = (*cmd->cmd && (!ft_strncmp(*cmd->cmd, "echo", -1)
+				|| !ft_strncmp(*cmd->cmd, "export", -1)
+				|| !ft_strncmp(*cmd->cmd, "exit", -1)
+				|| !ft_strncmp(*cmd->cmd, "cd", -1) || !ft_strncmp(*cmd->cmd,
+					"env", -1) || !ft_strncmp(*cmd->cmd, "pwd", -1)
+				|| !ft_strncmp(*cmd->cmd, "unset", -1)));
+	if (cmd->builtin && mini->oldpipe[0] == -1 && mini->newpipe[0] == -1
+		&& mini->oldpipe[1] == -1 && mini->newpipe[1] == -1)
+		cmd->fork = 0;
 	return (0);
 }
 
