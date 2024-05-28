@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 14:31:06 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/24 15:01:23 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:38:17 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,11 @@ static int	parse_cmd_txt(t_mini *mini,
 		free_fnames(fnames);
 		return (1);
 	}
-	//free fnames ici si erreur
-	
-	/*garder le tok au debut puis transormer en t_redir au word_splitting	
-	// *: remplacer par une liste chainee de txt
-	//	non caca pour free, il faut juste traiter le wdcard comme ca
-	//word splitting
-	//
-	//exec if pipe before && pipe after etc
-	//parsing, fork ou pas
-	//redir
-	//exec
-	*/
-	ft_lstclear(&toparse, &free_lexec);//rm or use free
 	free_fnames(fnames);
+	if (get_cmd(mini, cmd, toparse))
+		return (1);
+	//builtin ?
+	//fork ?
 	return (0);
 }
 

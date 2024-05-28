@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/24 18:17:35 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:24:47 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,9 @@ int		get_redir(t_mini *mini, t_list *toparse,
 			const t_tok space, t_cmd *cmd);
 int		exp_wdcard(t_mini *mini, t_list **lst, t_str *fnames);
 int		add_wdname(t_list **files, t_list *curr, t_str name);
+int		get_cmd(t_mini *mini, t_cmd *cmd, t_list *toparse);
 void	fill_heredocs(t_list *lst, t_mini *mini);
+int		build_redirs(t_mini *mini, t_cmd *cmd);
 int		fill_file(int fd, t_str lim, t_mini *mini);
 void	waitall(t_mini *mini);
 
