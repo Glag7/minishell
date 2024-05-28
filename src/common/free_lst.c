@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:34:47 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/28 14:55:18 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:55:26 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ void	free_lredir(void *redir_)
 	t_redir	*redir;
 
 	redir = redir_;
-	if (redir->filename)
+	if (redir->filename && redir->redir != HDOC_REDIR)
 		ft_freearr(redir->filename);
+	else
+		free(redir->filename);
 	free(redir);
 }

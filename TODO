@@ -50,4 +50,6 @@ les heredoc aussi
 les fichiers sont crees dans l'ordre, ils s'arrete si probleme
 redirection avant exec
 
+peut etre que les noms des hdocs leaks
+
 check les leaks

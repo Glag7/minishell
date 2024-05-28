@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/28 14:24:47 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:33:55 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_hdoc
 # define IN 0
 # define OUT 1
 # define APP 3
+# define HDOC_REDIR 4
 
 //tokens
 enum	e_tok
