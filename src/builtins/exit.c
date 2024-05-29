@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:10:03 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/25 15:30:15 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/29 15:50:33 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ static int	get_exit_code(char *arg)
 	return ((sign * nbr) & 255);
 }
 
-int	builtin_exit(int argc, char **argv, char **envp)
+int	builtin_exit(int argc, char **argv, t_envp *envp_status, int *fds)
 {
-	(void)envp;
+	(void)envp_status;
+	(void)fds;
+	ft_perror("exit\n");
 	if (argc <= 1)
 		return (0);
 	if (argc > 2)
