@@ -36,6 +36,7 @@ SRC = main.c \
       $(BUILTINS)export_only.c \
       $(BUILTINS)pwd.c \
       $(BUILTINS)unset.c \
+      $(BUILTINS)wrap.c \
       \
       $(COMMON)sig.c \
       $(COMMON)init_mini.c \

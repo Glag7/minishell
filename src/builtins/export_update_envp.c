@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:23:43 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/29 19:24:23 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/30 21:57:00 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,9 @@ int	update_envp(char **new_envp, char **argv, t_envp *envp_status,
 {
 	size_t	i;
 	char	*arg;
-	int		error;
 
 	if (copy_envp(new_envp, envp_status->envp, len) == 1)
 		return (1);
-	error = 0;
 	i = 0;
 	arg = argv[0];
 	while (arg != NULL)

@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/30 19:59:44 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/30 22:25:03 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ typedef struct s_redir
 	char	**filename;
 }	t_redir;
 
+void	wrap_builtin(t_mini *mini, char **argv, int *inout);
 void	execline(t_mini *mini, t_list *exec);
 void	exec_cmd(t_mini *mini, t_list **exec);
 int		parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd);
@@ -211,6 +212,8 @@ int		open_redir(t_mini *mini, t_list *redir, int *inout);
 int		fill_file(int fd, t_str lim, t_mini *mini);
 int		get_path(t_mini *mini, char **cmd, char **dst);
 void	waitall(t_mini *mini);
+void	do_builtin(t_mini *mini, t_cmd *cmd);
+void	do_cmd(t_mini *mini, t_cmd *cmd);
 
 int		hdoc_replace(t_mini *mini, t_hdoc hdoc);
 t_str	varchr(t_str s, char **envp, t_mini *mini);
