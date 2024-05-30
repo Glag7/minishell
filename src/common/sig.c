@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:12:46 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:34:27 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/30 23:39:37 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ static void	handle_hdoc(int sig)
 	rl_done = 1;
 }
 
+static void	foo(int sig)
+{
+	(void) sig;
+}
+
 void	sig_mode(int mode)
 {
 	if (mode == SIG_IGNORE)
@@ -70,8 +75,8 @@ void	sig_mode(int mode)
 	}
 	else if (mode == SIG_EXEC)
 	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, &foo);
+		signal(SIGQUIT, &foo);
 		show_ctl(1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:41:34 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/28 18:12:49 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/30 23:33:21 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	open_out(t_redir *red, int *inout)
 {
 	int	err;
 
+		printf("skibidi\n");
 	if (red->redir == OUT)
 	{
 		inout[0] = open(red->filename[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
