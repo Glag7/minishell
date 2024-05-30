@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:31:36 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/30 23:25:25 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/31 00:07:39 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static int	dup_redir_out(t_mini *mini, int *inout, int err_)
 	err = err_;
 	if (!err && inout[1] != -1)
 	{
-		err |= dup2(inout[1], 1);
+		err |= dup2(inout[1], 1) == -1;
 		if (err)
 			ft_perror3("minishell: dup2: ", strerror(errno), "\n");
 	}
 	else if (!err && mini->newpipe[1] != -1)
 	{
-		err |= dup2(mini->newpipe[1], 1);
+		err |= dup2(mini->newpipe[1], 1) == -1;
 		if (err)
 			ft_perror3("minishell: dup2: ", strerror(errno), "\n");
 	}
@@ -49,13 +49,13 @@ static int	dup_redir(t_mini *mini, int *inout)
 	err = 0;
 	if (inout[0] != -1)
 	{
-		err |= dup2(inout[0], 0);
+		err |= dup2(inout[0], 0) == -1;
 		if (err)
 			ft_perror3("minishell: dup2: ", strerror(errno), "\n");
 	}
 	else if (mini->oldpipe[0] != -1)
 	{
-		err |= dup2(mini->oldpipe[0], 0);
+		err |= dup2(mini->oldpipe[0], 0) == -1;
 		if (err)
 			ft_perror3("minishell: dup2: ", strerror(errno), "\n");
 	}

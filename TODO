@@ -1,3 +1,7 @@
+append broken
+
+no exec if hdoc signaled
+
 size_t argc
 
 trier les wdcards ?

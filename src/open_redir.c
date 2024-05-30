@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:41:34 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/30 23:33:21 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/31 00:11:02 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ static int	open_out(t_redir *red, int *inout)
 {
 	int	err;
 
-		printf("skibidi\n");
 	if (red->redir == OUT)
 	{
-		inout[0] = open(red->filename[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (inout[0] == -1)
+		inout[1] = open(red->filename[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (inout[1] == -1)
 		{
 			err = errno;
 			ft_perror3("minishell: ", red->filename[0], ": ");
@@ -30,8 +29,8 @@ static int	open_out(t_redir *red, int *inout)
 	}
 	else if (red->redir == APP)
 	{
-		inout[0] = open(red->filename[0], O_WRONLY | O_CREAT, 0644);
-		if (inout[0] == -1)
+		inout[1] = open(red->filename[0], O_WRONLY | O_CREAT, 0644);
+		if (inout[1] == -1)
 		{
 			err = errno;
 			ft_perror3("minishell: ", red->filename[0], ": ");
@@ -51,7 +50,7 @@ static int	open_redir_type(t_redir *red, int *inout)
 		ft_perror("minishell: ambiguous redirect\n");
 		return (1);
 	}
-	if (red->redir == IN || red->redir == HDOC)
+	if (red->redir == IN || red->redir == HDOC_REDIR)
 	{
 		inout[0] = open(red->filename[0], O_RDONLY);
 		if (inout[0] == -1)

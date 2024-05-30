@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:12:46 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/30 23:39:37 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/30 23:51:45 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	sig_mode(int mode)
 	}
 	else if (mode == SIG_EXEC)
 	{
-		signal(SIGINT, &foo);
+		signal(SIGINT, &foo);//sig_dfl ?
 		signal(SIGQUIT, &foo);
 		show_ctl(1);
 	}
