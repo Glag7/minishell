@@ -125,8 +125,9 @@ void	remove_dup_par(t_list **lst);
 
 ////////////////////////////////////////////
 
-/* BUILTINS */
+/* ----- BUILTINS ----- */
 
+// Structure used to hide PWD and OLDPWD
 typedef struct s_envp
 {
 	char	**envp;
@@ -134,25 +135,29 @@ typedef struct s_envp
 	bool	show_oldpwd;
 }	t_envp;
 
-// builtins
-int		builtin_cd(int argc, char **argv, t_envp *envp_status);
-int		builtin_env(int argc, char **argv, t_envp envp_status);
-int		builtin_pwd(int argc, char **argv, char **envp);
-int		builtin_unset(int argc, char **argv, t_envp *envp_status);
-int		builtin_export(int argc, char **argv, t_envp *envp_status);
-int		builtin_exit(int argc, char **argv, char **envp);
-int		builtin_echo(int argc, char **argv, char **envp);
+// Prototypes
+int		builtin_cd(int argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_env(int argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_pwd(int argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_unset(int argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_export(int argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_exit(int argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_echo(int argc, char **argv, t_envp *envp_status, int *fds);
 bool	update_cd_envp(t_envp *envp_status);
-char	export_to_envp(char **argv, t_envp *envp_status);
-char	check_existence(char *var, char **envp);
-char	check_syntax(char *var);
-char	export_only(t_envp envp_status);
-char	*ft_strappend(char *src1, char *src2, char mode);
-char	**get_var(char **envp, char *var);
+int		export_to_envp(char **argv, t_envp *envp_status);
+int		update_envp(char **new_envp, char **argv, t_envp *envp_status,
+		size_t len);
+int		copy_envp(char **new_envp, char **old_envp, size_t len);
+int		check_existence(char *var, char **envp);
+int		check_syntax(char *var);
+int		export_only(t_envp envp_status, int fd);
+char		*ft_strappend(char *src1, char *src2, char mode);
+char		**get_var(char **envp, char *var);
 size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
 void	remove_var(char **envp, char *var, void (*del)(void *));
-////////////////////////////
+
+////////////////////////////////////////////
 
 /* EXEC */
 

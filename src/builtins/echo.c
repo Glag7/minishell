@@ -6,11 +6,13 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:10:32 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/01 13:58:05 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/28 19:09:36 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern volatile sig_atomic_t	g_sig;
 
 static bool	get_option_nl(char **argv, size_t *i_ptr)
 {
@@ -37,31 +39,35 @@ static bool	get_option_nl(char **argv, size_t *i_ptr)
 	return (nl);
 }
 
-int	builtin_echo(int argc, char **argv, char **envp)
+static int	write_loop(char **argv, bool nl, size_t i, int fd)
 {
-	bool	nl;
 	char	*arg;
-	int		res;
-	size_t	len;
-	size_t	i;
 
-	(void)envp;
-	(void)argc;
-	nl = get_option_nl(argv, &i);
 	arg = argv[i];
 	while (arg != NULL)
 	{
-		len = ft_strlen(arg);
-		if (argv[i + 1] != NULL)
-			arg[len] = ' ';
-		res = write(1, arg, len + 1);
-		arg[len] = '\0';
-		if (res == -1)
+		if (g_sig == 2)
+		{
+			if (write(fd, "\n", 1) == -1)
+				return (1);
+			return (130);
+		}
+		if (write(fd, arg, ft_strlen(arg)) == -1
+			|| (argv[i + 1] != NULL && write(fd, " ", 1) == -1))
 			return (1);
 		i++;
 		arg = argv[i];
 	}
-	if (nl == 1 && write(1, "\n", 1) == -1)
+	if (nl == 1 && write(fd, "\n", 1) == -1)
 		return (1);
 	return (0);
+}
+
+int	builtin_echo(int argc, char **argv, t_envp *envp_status, int *fds)
+{
+	size_t	i;
+
+	(void)argc;
+	(void)envp_status;
+	return (write_loop(argv, get_option_nl(argv, &i), i, fds[WRITE]));
 }

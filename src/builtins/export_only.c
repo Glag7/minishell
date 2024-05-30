@@ -6,13 +6,15 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:39:36 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/01 14:12:37 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/28 19:15:00 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	strgreater(void *ptr1, void *ptr2)
+extern volatile sig_atomic_t	g_sig;
+
+static int	strgreater(void *ptr1, void *ptr2)
 {
 	size_t	i;
 	char	*str1;
@@ -38,7 +40,7 @@ static char	strgreater(void *ptr1, void *ptr2)
 	return (0);
 }
 
-static void	selection_sort(void **arr, size_t len, char (*cmp)(void *, void *))
+static void	selection_sort(void **arr, size_t len, int (*cmp)(void *, void *))
 {
 	void	*swap;
 	size_t	i;
@@ -91,23 +93,23 @@ static char	**sort_envp(char **envp, bool pwd, bool oldpwd)
 	return (sorted);
 }
 
-static char	print_export(char *var)
+static int	print_export(char *var, int fd)
 {
 	size_t	i;
 
 	i = len_until_char(var, '=');
-	if (write(1, "declare -x ", 11) == -1 || write(1, var, i) == -1)
+	if (write(fd, "declare -x ", 11) == -1 || write(fd, var, i) == -1)
 		return (1);
-	if (var[i] == '=' && (write(1, "=\"", 2) == -1
-			|| write(1, &var[i + 1], ft_strlen(&var[i + 1])) == -1
-			|| write(1, "\"\n", 2) == -1))
+	if (var[i] == '=' && (write(fd, "=\"", 2) == -1
+			|| write(fd, &var[i + 1], ft_strlen(&var[i + 1])) == -1
+			|| write(fd, "\"\n", 2) == -1))
 		return (1);
-	if (var[i] != '=' && write(1, "\n", 1) == -1)
+	if (var[i] != '=' && write(fd, "\n", 1) == -1)
 		return (1);
 	return (0);
 }
 
-char	export_only(t_envp envp_status)
+int	export_only(t_envp envp_status, int fd)
 {
 	char	**sorted;
 	size_t	i;
@@ -119,7 +121,12 @@ char	export_only(t_envp envp_status)
 		return (2);
 	while (sorted[i] != NULL)
 	{
-		if (print_export(sorted[i]) != 0)
+		if (g_sig == 2)
+		{
+			free(sorted);
+			return (130);
+		}
+		if (print_export(sorted[i], fd) != 0)
 		{
 			free(sorted);
 			return (1);

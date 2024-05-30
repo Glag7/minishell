@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:13:27 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/01 14:08:23 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/28 19:06:18 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,14 @@ static int	change_directory(t_envp *envp_status, char *pathname)
 	return (0);
 }
 
-int	builtin_cd(int argc, char **argv, t_envp *envp_status)
+int	builtin_cd(int argc, char **argv, t_envp *envp_status, int *fds)
 {
 	char	*pathname;
 
 	if (check_envp(argc, envp_status->envp, argv) != 0)
 		return (1);
 	if (argc <= 1)
-		pathname = ft_strdup(&((*get_var(envp_status->envp, "HOME"))[5]));
+		pathname = ft_strdup(&(*get_var(envp_status->envp, "HOME"))[5]);
 	else if (ft_strncmp(argv[1], "-", -1) == 0)
 		pathname = ft_strdup(&(*get_var(envp_status->envp, "OLDPWD"))[7]);
 	else if (argv[1][0] == '~')
@@ -113,8 +113,8 @@ int	builtin_cd(int argc, char **argv, t_envp *envp_status)
 		return (2);
 	}
 	if (argc > 1 && ft_strncmp(argv[1], "-", -1) == 0
-		&& (write(1, pathname, ft_strlen(pathname)) == -1
-			|| write(1, "\n", 1) == -1))
+		&& (write(fds[WRITE], pathname, ft_strlen(pathname)) == -1
+			|| write(fds[WRITE], "\n", 1) == -1))
 	{
 		free(pathname);
 		return (1);

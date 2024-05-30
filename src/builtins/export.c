@@ -6,35 +6,50 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:03:21 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/26 16:03:36 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/28 18:20:06 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	check_syntax(char *var)
+int	copy_envp(char **new_envp, char **old_envp, size_t len)
+{
+	size_t	i;
+	char	*old_var;
+
+	i = 0;
+	old_var = old_envp[0];
+	while (old_var != NULL)
+	{
+		new_envp[i] = ft_strdup(old_var);
+		if (new_envp[i] == NULL)
+			return (1);
+		i++;
+		old_var = old_envp[i];
+	}
+	while (i < len)
+	{
+		new_envp[i] = NULL;
+		i++;
+	}
+	return (0);
+}
+
+int	check_syntax(char *var)
 {
 	size_t	i;
 
 	if (ft_is(ALPHA, var[0]) == 0 && var[0] != '_')
-	{
-		ft_perror("minishell: export: '");
-		ft_perror(var);
-		ft_perror("': not a valid identifier\n");
 		return (1);
-	}
 	i = 0;
 	while (ft_is(ALNUM, var[i]) != 0 || var[i] == '_')
 		i++;
 	if (var[i] == 0 || var[i] == '=' || (var[i] == '+' && var[i + 1] == '='))
 		return (0);
-	ft_perror("minishell: export: '");
-	ft_perror(var);
-	ft_perror("': not a valid identifier\n");
 	return (1);
 }
 
-char	check_existence(char *var, char **envp)
+int	check_existence(char *var, char **envp)
 {
 	size_t	len_name;
 	char	**old_var;
@@ -48,17 +63,17 @@ char	check_existence(char *var, char **envp)
 	old_var = get_var(envp, var);
 	var[len_name] = c;
 	if (old_var == NULL)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
-int	builtin_export(int argc, char **argv, t_envp *envp_status)
+int	builtin_export(int argc, char **argv, t_envp *envp_status, int *fds)
 {
 	int	error;
 
 	if (argc <= 1)
 	{
-		error = (int)export_only(*envp_status);
+		error = (int)export_only(*envp_status, fds[WRITE]);
 		if (error == 2)
 			ft_perror("minishell: export: malloc(): \
 			failed memory allocation\n");

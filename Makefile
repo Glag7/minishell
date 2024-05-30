@@ -31,7 +31,8 @@ SRC = main.c \
       $(BUILTINS)env.c \
       $(BUILTINS)exit.c \
       $(BUILTINS)export.c \
-      $(BUILTINS)export_envp.c \
+      $(BUILTINS)export_alloc_envp.c \
+      $(BUILTINS)export_update_envp.c \
       $(BUILTINS)export_only.c \
       $(BUILTINS)pwd.c \
       $(BUILTINS)unset.c \

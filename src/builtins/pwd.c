@@ -6,13 +6,13 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:16:23 by ttrave            #+#    #+#             */
-/*   Updated: 2024/04/24 13:06:59 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/28 18:18:30 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_pwd(int argc, char **argv, char **envp)
+int	builtin_pwd(int argc, char **argv, t_envp *envp_status, int *fds)
 {
 	char	*buffer;
 	ssize_t	res;
@@ -20,7 +20,7 @@ int	builtin_pwd(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
+	(void)envp_status;
 	buffer = getcwd(NULL, 0);
 	if (buffer == NULL)
 	{
@@ -30,7 +30,7 @@ int	builtin_pwd(int argc, char **argv, char **envp)
 	}
 	len = ft_strlen(buffer);
 	buffer[len] = '\n';
-	res = write(1, buffer, len + 1);
+	res = write(fds[WRITE], buffer, len + 1);
 	free(buffer);
 	if (res == -1)
 		return (1);
