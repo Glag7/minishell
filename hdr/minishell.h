@@ -146,7 +146,8 @@ int		builtin_echo(int argc, char **argv, t_envp *envp_status, int *fds);
 bool	update_cd_envp(t_envp *envp_status);
 int		export_to_envp(char **argv, t_envp *envp_status);
 int		update_envp(char **new_envp, char **argv, t_envp *envp_status,
-		size_t len)
+		size_t len);
+int		copy_envp(char **new_envp, char **old_envp, size_t len);
 int		check_existence(char *var, char **envp);
 int		check_syntax(char *var);
 int		export_only(t_envp envp_status, int fd);

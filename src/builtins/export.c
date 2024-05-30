@@ -12,6 +12,29 @@
 
 #include "minishell.h"
 
+int	copy_envp(char **new_envp, char **old_envp, size_t len)
+{
+	size_t	i;
+	char	*old_var;
+
+	i = 0;
+	old_var = old_envp[0];
+	while (old_var != NULL)
+	{
+		new_envp[i] = ft_strdup(old_var);
+		if (new_envp[i] == NULL)
+			return (1);
+		i++;
+		old_var = old_envp[i];
+	}
+	while (i < len)
+	{
+		new_envp[i] = NULL;
+		i++;
+	}
+	return (0);
+}
+
 int	check_syntax(char *var)
 {
 	size_t	i;
