@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:23:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/28 17:03:51 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:22:46 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ static int	build_hdoc(t_list **redirs, t_tok *tok)
 
 static int	build_redir(t_list **redirs, t_list *curr)
 {
-	t_tok	*tok;
 	t_redir	*redir;
 
-	tok = (t_tok *)curr->content;
 	redir = add_redir_lst(redirs, ((t_tok *)curr->content)->type);
 	if (redir == NULL)
 		return (1);
