@@ -16,6 +16,7 @@ static void	show_ctl(bool show)
 {
 	struct termios	termios_data;
 
+	ft_bzero(&termios_data, sizeof(termios_data));
 	if (!isatty(0))
 		return ;
 	tcgetattr(0, &termios_data);
