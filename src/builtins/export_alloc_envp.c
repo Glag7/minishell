@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:35:07 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/29 19:25:35 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/31 13:57:52 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static size_t	new_arg(char **argv, size_t i)
 	return (0);
 }
 
-static size_t	count_new_len(char **argv, char **envp)
+static size_t	count_new_len(char **argv, char **envp, int *error)
 {
 	size_t	len;
 	size_t	i;
@@ -60,11 +60,11 @@ static size_t	count_new_len(char **argv, char **envp)
 		{
 			if (check_syntax(arg) == 0 && new_arg(argv, i) == 0)
 				len++;
-			else if (new_arg(argv, i) == 0)
+			if (check_syntax(arg) == 1)
 			{
-				ft_perror("minishell: export: '");
-				ft_perror(arg);
-				ft_perror("': not a valid identifier\n");
+				*error = 1;
+				ft_perror3("minishell: export: '", arg,
+					"': not a valid identifier\n");
 			}
 		}
 		arg = argv[++i];
@@ -76,8 +76,10 @@ int	export_to_envp(char **argv, t_envp *envp_status)
 {
 	size_t	new_len;
 	char	**new_envp;
+	int		error;
 
-	new_len = count_new_len(argv, envp_status->envp);
+	error = 0;
+	new_len = count_new_len(argv, envp_status->envp, &error);
 	new_envp = malloc((new_len + 1) * sizeof(char *));
 	if (new_envp == NULL)
 		return (1);
@@ -94,5 +96,5 @@ int	export_to_envp(char **argv, t_envp *envp_status)
 	}
 	ft_freearr(envp_status->envp);
 	envp_status->envp = new_envp;
-	return (0);
+	return (error);
 }
