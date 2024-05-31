@@ -14,9 +14,7 @@
 
 static int	exit_error(char *arg)
 {
-	ft_perror("minishell: exit: ");
-	ft_perror(arg);
-	ft_perror(": numeric argument required\n");
+	ft_perror3("minishell: exit: ", arg, ": numeric argument required\n");
 	return (2);
 }
 
@@ -39,13 +37,17 @@ static int	get_exit_code(char *arg)
 	{
 		nbr = 10 * nbr + arg[i] - 48;
 		if (ft_is(DIGIT, arg[i]) == 0 || nbr < 0)
-			return (exit_error(arg));
+		{
+			ft_perror3("minishell: exit: ", arg,
+				": numeric argument required\n");
+			return (2);
+		}
 		i++;
 	}
 	return ((sign * nbr) & 255);
 }
 
-int	builtin_exit(int argc, char **argv, t_envp *envp_status, int *fds)
+int	builtin_exit(size_t argc, char **argv, t_envp *envp_status, int *fds)
 {
 	(void)envp_status;
 	(void)fds;

@@ -41,7 +41,7 @@ static bool	print_env(char **envp, bool pwd, bool oldpwd, int fd)
 	return (0);
 }
 
-int	builtin_env(int argc, char **argv, t_envp *envp_status, int *fds)
+int	builtin_env(size_t argc, char **argv, t_envp *envp_status, int *fds)
 {
 	if (argc > 1 && argv[1][0] == '-' &&
 		((argv[1][1] != '\0' && argv[1][1] != '-')
