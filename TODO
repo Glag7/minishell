@@ -1,5 +1,7 @@
 size_t argc
 
+sig builtin sus
+
 parsing : stop
 pre exec : stop
 redirections : stop ?

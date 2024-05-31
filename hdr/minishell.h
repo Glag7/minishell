@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 15:33:53 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:54:04 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,11 @@ void	free_fnames(t_str *fnames);
 # define SIG_INTER 1
 # define SIG_HDOC 2
 # define SIG_EXEC 4
+# define SIG_BUILTIN 5
 
+void	handle_builtin(int sig);
+void	handle_hdoc(int sig);
+void	handle_inter(int sig);
 void	sig_mode(int mode);
 ///////////////////////////////////////////
 

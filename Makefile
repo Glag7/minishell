@@ -39,6 +39,7 @@ SRC = main.c \
       $(BUILTINS)wrap.c \
       \
       $(COMMON)sig.c \
+      $(COMMON)sig_handle.c \
       $(COMMON)init_mini.c \
       $(COMMON)wrap.c \
       $(COMMON)free_lst.c \
