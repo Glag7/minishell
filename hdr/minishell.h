@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/30 22:25:03 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/31 14:04:39 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,13 @@ int		builtin_echo(int argc, char **argv, t_envp *envp_status, int *fds);
 bool	update_cd_envp(t_envp *envp_status);
 int		export_to_envp(char **argv, t_envp *envp_status);
 int		update_envp(char **new_envp, char **argv, t_envp *envp_status,
-		size_t len);
+			size_t len);
 int		copy_envp(char **new_envp, char **old_envp, size_t len);
 int		check_existence(char *var, char **envp);
 int		check_syntax(char *var);
 int		export_only(t_envp envp_status, int fd);
-char		*ft_strappend(char *src1, char *src2, char mode);
-char		**get_var(char **envp, char *var);
+char	*ft_strappend(char *src1, char *src2, char mode);
+char	**get_var(char **envp, char *var);
 size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
 void	remove_var(char **envp, char *var, void (*del)(void *));

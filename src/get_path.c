@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:22:18 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/30 19:53:29 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/31 14:05:07 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	srch_path(t_mini *mini, char **cmd, char **dst, char *path)
 	while (pathes[i])
 	{
 		if (assign_err(mini, &err,
-			try_path(mini, pathes[i], cmd[0], dst)))
+				try_path(mini, pathes[i], cmd[0], dst)))
 			break ;
 		i++;
 	}

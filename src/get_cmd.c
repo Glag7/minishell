@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:22:21 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 13:20:43 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/31 14:13:06 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ char	**lst_to_strs(t_list *lst)
 int	get_cmd(t_mini *mini, t_cmd *cmd, t_list *toparse)
 {
 	t_list	*redir;
-	t_tok	*tok;
+	t_tok	*tk;
 
 	redir = cmd->redir;
 	while (redir)
 	{
-		tok = (t_tok *)redir;
-		if (tok->tok == HDOC && tok->hdoc.expand && hdoc_replace(mini, tok->hdoc))
+		tk = (t_tok *)redir;
+		if (tk->tok == HDOC && tk->hdoc.expand && hdoc_replace(mini, tk->hdoc))
 		{
 			ft_lstclear(&cmd->redir, &free_lexec);
 			ft_lstclear(&toparse, &free_lexec);
