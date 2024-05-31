@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 19:14:01 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/28 18:07:48 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:00:28 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_perror(char	*s)
 
 void	check_err(int err, int forked)
 {
-	if (err == ERR_BYEBYE && forked == 0)
+	if (err == ERR_BYEBYE && forked == 0 && isatty(0))
 		ft_perror("exit\n");
 	else if (err == ERR_AINTNOWAY)
 		ft_perror(MSG_MALLOC);
