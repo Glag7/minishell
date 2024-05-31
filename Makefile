@@ -11,6 +11,7 @@ HDR_DIR = hdr/
 PARSING = parsing/
 BUILTINS = builtins/
 COMMON = common/
+EXEC = exec/
 
 SRC = main.c \
       $(PARSING)parse_quotes.c \
@@ -47,28 +48,28 @@ SRC = main.c \
       $(COMMON)dup_envp_shlvl.c \
       $(COMMON)output.c \
       \
-      execline.c \
-      fill_hdoc.c \
-      fill_file.c \
-      hdoc_replace.c \
-      varchr.c \
-      waitall.c \
-      update_pipes.c \
-      find_next_op.c \
-      exec_cmd.c \
-      parse_cmd.c \
-      get_redir.c \
-      get_fnames.c \
-      split_words.c \
-      add_word_str.c \
-      exp_wdcard.c \
-      do_cmd.c \
-      add_wdname.c \
-      get_cmd.c \
-      build_redirs.c \
-      open_redir.c \
-      get_path.c \
-      get_path_err.c
+      $(EXEC)execline.c \
+      $(EXEC)fill_hdoc.c \
+      $(EXEC)fill_file.c \
+      $(EXEC)hdoc_replace.c \
+      $(EXEC)varchr.c \
+      $(EXEC)waitall.c \
+      $(EXEC)update_pipes.c \
+      $(EXEC)find_next_op.c \
+      $(EXEC)exec_cmd.c \
+      $(EXEC)parse_cmd.c \
+      $(EXEC)get_redir.c \
+      $(EXEC)get_fnames.c \
+      $(EXEC)split_words.c \
+      $(EXEC)add_word_str.c \
+      $(EXEC)exp_wdcard.c \
+      $(EXEC)do_cmd.c \
+      $(EXEC)add_wdname.c \
+      $(EXEC)get_cmd.c \
+      $(EXEC)build_redirs.c \
+      $(EXEC)open_redir.c \
+      $(EXEC)get_path.c \
+      $(EXEC)get_path_err.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -96,7 +97,10 @@ $(OBJ_DIR)$(BUILTINS) : $(OBJ_DIR)
 $(OBJ_DIR)$(COMMON) : $(OBJ_DIR)
 	@ mkdir -p $(OBJ_DIR)$(COMMON)
 
-$(NAME) : $(LIB) $(OBJ_DIR)$(PARSING) $(OBJ_DIR)$(COMMON) $(OBJ_DIR)$(BUILTINS) $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ))
+$(OBJ_DIR)$(EXEC) : $(OBJ_DIR)
+	@ mkdir -p $(OBJ_DIR)$(EXEC)
+
+$(NAME) : $(LIB) $(OBJ_DIR)$(PARSING) $(OBJ_DIR)$(COMMON) $(OBJ_DIR)$(BUILTINS) $(OBJ_DIR)$(EXEC) $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ))
 	@ $(COMP) $(CFLAGS) $(addprefix $(OBJ_DIR), $(OBJ)) $(LIB) -o $@ -lreadline
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
