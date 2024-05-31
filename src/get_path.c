@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:22:18 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 14:05:07 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:04:00 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,25 @@ static int	assign_err(t_mini *mini, int *err, int res)
 
 static int	try_path(t_mini *mini, char *path, char *cmd, char **dst)
 {
+	struct stat	stat;
+
 	path = ft_strjoin(path, "/");
 	if (path == NULL)
-	{
 		mini->err = ERR_AINTNOWAY;
+	if (path == NULL)
 		return (1);
-	}
 	cmd = ft_strjoin(path, cmd);
 	free(path);
 	if (cmd == NULL)
-	{
 		mini->err = ERR_AINTNOWAY;
+	if (cmd == NULL)
 		return (1);
-	}
-	if (access(cmd, X_OK) == 0)
+	if (access(cmd, X_OK) == 0 && !lstat(cmd, &stat))
 	{
+		if (S_ISDIR(stat.st_mode))
+			free(cmd);
+		if (S_ISDIR(stat.st_mode))
+			return (EISDIR);
 		*dst = cmd;
 		return (0);
 	}
@@ -66,29 +70,17 @@ static int	srch_path(t_mini *mini, char **cmd, char **dst, char *path)
 		i++;
 	}
 	if (mini->err != ERR_AINTNOWAY && err)
-	{
-		if (err == ENOENT)
-		{
-			ft_perror3("minishell: ", cmd[0], ": ");
-			ft_perror3("command not found", "\n", "");
-			mini->exc = 127;
-		}
-		else
-		{
-			ft_perror3("minishell: ", cmd[0], ": ");
-			ft_perror3(strerror(err), "\n", "");
-			mini->exc = 126;
-		}
-	}
+		get_path_err(mini, err, cmd[0]);
 	ft_freearr(pathes);
 	return (*dst == NULL);
 }
 
 static int	srch_absolute(t_mini *mini, char **cmd, char **dst)
 {
-	int	err;
+	int			err;
+	struct stat	stat;
 
-	if (access(cmd[0], X_OK))
+	if (access(cmd[0], X_OK) || lstat(cmd[0], &stat))
 	{
 		err = errno;
 		ft_perror3("minishell: ", cmd[0], ": ");
@@ -97,6 +89,13 @@ static int	srch_absolute(t_mini *mini, char **cmd, char **dst)
 			mini->exc = 127;
 		else
 			mini->exc = 126;
+		return (1);
+	}
+	if (S_ISDIR(stat.st_mode))
+	{
+		ft_perror3("minishell: ", cmd[0], ": ");
+		ft_perror3(strerror(EISDIR), "\n", "");
+		mini->exc = 126;
 		return (1);
 	}
 	*dst = ft_strdup(cmd[0]);

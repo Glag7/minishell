@@ -66,7 +66,8 @@ SRC = main.c \
       get_cmd.c \
       build_redirs.c \
       open_redir.c \
-      get_path.c
+      get_path.c \
+      get_path_err.c
 
 OBJ = $(SRC:.c=.o)
 

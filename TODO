@@ -1,4 +1,4 @@
-append broken
+isdir ?
 
 no exec if hdoc signaled
 

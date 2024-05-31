@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 14:04:39 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:04:36 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <dirent.h>
 
 ////////////////////////
@@ -211,6 +213,7 @@ int		build_redirs(t_mini *mini, t_cmd *cmd, t_list *lst);
 int		open_redir(t_mini *mini, t_list *redir, int *inout);
 int		fill_file(int fd, t_str lim, t_mini *mini);
 int		get_path(t_mini *mini, char **cmd, char **dst);
+void	get_path_err(t_mini *mini, int err, char *name);
 void	waitall(t_mini *mini);
 void	do_builtin(t_mini *mini, t_cmd *cmd);
 void	do_cmd(t_mini *mini, t_cmd *cmd);
