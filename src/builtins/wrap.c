@@ -6,7 +6,7 @@
 /*   By: glag <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 22:01:24 by glag              #+#    #+#             */
-/*   Updated: 2024/05/31 19:48:46 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/31 20:00:44 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	wrap_builtin(t_mini *mini, char **argv, int *inout)
 		return (wrap_exit(mini, argc, argv));
 	mini->exc = err;
 	if (err == 2)
-		mini->err = ERR_AINTNOWAY;
+		mini->err = ERR_SHUTUP;
 }
