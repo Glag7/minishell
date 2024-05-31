@@ -6,7 +6,7 @@
 /*   By: glag <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 22:01:24 by glag              #+#    #+#             */
-/*   Updated: 2024/05/31 13:06:59 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/31 19:48:46 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	wrap_exit(t_mini *mini, int argc, char **argv)
 
 void	wrap_builtin(t_mini *mini, char **argv, int *inout)
 {
-	int	argc;
-	int	err;
+	size_t	argc;
+	int		err;
 
 	argc = 0;
 	while (argv[argc])
