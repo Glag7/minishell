@@ -6,13 +6,13 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:13:27 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/28 19:06:18 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/31 17:46:27 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_envp(int argc, char **envp, char **argv)
+static int	check_envp(size_t argc, char **envp, char **argv)
 {
 	if (argc >= 3)
 	{
@@ -35,31 +35,22 @@ static int	check_envp(int argc, char **envp, char **argv)
 	return (0);
 }
 
-static char	*get_absolute_path(char *arg)
-{
-	char	*pathname;
-
-	pathname = getcwd(NULL, 0);
-	if (pathname == NULL)
-		return (NULL);
-	pathname = ft_strappend(pathname, "/", 1);
-	if (pathname == NULL)
-		return (NULL);
-	pathname = ft_strappend(pathname, arg, 1);
-	return (pathname);
-}
-
-static char	*get_savepoint(char *pathname)
+static char	*get_savepoint(char *pathname, int *error)
 {
 	char	*savepoint;
 
+	*error = 0;
 	savepoint = getcwd(NULL, 0);
 	if (savepoint == NULL)
 	{
-		free(pathname);
-		ft_perror("minishell: cd: getcwd(): malloc(): failed memory \
-			allocation\n");
-		return (NULL);
+		if (errno == 2)
+			*error = 2;
+		else
+		{
+			free(pathname);
+			ft_perror("minishell: cd: getcwd(): malloc(): failed memory \
+allocation\n");
+		}
 	}
 	return (savepoint);
 }
@@ -69,8 +60,8 @@ static int	change_directory(t_envp *envp_status, char *pathname)
 	int		error;
 	char	*savepoint;
 
-	savepoint = get_savepoint(pathname);
-	if (savepoint == NULL)
+	savepoint = get_savepoint(pathname, &error);
+	if (savepoint == NULL && error != 2)
 		return (2);
 	error = chdir(pathname);
 	free(pathname);
@@ -78,8 +69,8 @@ static int	change_directory(t_envp *envp_status, char *pathname)
 	{
 		free(savepoint);
 		error = errno;
-		ft_perror("minishell: cd: chdir(): ");
-		perror(strerror(error));
+		savepoint = strerror(errno);
+		ft_perror3("minishell: cd: ", savepoint, "\n");
 		return (1);
 	}
 	if (update_cd_envp(envp_status) == 1)
@@ -93,7 +84,7 @@ static int	change_directory(t_envp *envp_status, char *pathname)
 	return (0);
 }
 
-int	builtin_cd(int argc, char **argv, t_envp *envp_status, int *fds)
+int	builtin_cd(size_t argc, char **argv, t_envp *envp_status, int *fds)
 {
 	char	*pathname;
 
@@ -103,8 +94,8 @@ int	builtin_cd(int argc, char **argv, t_envp *envp_status, int *fds)
 		pathname = ft_strdup(&(*get_var(envp_status->envp, "HOME"))[5]);
 	else if (ft_strncmp(argv[1], "-", -1) == 0)
 		pathname = ft_strdup(&(*get_var(envp_status->envp, "OLDPWD"))[7]);
-	else if (argv[1][0] == '~')
-		pathname = get_absolute_path(argv[1]);
+	else if (ft_strncmp(argv[1], "~", -1) == 0)
+		pathname = ft_strjoin("./", argv[1]);
 	else
 		pathname = ft_strdup(argv[1]);
 	if (pathname == NULL)

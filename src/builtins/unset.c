@@ -14,7 +14,7 @@
 
 extern volatile sig_atomic_t	g_sig;
 
-int	builtin_unset(int argc, char **argv, t_envp *envp_status, int *fds)
+int	builtin_unset(size_t argc, char **argv, t_envp *envp_status, int *fds)
 {
 	size_t	i;
 	char	*arg;

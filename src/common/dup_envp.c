@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:27:02 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/03 19:57:48 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/31 17:33:19 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,19 @@ static int	update_oldpwd(char **envp, size_t *len)
 	return (0);
 }
 
-static int	update_pwd(char **envp, size_t *len)
+static int	update_pwd(char **envp, char **sh_pwd, size_t *len, char *pwd)
 {
 	char	**old_pwd;
-	char	*pwd;
 	char	*new_pwd;
 
 	pwd = getcwd(NULL, 0);
+	if (errno == 2)
+	{
+		ft_perror(WARNING_SHELL_INIT);
+		if (sh_pwd == NULL || (*sh_pwd)[3] == '\0')
+			return (0);
+		pwd = ft_strdup(&(*sh_pwd)[4]);
+	}
 	if (pwd == NULL)
 		return (1);
 	new_pwd = ft_strjoin("PWD=", pwd);
@@ -73,19 +79,15 @@ static int	update_pwd(char **envp, size_t *len)
 		return (1);
 	old_pwd = get_var(envp, "PWD");
 	if (old_pwd != NULL)
-	{
 		free(*old_pwd);
+	if (old_pwd != NULL)
 		*old_pwd = new_pwd;
-	}
 	else
-	{
-		envp[*len] = new_pwd;
-		(*len)++;
-	}
+		envp[(*len)++] = new_pwd;
 	return (0);
 }
 
-static int	check_pwd_shlvl(char ***envp_ptr, size_t len)
+static int	check_pwd_shlvl(char ***envp_ptr, char **old_envp, size_t len)
 {
 	char	**envp;
 
@@ -93,7 +95,7 @@ static int	check_pwd_shlvl(char ***envp_ptr, size_t len)
 	envp[len + 1] = NULL;
 	envp[len + 2] = NULL;
 	envp[len + 3] = NULL;
-	if (update_pwd(envp, &len) != 0)
+	if (update_pwd(envp, get_var(old_envp, "PWD"), &len, NULL) != 0)
 	{
 		ft_freearr(envp);
 		*envp_ptr = NULL;
@@ -140,5 +142,5 @@ int	dup_envp(char ***envp_ptr)
 		}
 		i++;
 	}
-	return (check_pwd_shlvl(envp_ptr, len));
+	return (check_pwd_shlvl(envp_ptr, envp, len));
 }

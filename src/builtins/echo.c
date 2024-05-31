@@ -63,7 +63,7 @@ static int	write_loop(char **argv, bool nl, size_t i, int fd)
 	return (0);
 }
 
-int	builtin_echo(int argc, char **argv, t_envp *envp_status, int *fds)
+int	builtin_echo(size_t argc, char **argv, t_envp *envp_status, int *fds)
 {
 	size_t	i;
 

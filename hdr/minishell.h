@@ -137,14 +137,18 @@ typedef struct s_envp
 	bool	show_oldpwd;
 }	t_envp;
 
+// Warning macro
+# define WARNING_SHELL_INIT	"shell-init: error retrieving current directory: \
+getcwd(): cannot access parent directories: no such file or directory\n"
+
 // Prototypes
-int		builtin_cd(int argc, char **argv, t_envp *envp_status, int *fds);
-int		builtin_env(int argc, char **argv, t_envp *envp_status, int *fds);
-int		builtin_pwd(int argc, char **argv, t_envp *envp_status, int *fds);
-int		builtin_unset(int argc, char **argv, t_envp *envp_status, int *fds);
-int		builtin_export(int argc, char **argv, t_envp *envp_status, int *fds);
-int		builtin_exit(int argc, char **argv, t_envp *envp_status, int *fds);
-int		builtin_echo(int argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_cd(size_t argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_env(size_t argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_pwd(size_t argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_unset(size_t argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_export(size_t argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_exit(size_t argc, char **argv, t_envp *envp_status, int *fds);
+int		builtin_echo(size_t argc, char **argv, t_envp *envp_status, int *fds);
 bool	update_cd_envp(t_envp *envp_status);
 int		export_to_envp(char **argv, t_envp *envp_status);
 int		update_envp(char **new_envp, char **argv, t_envp *envp_status,
