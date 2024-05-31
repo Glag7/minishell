@@ -6,18 +6,11 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 17:12:19 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 13:59:51 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/31 14:01:51 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*foo(const char *var1, int var2)
-{
-	(void) var1;
-	(void) var2;
-	return (NULL);
-}
 
 static int	event(void)
 {
@@ -48,6 +41,13 @@ void	init_mini(t_mini *mini, int argc, char **argv, char **envp)
 }
 
 #else
+
+static char	*foo(const char *var1, int var2)
+{
+	(void) var1;
+	(void) var2;
+	return (NULL);
+}
 
 void	init_mini(t_mini *mini, int argc, char **argv, char **envp)
 {
