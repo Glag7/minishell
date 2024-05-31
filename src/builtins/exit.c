@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:10:03 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/29 15:50:33 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/05/31 11:57:23 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	builtin_exit(int argc, char **argv, t_envp *envp_status, int *fds)
 {
 	(void)envp_status;
 	(void)fds;
-	ft_perror("exit\n");
 	if (argc <= 1)
 		return (0);
 	if (argc > 2)
