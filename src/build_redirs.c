@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:23:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/30 19:22:46 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/31 11:46:25 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	build_redir(t_list **redirs, t_list *curr)
 {
 	t_redir	*redir;
 
-	redir = add_redir_lst(redirs, ((t_tok *)curr->content)->type);
+	redir = add_redir_lst(redirs, ((t_tok *)curr->content)->redir);
 	if (redir == NULL)
 		return (1);
 	redir->filename = lst_to_strs(curr->next);

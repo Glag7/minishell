@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:41:34 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 00:11:02 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/31 11:46:11 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	open_out(t_redir *red, int *inout)
 	}
 	else if (red->redir == APP)
 	{
-		inout[1] = open(red->filename[0], O_WRONLY | O_CREAT, 0644);
+		inout[1] = open(red->filename[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (inout[1] == -1)
 		{
 			err = errno;
