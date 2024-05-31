@@ -1,6 +1,5 @@
-size_t argc
-
 sig builtin sus
+showctl ?
 
 parsing : stop
 pre exec : stop
