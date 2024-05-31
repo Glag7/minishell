@@ -79,7 +79,7 @@ void	do_builtin(t_mini *mini, t_cmd *cmd)
 	wrap_builtin(mini, cmd->cmd, inout);
 	sig_mode(SIG_IGNORE);
 	if (g_sig == 2)
-		ft_perror('\n');
+		ft_perror("\n");
 	g_sig = 0;
 	if (inout[0] != -1 && inout[0] != 0)
 		close(inout[0]);
