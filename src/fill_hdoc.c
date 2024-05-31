@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:46:04 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/05 19:03:07 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:33:37 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static int	open_file(t_mini *mini, char *name)
 	return (fd);
 }
 
-void	fill_heredocs(t_list *lst, t_mini *mini)
+int	fill_heredocs(t_list *lst, t_mini *mini)
 {
 	t_str	name;
 	int		fd;
@@ -126,13 +126,14 @@ void	fill_heredocs(t_list *lst, t_mini *mini)
 			name = (t_str){malloc(57), 56};
 			fd = open_file(mini, name.s);
 			if (fd == -1)
-				return ;
+				return (1);
 			err = fill_file(fd, ((t_tok *)lst->content)->hdoc.lim, mini);
 			free(((t_tok *)lst->content)->hdoc.lim.s);
 			((t_tok *)lst->content)->hdoc.lim = name;
 			if (err)
-				return ;
+				return (1);
 		}
 		lst = lst->next;
 	}
+	return (0);
 }

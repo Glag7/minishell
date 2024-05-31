@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:22:03 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/17 23:17:34 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/31 15:35:08 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,5 @@ int	fill_file(int fd, t_str lim, t_mini *mini)
 	sig_mode(SIG_INTER);
 	mini->exc = WEXITSTATUS(status);
 	close(fd);
-	return (mini->forked || mini->exc);
+	return (mini->forked || mini->exc || WIFSIGNALED(status));
 }

@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:53:42 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 11:58:35 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/31 15:36:35 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ static void	exec_line(t_mini *mini)
 	if (mini->exec == NULL)
 		return ;
 	mini->hdocs = NULL;
-	fill_heredocs(mini->exec, mini);//FIXME: must stop on ctrl c
-	if (mini->err == 0)
+	if (fill_heredocs(mini->exec, mini) == 0 && mini->err == 0)
 		execline(mini, mini->exec);
 	if (mini->forked == 0)
 		ft_lstclear(&mini->hdocs, &wrap_unlink);
