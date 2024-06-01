@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:03:46 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/24 15:25:34 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 19:20:28 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ static void	copy_loop(t_list *lst, t_list *curr, t_str *lim, size_t size)
 		ft_memcpy(lim->s + size, tok->quote.str.s,
 			ft_min(lim->len - size, tok->quote.str.len));
 		size += ft_min(lim->len - size, tok->quote.str.len);
+		tmp = curr->next;
+		ft_lstdelone(curr, &free);
+		curr = tmp;
+	}
+	while (curr)
+	{
+		tok = (t_tok *)curr->content;
+		if (!(tok->tok == UNDEF && tok->quote.str.len == 0))
+			break ;
 		tmp = curr->next;
 		ft_lstdelone(curr, &free);
 		curr = tmp;
