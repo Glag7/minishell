@@ -38,6 +38,7 @@ SRC = main.c \
       $(BUILTINS)pwd.c \
       $(BUILTINS)unset.c \
       $(BUILTINS)wrap.c \
+      $(BUILTINS)write_error.c \
       \
       $(COMMON)sig.c \
       $(COMMON)sig_handle.c \
