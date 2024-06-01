@@ -70,7 +70,7 @@ static int	change_directory(t_envp *envp_status, char *pathname)
 		free(savepoint);
 		savepoint = strerror(errno);
 		ft_perror3("minishell: cd: ", pathname, ": ");
-		ft_perror3(strerror(errno), "\n", "");
+		ft_perror3(savepoint, "\n", "");
 		free(pathname);
 		return (1);
 	}
