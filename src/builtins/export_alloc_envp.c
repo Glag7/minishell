@@ -89,7 +89,7 @@ int	export_to_envp(char **argv, t_envp *envp_status)
 		ft_freearr(new_envp);
 		return (2);
 	}
-	if (g_sig == 2)
+	if (g_sig == ENOENT)
 	{
 		ft_freearr(new_envp);
 		return (130);

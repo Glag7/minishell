@@ -26,7 +26,7 @@ int	builtin_unset(size_t argc, char **argv, t_envp *envp_status, int *fds)
 	arg = argv[1];
 	while (arg != NULL)
 	{
-		if (g_sig == 2)
+		if (g_sig == ENOENT)
 			return (130);
 		remove_var(envp_status->envp, arg, free);
 		if (ft_strncmp(arg, "PWD", -1) == 0)
