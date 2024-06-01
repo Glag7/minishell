@@ -1,3 +1,10 @@
+wildcards dans les variables
+
+empty strings in a"" ?
+
+
+fix make stupid ?
+
 sig builtin sus
 showctl ?
 
@@ -7,5 +14,3 @@ redirections : stop ?
 exec : rien
 
 cd: aller dans un dossier puis le supprimer
-
-check les leaks

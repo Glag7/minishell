@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 14:31:06 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/28 17:02:11 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:14:02 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 	}
 	replace_var_quote(toparse);
 	replace_var_quote(cmd->redir);
+	//parse_wdcard(&toparse, &mini->err, &mini->exc);
+	//parse_wdcard(&toparse, &mini->err, &mini->exc);
 	if (split_words(mini, &toparse) || split_words(mini, &cmd->redir))
 	{
 		ft_lstclear(&cmd->redir, &free_lexec);
