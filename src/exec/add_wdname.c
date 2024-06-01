@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 18:15:09 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/06/01 15:49:48 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:56:09 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,20 @@ int	add_wdname(t_list **files, t_list *curr, t_str name)
 			&& ((t_tok *)curr->content)->s.s[0] == '.') && name.s[0] == '.')
 		return (0);
 	tmp = name;
-	tok = (t_tok *)curr->content;
-	while (curr && tok->tok != UNDEF)
+	while (curr)
 	{
-		if (tok->tok == WDCARD)
-			any = 1;
-		else if (tok->tok == TXT)
+		tok = (t_tok *)curr->content;
+		any |= tok->tok == WDCARD;
+		if (tok->tok == TXT)
 		{
 			last = tok->s;
 			if (check_name(&tok->s, &tmp, any))
 				return (0);
 			any = 0;
 		}
+		else if (tok->tok == UNDEF)
+			break ;
 		curr = curr->next;
-		tok = (t_tok *)curr->content;
 	}
 	return (add_filename_maybe(files, name, last, any));
 }
