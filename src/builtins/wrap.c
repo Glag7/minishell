@@ -6,7 +6,7 @@
 /*   By: glag <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 22:01:24 by glag              #+#    #+#             */
-/*   Updated: 2024/06/01 14:30:25 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:45:17 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@ static void	wrap_exit(t_mini *mini, int argc, char **argv)
 		ft_perror("exit\n");
 	if (argc == 2)
 		mini->exc = builtin_exit(argc, argv, NULL, NULL);
-	else
-		builtin_exit(argc, argv, NULL, NULL);
 	if (argc <= 2)
 		mini->err = ERR_SHUTUP;
 	else
-		mini->exc = 1;
+		mini->exc = builtin_exit(argc, argv, NULL, NULL);
 }
 
 void	wrap_builtin(t_mini *mini, char **argv, int *inout)
