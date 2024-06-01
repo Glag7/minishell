@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 14:31:06 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/06/01 18:16:37 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:38:08 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	expand_vars(t_list *toparse, t_mini *mini, int *has_wdcard)
 		if (tok->tok == VAR)
 		{
 			tok->var.str = varchr(tok->var.str, mini->envp.envp, mini);
-			if (tok->var.qtype == 0 
+			if (tok->var.qtype == 0
 				&& tok->var.str.s
 				&& ft_strchr(tok->var.str.s, '*'))
 				*has_wdcard = 1;

@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:22:18 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 15:04:00 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:41:41 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,12 @@ int	get_path(t_mini *mini, char **cmd, char **dst)
 
 	if (!cmd[0])
 		return (1);
+	if (!cmd[0][0])
+	{
+		ft_perror("minishell: '': command not found\n");
+		mini->exc = 127;
+		return (1);
+	}
 	path = varchr((t_str){"PATH", 4}, mini->envp.envp, mini);
 	if (ft_strchr(cmd[0], '/') || path.len == 0)
 		return (srch_absolute(mini, cmd, dst));
