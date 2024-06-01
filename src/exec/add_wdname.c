@@ -6,19 +6,20 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 18:15:09 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:35:17 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:30:14 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	add_filename_maybe(t_list **files, t_str name,
-	t_str tmps, bool any)
+	t_str tofind, bool any)
 {
 	t_list	*tmp;
+	t_str	tmps;
 	t_tok	*tok;
 
-	if (!any && tmps.len != 0)
+	if (!any && ft_strncmp(name.s + name.len - tofind.len, tofind.s, -1))
 		return (0);
 	tmps.s = ft_strdup(name.s);
 	tmps.len = name.len;
@@ -44,7 +45,7 @@ int	check_name(t_str *tofind, t_str *name, int any)
 	if (any)
 		tmp.s = ft_strnstr(name->s, tofind->s, -1);
 	else
-		tmp.s = ft_strnstr(name->s, tofind->s, 1);
+		tmp.s = ft_strnstr(name->s, tofind->s, tofind->len);
 	if (tmp.s == NULL)
 		return (1);
 	tmp.s += tofind->len;
@@ -55,8 +56,8 @@ int	check_name(t_str *tofind, t_str *name, int any)
 
 int	add_wdname(t_list **files, t_list *curr, t_str name)
 {
-	t_tok	*tok;
 	t_str	tmp;
+	t_str	last;
 	bool	any;
 
 	if (!(((t_tok *)curr->content)->tok == TXT
@@ -66,18 +67,17 @@ int	add_wdname(t_list **files, t_list *curr, t_str name)
 	any = 0;
 	while (curr)
 	{
-		tok = (t_tok *)curr->content;
-		if (tok->tok == WDCARD)
-			any = 1;
-		else if (tok->tok == TXT)
+		any |= ((t_tok *)curr->content)->tok == WDCARD;
+		if (((t_tok *)curr->content)->tok == TXT)
 		{
-			if (check_name(&tok->s, &tmp, any))
+			last = ((t_tok *)curr->content)->s;
+			if (check_name(&((t_tok *)curr->content)->s, &tmp, any))
 				return (0);
 			any = 0;
 		}
-		else
+		else if (((t_tok *)curr->content)->tok == UNDEF)
 			break ;
 		curr = curr->next;
 	}
-	return (add_filename_maybe(files, name, tmp, any));
+	return (add_filename_maybe(files, name, last, any));
 }

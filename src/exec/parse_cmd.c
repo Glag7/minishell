@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 14:31:06 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/28 17:02:11 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:16:37 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,13 @@ static void	expand_vars(t_list *toparse, t_mini *mini, int *has_wdcard)
 	{
 		tok = (t_tok *)toparse->content;
 		if (tok->tok == VAR)
+		{
 			tok->var.str = varchr(tok->var.str, mini->envp.envp, mini);
+			if (tok->var.qtype == 0 
+				&& tok->var.str.s
+				&& ft_strchr(tok->var.str.s, '*'))
+				*has_wdcard = 1;
+		}
 		else if (tok->tok == WDCARD)
 			*has_wdcard = 1;
 		toparse = toparse->next;
@@ -117,7 +123,9 @@ int	parse_cmd(t_mini *mini, t_list *exec, t_cmd *cmd)
 	}
 	replace_var_quote(toparse);
 	replace_var_quote(cmd->redir);
-	if (split_words(mini, &toparse) || split_words(mini, &cmd->redir))
+	if (parse_wdcard_again(&toparse, &mini->err, &mini->exc)
+		|| parse_wdcard_again(&cmd->redir, &mini->err, &mini->exc)
+		|| split_words(mini, &toparse) || split_words(mini, &cmd->redir))
 	{
 		ft_lstclear(&cmd->redir, &free_lexec);
 		ft_lstclear(&toparse, &free_lexec);

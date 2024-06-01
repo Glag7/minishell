@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:54:34 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/24 14:30:07 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:11:28 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static void	copy_strings(t_list **lst, t_list *curr, t_str s)
 static void	skip_empty(t_list **lst, t_list *curr)
 {
 	while (curr && ((t_tok *)curr->content)->tok == UNDEF
-		&& ((t_tok *)curr->content)->quote.qtype
 		&& ((t_tok *)curr->content)->quote.str.len == 0)
 		curr = curr->next;
 	*lst = curr;

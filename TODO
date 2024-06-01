@@ -1,11 +1,1 @@
-sig builtin sus
-showctl ?
-
-parsing : stop
-pre exec : stop
-redirections : stop ?
-exec : rien
-
-cd: aller dans un dossier puis le supprimer
-
-check les leaks
+wildcards dans les variables
