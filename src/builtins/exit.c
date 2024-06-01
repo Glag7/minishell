@@ -38,8 +38,7 @@ static int	get_exit_code(char *arg, int *error)
 	while (arg[i] != '\0')
 	{
 		nbr = 10 * nbr - arg[i] + 48;
-		if (ft_is(DIGIT, arg[i]) == 0 || nbr > 0 || (sign == -1
-				&& (-nbr) < 0))
+		if (ft_is(DIGIT, arg[i]) == 0 || nbr > 0 || (sign == -1 && (-nbr) < 0))
 			return (exit_error(error));
 		i++;
 	}
