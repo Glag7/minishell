@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:31:36 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 15:59:03 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 11:37:11 by glag             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	do_cmd(t_mini *mini, t_cmd *cmd)
 {
 	char	*path;
 	int		inout[2];
+	int		err;
 
 	path = NULL;
 	if (open_redir(mini, cmd->redir, inout) || dup_redir(mini, inout))
@@ -99,8 +100,10 @@ void	do_cmd(t_mini *mini, t_cmd *cmd)
 		return ;
 	sig_mode(SIG_EXEC);
 	execve(path, cmd->cmd, mini->envp.envp);
-	ft_perror3("minishell: execve: ", strerror(errno), "\n");
+	err = errno;
 	sig_mode(SIG_IGNORE);
+	ft_perror3("minishell: ", cmd->cmd[0], ": ");
+	ft_perror3(strerror(err), "\n", "");
 	free(path);
 	mini->err = ERR_SHUTUP;
 	mini->exc = 126;
