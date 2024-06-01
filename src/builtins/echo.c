@@ -46,7 +46,7 @@ static int	write_loop(char **argv, bool nl, size_t i, int fd)
 	arg = argv[i];
 	while (arg != NULL)
 	{
-		if (g_sig == ENOENT)
+		if (g_sig == SIGINT)
 		{
 			if (write(fd, "\n", 1) == -1)
 				return (1);

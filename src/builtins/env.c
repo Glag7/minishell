@@ -23,7 +23,7 @@ static bool	print_env(char **envp, bool pwd, bool oldpwd, int fd)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		if (g_sig == ENOENT)
+		if (g_sig == SIGINT)
 			return (130);
 		if (ft_in('=', envp[i]) != -1
 			&& (ft_strncmp(envp[i], "PWD", 3) != 0 || pwd == 1)
