@@ -69,7 +69,8 @@ SRC = main.c \
       $(EXEC)build_redirs.c \
       $(EXEC)open_redir.c \
       $(EXEC)get_path.c \
-      $(EXEC)get_path_err.c
+      $(EXEC)get_path_err.c \
+      $(EXEC)parse_wdcard_again.c \
 
 OBJ = $(SRC:.c=.o)
 

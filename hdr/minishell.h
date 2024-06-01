@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 15:54:04 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:03:18 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ void	get_path_err(t_mini *mini, int err, char *name);
 void	waitall(t_mini *mini);
 void	do_builtin(t_mini *mini, t_cmd *cmd);
 void	do_cmd(t_mini *mini, t_cmd *cmd);
+int		parse_wdcard_again(t_list **lst, int *err, int *exc);
 
 int		hdoc_replace(t_mini *mini, t_hdoc hdoc);
 t_str	varchr(t_str s, char **envp, t_mini *mini);
