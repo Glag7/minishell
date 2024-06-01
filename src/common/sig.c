@@ -6,18 +6,17 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:12:46 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/30 23:51:45 by glag             ###   ########.fr       */
+/*   Updated: 2024/05/31 15:54:44 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern volatile sig_atomic_t	g_sig;
-
 static void	show_ctl(bool show)
 {
 	struct termios	termios_data;
 
+	ft_bzero(&termios_data, sizeof(termios_data));
 	if (!isatty(0))
 		return ;
 	tcgetattr(0, &termios_data);
@@ -28,29 +27,14 @@ static void	show_ctl(bool show)
 	tcsetattr(0, 0, &termios_data);
 }
 
-static void	handle_inter(int sig)
+void	sig_mode_more(int mode)
 {
-	if (sig == SIGINT)
+	if (mode == SIG_BUILTIN)
 	{
-		g_sig = sig;
-		ft_perror("^C\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+		signal(SIGINT, &handle_builtin);
+		signal(SIGQUIT, SIG_IGN);
+		return (show_ctl(1));
 	}
-}
-
-static void	handle_hdoc(int sig)
-{
-	g_sig = sig;
-	ft_perror("^C");
-	rl_replace_line("", 0);
-	rl_done = 1;
-}
-
-static void	foo(int sig)
-{
-	(void) sig;
 }
 
 void	sig_mode(int mode)
@@ -59,24 +43,25 @@ void	sig_mode(int mode)
 	{
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
-		show_ctl(0);
+		return (show_ctl(0));
 	}
-	else if (mode == SIG_INTER)
+	if (mode == SIG_INTER)
 	{
 		signal(SIGINT, &handle_inter);
 		signal(SIGQUIT, &handle_inter);
-		show_ctl(0);
+		return (show_ctl(0));
 	}
-	else if (mode == SIG_HDOC)
+	if (mode == SIG_HDOC)
 	{
 		signal(SIGINT, &handle_hdoc);
 		signal(SIGQUIT, &handle_inter);
-		show_ctl(0);
+		return (show_ctl(0));
 	}
-	else if (mode == SIG_EXEC)
+	if (mode == SIG_EXEC)
 	{
-		signal(SIGINT, &foo);//sig_dfl ?
-		signal(SIGQUIT, &foo);
-		show_ctl(1);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		return (show_ctl(1));
 	}
+	return (sig_mode_more(mode));
 }

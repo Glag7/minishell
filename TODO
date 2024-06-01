@@ -1,66 +1,11 @@
-isdir ?
-
-no exec if hdoc signaled
-
-size_t argc
-
-trier les wdcards ?
-
-builtin return 2 ->quitter
+sig builtin sus
+showctl ?
 
 parsing : stop
 pre exec : stop
 redirections : stop ?
 exec : rien
 
-path vide : 127 nosfod
-pas de PATH ? 126
-
-fork a 2 si pour exec
-
-//126 not executable, 127 not found
-
-integrer les builtins
-SHLVL et PWD startup
-
-signaux dans parsing (priorite : malloc, sig, erreur de parsing)
-attention aux messages de parsing
-
-$_ dans export oyu pas ?
-mettre a minishell ou pas ?
-
-
 cd: aller dans un dossier puis le supprimer
-
-attention pour la fusion des chaines pebser a pas fusionner les chaines vides si y a un ws avant ou apres
-
-signaux
-
-$:
-si juste $ ou nom invalide texte litteral
-
-*:
-quand * donne un fichier ca va sinon ambiguous redirect
-quand pad de . devant pas afficher les ., sinon afficher les .
-quand rien a afficher avec * affiche le texte litteral
-
-chaine vide entre quotes est laissee
-dans une variable pas laissee (sans quotes)
-
-heredoc:
-les variables sont pas interpretees pour le delimiteur, les * non plus
-si il y a des guillemets qq part dans la chaine delimiteur (meme vide), alors pas expand les variables
-pas expand *
-
-les fichiers sont crees en premier mais dependent quand meme de leur pipeline (exemple || )
-et de leure commande
-ils sont crees en premier
-les heredoc aussi
-
-
-les fichiers sont crees dans l'ordre, ils s'arrete si probleme
-redirection avant exec
-
-peut etre que les noms des hdocs leaks
 
 check les leaks

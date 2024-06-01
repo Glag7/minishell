@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 15:04:36 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:54:04 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ int		get_redir(t_mini *mini, t_list *toparse,
 int		exp_wdcard(t_mini *mini, t_list **lst, t_str *fnames);
 int		add_wdname(t_list **files, t_list *curr, t_str name);
 int		get_cmd(t_mini *mini, t_cmd *cmd, t_list *toparse);
-void	fill_heredocs(t_list *lst, t_mini *mini);
+int		fill_heredocs(t_list *lst, t_mini *mini);
 int		build_redirs(t_mini *mini, t_cmd *cmd, t_list *lst);
 int		open_redir(t_mini *mini, t_list *redir, int *inout);
 int		fill_file(int fd, t_str lim, t_mini *mini);
@@ -252,7 +252,11 @@ void	free_fnames(t_str *fnames);
 # define SIG_INTER 1
 # define SIG_HDOC 2
 # define SIG_EXEC 4
+# define SIG_BUILTIN 5
 
+void	handle_builtin(int sig);
+void	handle_hdoc(int sig);
+void	handle_inter(int sig);
 void	sig_mode(int mode);
 ///////////////////////////////////////////
 
