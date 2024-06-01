@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:13:27 by ttrave            #+#    #+#             */
-/*   Updated: 2024/06/01 13:50:30 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:18:59 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ int	builtin_cd(size_t argc, char **argv, t_envp *envp_status, int *fds)
 		return (2);
 	}
 	if (argc > 1 && ft_strncmp(argv[1], "-", -1) == 0
-		&& (write(fds[WRITE], pathname, ft_strlen(pathname)) == -1
-			|| write(fds[WRITE], "\n", 1) == -1))
+		&& (ft_print("cd", fds[WRITE], pathname, ft_strlen(pathname)) == -1
+			|| ft_print("cd", fds[WRITE], "\n", 1) == -1))
 	{
 		free(pathname);
 		return (1);

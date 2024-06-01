@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:16:23 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/31 17:48:18 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:17:43 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ failed memory allocation\n");
 	}
 	len = ft_strlen(buffer);
 	buffer[len] = '\n';
-	res = write(fds[WRITE], buffer, len + 1);
+	res = ft_print("pwd", fds[WRITE], buffer, len + 1);
 	free(buffer);
 	return (res == -1);
 }

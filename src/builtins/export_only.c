@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:39:36 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/28 19:15:00 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:22:14 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,14 @@ static int	print_export(char *var, int fd)
 	size_t	i;
 
 	i = len_until_char(var, '=');
-	if (write(fd, "declare -x ", 11) == -1 || write(fd, var, i) == -1)
+	if (ft_print("export", fd, "declare -x ", 11) == -1
+		|| ft_print("export", fd, var, i) == -1)
 		return (1);
-	if (var[i] == '=' && (write(fd, "=\"", 2) == -1
-			|| write(fd, &var[i + 1], ft_strlen(&var[i + 1])) == -1
-			|| write(fd, "\"\n", 2) == -1))
+	if (var[i] == '=' && (ft_print("export", fd, "=\"", 2) == -1
+			|| ft_print("export", fd, &var[i + 1], ft_strlen(&var[i + 1])) == -1
+			|| ft_print("export", fd, "\"\n", 2) == -1))
 		return (1);
-	if (var[i] != '=' && write(fd, "\n", 1) == -1)
+	if (var[i] != '=' && ft_print("export", fd, "\n", 1) == -1)
 		return (1);
 	return (0);
 }

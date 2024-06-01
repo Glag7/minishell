@@ -162,6 +162,7 @@ char	**get_var(char **envp, char *var);
 size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
 void	remove_var(char **envp, char *var, void (*del)(void *));
+ssize_t	ft_print(char *builtin, int fd, char *str, size_t len);
 
 ////////////////////////////////////////////
 

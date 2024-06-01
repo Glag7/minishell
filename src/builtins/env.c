@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:16:55 by ttrave            #+#    #+#             */
-/*   Updated: 2024/06/01 17:18:17 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:18:23 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static bool	print_env(char **envp, bool pwd, bool oldpwd, int fd)
 		{
 			len = ft_strlen(envp[i]);
 			envp[i][len] = '\n';
-			res = write(fd, envp[i], len + 1);
+			res = ft_print("env", fd, envp[i], len + 1);
 			envp[i][len] = '\0';
 			if (res < 0)
 				return (1);

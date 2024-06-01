@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:10:32 by ttrave            #+#    #+#             */
-/*   Updated: 2024/06/01 14:48:51 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:20:59 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ static int	write_loop(char **argv, bool nl, size_t i, int fd)
 	{
 		if (g_sig == SIGINT)
 		{
-			if (write(fd, "\n", 1) == -1)
+			if (ft_print("echo", fd, "\n", 1) == -1)
 				return (1);
 			return (130);
 		}
-		if (write(fd, arg, ft_strlen(arg)) == -1
-			|| (argv[i + 1] != NULL && write(fd, " ", 1) == -1))
+		if (ft_print("echo", fd, arg, ft_strlen(arg)) == -1
+			|| (argv[i + 1] != NULL && ft_print("echo", fd, " ", 1) == -1))
 			return (1);
 		i++;
 		arg = argv[i];
 	}
-	if (nl == 1 && write(fd, "\n", 1) == -1)
+	if (nl == 1 && ft_print("echo", fd, "\n", 1) == -1)
 		return (1);
 	return (0);
 }
