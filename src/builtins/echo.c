@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:10:32 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/28 19:09:36 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/01 13:48:56 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static bool	get_option_nl(char **argv, size_t *i_ptr)
 	option = argv[1];
 	while (option != NULL && option[0] == '-' && option[1] == 'n')
 	{
-		nl = 0;
-		i_option = 2;
+		i_option = 1;
 		while (option[i_option] == 'n')
 			i_option++;
 		if (option[i_option] != '\0')
 			break ;
+		nl = 0;
 		i++;
 		option = argv[i];
 	}
@@ -46,7 +46,7 @@ static int	write_loop(char **argv, bool nl, size_t i, int fd)
 	arg = argv[i];
 	while (arg != NULL)
 	{
-		if (g_sig == 2)
+		if (g_sig == ENOENT)
 		{
 			if (write(fd, "\n", 1) == -1)
 				return (1);
