@@ -78,7 +78,7 @@ all : $(NAME)
 
 bonus : all
 
-stupid : $(LIB) $(OBJ_DIR)$(PARSING) $(OBJ_DIR)$(COMMON) $(OBJ_DIR)$(BUILTINS) $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ))
+stupid : $(LIB) $(OBJ_DIR)$(PARSING) $(OBJ_DIR)$(COMMON) $(OBJ_DIR)$(BUILTINS) $(OBJ_DIR)$(EXEC) $(OBJ_DIR) $(addprefix $(OBJ_DIR), $(OBJ))
 	@ $(COMP) $(CFLAGS) -D STUPID_TESTER -c $(SRC_DIR)$(COMMON)init_mini.c -o $(OBJ_DIR)$(COMMON)init_mini.o -I $(HDR_DIR) -I libft/hdr
 	@ $(COMP) $(CFLAGS) $(addprefix $(OBJ_DIR), $(OBJ)) $(LIB) -o $(NAME) -lreadline
 
