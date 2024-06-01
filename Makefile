@@ -1,7 +1,7 @@
 NAME = minishell
 LIB = libft/libft.a
 
-COMP = clang
+COMP = cc
 CFLAGS = -Wall -Wextra -gdwarf-4#-Werror
 
 SRC_DIR = src/
