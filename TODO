@@ -1,31 +1,8 @@
 wildcards dans les variables
 
-empty strings in a"" ?
-
-
-export a=* && echo a''
-hola
-hola
-==2612881== Conditional jump or move depends on uninitialised value(s)
-==2612881==    at 0x40BC8A: check_name (add_wdname.c:45)
-==2612881==    by 0x40BE1E: add_wdname (add_wdname.c:75)
-==2612881==    by 0x40B4A5: replace_wdcard (exp_wdcard.c:94)
-==2612881==    by 0x40B41A: exp_wdcard (exp_wdcard.c:132)
-==2612881==    by 0x409EBA: parse_cmd_txt (parse_cmd.c:80)
-==2612881==    by 0x409BF1: parse_cmd (parse_cmd.c:128)
-==2612881==    by 0x40980F: exec_cmd (exec_cmd.c:65)
-==2612881==    by 0x407C6D: execline (execline.c:71)
-==2612881==    by 0x401511: exec_line (main.c:51)
-==2612881==    by 0x40138A: main (main.c:68)
-
-fix make stupid ?
-
 sig builtin sus
 showctl ?
 
-parsing : stop
-pre exec : stop
-redirections : stop ?
-exec : rien
-
 cd: aller dans un dossier puis le supprimer
+
+check signaux

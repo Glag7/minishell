@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 18:15:09 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/06/01 15:56:09 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:30:14 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	check_name(t_str *tofind, t_str *name, int any)
 
 int	add_wdname(t_list **files, t_list *curr, t_str name)
 {
-	t_tok	*tok;
 	t_str	tmp;
 	t_str	last;
 	bool	any;
@@ -65,18 +64,18 @@ int	add_wdname(t_list **files, t_list *curr, t_str name)
 			&& ((t_tok *)curr->content)->s.s[0] == '.') && name.s[0] == '.')
 		return (0);
 	tmp = name;
+	any = 0;
 	while (curr)
 	{
-		tok = (t_tok *)curr->content;
-		any |= tok->tok == WDCARD;
-		if (tok->tok == TXT)
+		any |= ((t_tok *)curr->content)->tok == WDCARD;
+		if (((t_tok *)curr->content)->tok == TXT)
 		{
-			last = tok->s;
-			if (check_name(&tok->s, &tmp, any))
+			last = ((t_tok *)curr->content)->s;
+			if (check_name(&((t_tok *)curr->content)->s, &tmp, any))
 				return (0);
 			any = 0;
 		}
-		else if (tok->tok == UNDEF)
+		else if (((t_tok *)curr->content)->tok == UNDEF)
 			break ;
 		curr = curr->next;
 	}
