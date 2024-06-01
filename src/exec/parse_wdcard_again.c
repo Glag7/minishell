@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:25:33 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/06/01 17:04:54 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:55:28 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	parse_wdcard_again(t_list **lst, int *err, int *exc)
 		{
 			*err = ERR_AINTNOWAY;
 			*exc = 2;
-			ft_lstclear(lst, &free_lbuild);
+			ft_lstclear(lst, &free_lexec);
 			return (1);
 		}
 		tmp = tmp->next;
