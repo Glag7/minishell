@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:35:07 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/31 13:57:52 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/01 15:22:03 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	export_to_envp(char **argv, t_envp *envp_status)
 		ft_freearr(new_envp);
 		return (2);
 	}
-	if (g_sig == ENOENT)
+	if (g_sig == SIGINT)
 	{
 		ft_freearr(new_envp);
 		return (130);

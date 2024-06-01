@@ -121,7 +121,7 @@ int	export_only(t_envp envp_status, int fd)
 		return (2);
 	while (sorted[i] != NULL)
 	{
-		if (g_sig == 2)
+		if (g_sig == SIGINT)
 		{
 			free(sorted);
 			return (130);
