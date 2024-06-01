@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:13:27 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/31 17:46:27 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/01 13:50:30 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 
 static int	check_envp(size_t argc, char **envp, char **argv)
 {
+	char	**var;
+
 	if (argc >= 3)
 	{
 		ft_perror("minishell: cd: too many arguments\n");
 		return (1);
 	}
-	if (argc <= 1 && (get_var(envp, "HOME") == NULL
-			|| *get_var(envp, "HOME")[4] == '\0'))
+	var = get_var(envp, "HOME");
+	if (argc <= 1 && (var == NULL || (*var)[4] == '\0'))
 	{
 		ft_perror("minishell: cd: HOME not set\n");
 		return (1);
 	}
+	var = get_var(envp, "OLDPWD");
 	if (argc > 1 && ft_strncmp(argv[1], "-", -1) == 0
-		&& (get_var(envp, "OLDPWD") == NULL
-			|| *get_var(envp, "OLDPWD")[6] == '\0'))
+		&& (var == NULL || (*var)[6] == '\0'))
 	{
 		ft_perror("minishell: cd: OLDPWD not set\n");
 		return (1);
@@ -43,8 +45,8 @@ static char	*get_savepoint(char *pathname, int *error)
 	savepoint = getcwd(NULL, 0);
 	if (savepoint == NULL)
 	{
-		if (errno == 2)
-			*error = 2;
+		if (errno == ENOENT)
+			*error = 1;
 		else
 		{
 			free(pathname);
@@ -61,18 +63,18 @@ static int	change_directory(t_envp *envp_status, char *pathname)
 	char	*savepoint;
 
 	savepoint = get_savepoint(pathname, &error);
-	if (savepoint == NULL && error != 2)
+	if (savepoint == NULL && error != 1)
 		return (2);
-	error = chdir(pathname);
-	free(pathname);
-	if (error != 0)
+	if (pathname[0] != '\0' && chdir(pathname) != 0)
 	{
 		free(savepoint);
-		error = errno;
 		savepoint = strerror(errno);
-		ft_perror3("minishell: cd: ", savepoint, "\n");
+		ft_perror3("minishell: cd: ", pathname, ": ");
+		ft_perror3(strerror(errno), "\n", "");
+		free(pathname);
 		return (1);
 	}
+	free(pathname);
 	if (update_cd_envp(envp_status) == 1)
 	{
 		chdir(savepoint);
