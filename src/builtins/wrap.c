@@ -6,22 +6,47 @@
 /*   By: glag <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 22:01:24 by glag              #+#    #+#             */
-/*   Updated: 2024/06/01 16:45:17 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/02 16:32:26 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	stop_exec(int argc, char **argv)
+{
+	size_t	i;
+	size_t	j;
+
+	if (argc <= 2)
+		return (1);
+	i = 1;
+	while (argv[i] != NULL)
+	{
+		j = 0;
+		while (argv[i][j] == ' ')
+			j++;
+		if (argv[i][j] == '+' || argv[i][j] == '-')
+			j++;
+		if (ft_is(DIGIT, argv[i][j]) == 0)
+			return (1);
+		while (argv[i][j] != '\0')
+		{
+			if (ft_is(DIGIT, argv[i][j]) == 0)
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 static void	wrap_exit(t_mini *mini, int argc, char **argv)
 {
 	if (mini->forked == 0 && isatty(0))
 		ft_perror("exit\n");
-	if (argc == 2)
-		mini->exc = builtin_exit(argc, argv, NULL, NULL);
-	if (argc <= 2)
+	mini->exc = builtin_exit(argc, argv, NULL, NULL);
+	if (stop_exec(argc, argv) == 1)
 		mini->err = ERR_SHUTUP;
-	else
-		mini->exc = builtin_exit(argc, argv, NULL, NULL);
 }
 
 void	wrap_builtin(t_mini *mini, char **argv, int *inout)
