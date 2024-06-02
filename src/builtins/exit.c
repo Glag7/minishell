@@ -6,41 +6,53 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:10:03 by ttrave            #+#    #+#             */
-/*   Updated: 2024/06/02 17:47:34 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:15:56 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exit_error(int *error)
+static char	*skip_spaces(char *arg)
 {
-	*error = 1;
-	return (2);
+	size_t	i;
+
+	i = 0;
+	while (ft_in(arg[i], " \t\n") != -1)
+		i++;
+	return (arg + i);
+}
+
+static void	init_sign(char **arg, char *sign)
+{
+	*sign = -1;
+	if (**arg == '-')
+		*sign = 1;
+	if (**arg == '-' || **arg == '+')
+		(*arg)++;
 }
 
 static int	get_exit_code(char *arg, int *error)
 {
-	size_t	i;
 	long	nbr;
 	char	sign;
 
-	i = 0;
-	while (arg[i] == ' ')
-		i++;
-	sign = -1;
-	if (arg[i] == '-')
-		sign = 1;
-	if (arg[i] == '-' || arg[i] == '+')
-		i++;
-	if (ft_is(DIGIT, arg[i]) == 0)
-		return (exit_error(error));
-	nbr = 0;
-	while (arg[i] != '\0')
+	arg = skip_spaces(arg);
+	init_sign(&arg, &sign);
+	if (ft_is(DIGIT, *arg) == 0)
 	{
-		nbr = 10 * nbr - arg[i] + 48;
-		if (ft_is(DIGIT, arg[i]) == 0 || nbr > 0 || (sign == -1 && (-nbr) < 0))
-			return (exit_error(error));
-		i++;
+		*error = 1;
+		return (2);
+	}
+	nbr = 0;
+	while (*arg != '\0')
+	{
+		nbr = 10 * nbr - *arg + '0';
+		if (ft_is(DIGIT, *arg) == 0 || nbr > 0 || (sign == -1 && (-nbr) < 0))
+		{
+			*error = 1;
+			return (2);
+		}
+		arg++;
 	}
 	return ((sign * nbr) & 255);
 }
