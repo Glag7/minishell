@@ -56,6 +56,8 @@ int	check_existence(char *var, char **envp)
 	char	c;
 
 	len_name = len_until_char(var, '=');
+	if (var[len_name - 1] == '+')
+		len_name--;
 	c = var[len_name];
 	var[len_name] = '\0';
 	old_var = get_var(envp, var);
