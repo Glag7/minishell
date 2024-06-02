@@ -20,8 +20,8 @@ ssize_t	ft_print(char *builtin, int fd, char *str, size_t len)
 	if (error == -1)
 	{
 		error = errno;
-		ft_perror3(builtin, ": write(): ", strerror(error));
-		ft_perror("\n");
+		ft_perror3("minishell: ", builtin, ": write(): ");
+		ft_perror3(strerror(error), "\n", "");
 		return (-1);
 	}
 	return (error);
