@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:10:32 by ttrave            #+#    #+#             */
-/*   Updated: 2024/06/01 18:20:59 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/02 17:27:26 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	builtin_echo(size_t argc, char **argv, t_envp *envp_status, int *fds)
 {
 	size_t	i;
 
+	i = 0;
 	(void)argc;
 	(void)envp_status;
 	return (write_loop(argv, get_option_nl(argv, &i), i, fds[WRITE]));
