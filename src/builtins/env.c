@@ -63,7 +63,7 @@ int	builtin_env(size_t argc, char **argv, t_envp *envp_status, int *fds)
 	if (argc > 1 && ft_strncmp(argv[1], "--", -1) != 0)
 	{
 		ft_perror("minishell: env: too many arguments\n");
-		return (127);
+		return (1);
 	}
 	return (print_env(envp_status->envp, envp_status->show_pwd,
 			envp_status->show_oldpwd, fds[WRITE]));
