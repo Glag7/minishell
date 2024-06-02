@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:03:21 by ttrave            #+#    #+#             */
-/*   Updated: 2024/06/01 15:21:48 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/02 16:53:26 by ttrave           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ int	check_existence(char *var, char **envp)
 	char	**old_var;
 	char	c;
 
-	len_name = 0;
-	while (ft_is(ALNUM, var[len_name]) != 0)
-		len_name++;
+	len_name = len_until_char(var, '=');
 	c = var[len_name];
 	var[len_name] = '\0';
 	old_var = get_var(envp, var);
