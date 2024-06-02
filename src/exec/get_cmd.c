@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:22:21 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/31 14:13:06 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:09:02 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	get_cmd(t_mini *mini, t_cmd *cmd, t_list *toparse)
 	redir = cmd->redir;
 	while (redir)
 	{
-		tk = (t_tok *)redir;
+		tk = (t_tok *)redir->content;
 		if (tk->tok == HDOC && tk->hdoc.expand && hdoc_replace(mini, tk->hdoc))
 		{
 			ft_lstclear(&cmd->redir, &free_lexec);
