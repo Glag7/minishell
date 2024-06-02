@@ -1,5 +1,5 @@
 NAME = libft.a
-COMP = clang 
+COMP = cc 
 CFLAGS = -Wall -Wextra -Werror
 
 SRC = src/
