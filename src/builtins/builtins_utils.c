@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:40:04 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/28 19:05:20 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/04 14:11:19 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,6 @@ size_t	len_until_char(char *str, char c)
 		c_str = str[i];
 	}
 	return (i);
-}
-
-char	*ft_strappend(char *src1, char *src2, char mode)
-{
-	char	*dst;
-	size_t	len_src1;
-	size_t	len_src2;
-
-	len_src1 = ft_strlen(src1);
-	len_src2 = ft_strlen(src2);
-	dst = malloc((len_src1 + len_src2 + 1) * sizeof(char));
-	if (dst == NULL)
-	{
-		if (mode != 0)
-			free(src1);
-		return (NULL);
-	}
-	dst[len_src1 + len_src2] = '\0';
-	ft_memcpy(dst, src1, len_src1);
-	ft_memcpy(&dst[len_src1], src2, len_src2);
-	if (mode != 0)
-		free(src1);
-	return (dst);
 }
 
 char	**get_var(char **envp, char *var)
@@ -102,4 +79,19 @@ void	remove_var(char **envp, char *var, void (*del)(void *))
 		envp[i] = envp[i + 1];
 		i++;
 	}
+}
+
+ssize_t	ft_print(char *builtin, int fd, char *str, size_t len)
+{
+	ssize_t	error;
+
+	error = write(fd, str, len);
+	if (error == -1)
+	{
+		error = errno;
+		ft_perror3("minishell: ", builtin, ": write(): ");
+		ft_perror3(strerror(error), "\n", "");
+		return (-1);
+	}
+	return (error);
 }

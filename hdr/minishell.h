@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:55:37 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/06/01 17:03:18 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:11:59 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,6 @@ int		copy_envp(char **new_envp, char **old_envp, size_t len);
 int		check_existence(char *var, char **envp);
 int		check_syntax(char *var);
 int		export_only(t_envp envp_status, int fd);
-char	*ft_strappend(char *src1, char *src2, char mode);
 char	**get_var(char **envp, char *var);
 size_t	len_until_char(char *str, char c);
 int		replace_var(char **envp, char *new, char *old_name);
