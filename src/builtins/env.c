@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:16:55 by ttrave            #+#    #+#             */
-/*   Updated: 2024/06/01 18:18:23 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/04 14:58:24 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,21 @@ static bool	print_env(char **envp, bool pwd, bool oldpwd, int fd)
 
 static int	env_error(char *arg)
 {
-	if (arg[0] == '-' && arg[1] == '\0')
-		return (0);
-	if (arg[0] == '-' && arg[1] != '\0' && arg[1] != '-')
+	const char	i = 'i';
+
+	if (arg[0] == '-' && arg[1] == 0)
+	{
+		ft_perror("env: invalid option -- '");
+		write(STDERR_FILENO, &i, 1);
+		ft_perror("'\n");
+	}
+	if (arg[0] == '-' && arg[1] != '-')
 	{
 		ft_perror("env: invalid option -- '");
 		write(STDERR_FILENO, &arg[1], 1);
 		ft_perror("'\n");
 	}
-	else if (arg[0] == '-' && arg[1] == '-')
+	else
 		ft_perror3("env: unrecognized option '", arg, "'\n");
 	return (125);
 }
@@ -60,7 +66,7 @@ int	builtin_env(size_t argc, char **argv, t_envp *envp_status, int *fds)
 {
 	if (argc > 1 && argv[1][0] == '-' && ft_strncmp(argv[1], "--", -1) != 0)
 		return (env_error(argv[1]));
-	if (argc > 1 && ft_strncmp(argv[1], "--", -1) != 0)
+	if ((argc > 1 && ft_strncmp(argv[1], "--", -1) != 0) || argc > 2)
 	{
 		ft_perror("minishell: env: too many arguments\n");
 		return (1);
