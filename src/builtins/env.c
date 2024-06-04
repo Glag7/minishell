@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:16:55 by ttrave            #+#    #+#             */
-/*   Updated: 2024/06/04 14:58:24 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:05:26 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static bool	print_env(char **envp, bool pwd, bool oldpwd, int fd)
 		if (g_sig == SIGINT)
 			return (130);
 		if (ft_in('=', envp[i]) != -1
-			&& (ft_strncmp(envp[i], "PWD", 3) != 0 || pwd == 1)
-			&& (ft_strncmp(envp[i], "OLDPWD", 6) != 0 || oldpwd == 1))
+			&& (ft_strncmp(envp[i], "PWD=", 4) != 0 || pwd == 1)
+			&& (ft_strncmp(envp[i], "OLDPWD=", 7) != 0 || oldpwd == 1))
 		{
 			len = ft_strlen(envp[i]);
 			envp[i][len] = '\n';
