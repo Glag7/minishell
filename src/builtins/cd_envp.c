@@ -104,22 +104,30 @@ static bool	update_cd_pwd_oldpwd(char ***envp, char *new_pwd,
 	return (0);
 }
 
-bool	update_cd_envp(t_envp *envp_status)
+int	update_cd_envp(t_envp *envp_status)
 {
 	char	*new_pwd;
 	char	**new_oldpwd;
 
 	new_pwd = getcwd(NULL, 0);
+	if (new_pwd == NULL && errno != ENOENT)
+	{
+		ft_perror("minishell: cd: getcwd(): malloc(): \
+failed memory allocation\n");
+		return (2);
+	}
+	if (new_pwd == NULL)
+		ft_perror("minishell: cd: stale file handle\n");
 	if (new_pwd == NULL)
 		return (1);
 	new_oldpwd = get_var(envp_status->envp, "PWD");
-	if (new_oldpwd != NULL
-		&& (*new_oldpwd)[len_until_char(*new_oldpwd, '=')] != '=')
+	if (new_oldpwd != NULL && (*new_oldpwd)[3] != '=')
 		new_oldpwd = NULL;
 	if (update_cd_pwd_oldpwd(&envp_status->envp, new_pwd, new_oldpwd) == 1)
 	{
 		free(new_pwd);
-		return (1);
+		ft_perror("minishell: cd: malloc(): memory allocation failed\n");
+		return (2);
 	}
 	free(new_pwd);
 	return (0);

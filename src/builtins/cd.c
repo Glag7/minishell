@@ -75,15 +75,11 @@ static int	change_directory(t_envp *envp_status, char *pathname)
 		return (1);
 	}
 	free(pathname);
-	if (update_cd_envp(envp_status) == 1)
-	{
+	error = update_cd_envp(envp_status);
+	if (error != 0 && savepoint != NULL)
 		chdir(savepoint);
-		free(savepoint);
-		ft_perror("minishell: cd: malloc(): failed memory allocation\n");
-		return (2);
-	}
 	free(savepoint);
-	return (0);
+	return (error);
 }
 
 int	builtin_cd(size_t argc, char **argv, t_envp *envp_status, int *fds)
