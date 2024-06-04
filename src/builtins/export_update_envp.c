@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:23:43 by ttrave            #+#    #+#             */
-/*   Updated: 2024/05/30 21:57:00 by glag             ###   ########.fr       */
+/*   Updated: 2024/06/04 17:04:58 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int	update_var(char **new_envp, char *arg, t_envp *envp_status)
 		&& (arg[6] == '\0' || arg[6] == '=' || arg[6] == '+'))
 		envp_status->show_oldpwd = 1;
 	if (check_existence(arg, new_envp) == 0
-		&& arg[i] == '=' && arg[i - 1] == '+')
+		&& arg[i] == '=' && i && arg[i - 1] == '+')
 		return (concatenate_var(new_envp, arg));
 	else if (check_existence(arg, new_envp) == 0
 		&& arg[i] == '=')
