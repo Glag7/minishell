@@ -54,13 +54,14 @@ char	**get_var(char **envp, char *var)
 {
 	size_t	i;
 	size_t	len;
+	size_t	len_var;
 
+	len_var = ft_strlen(var);
 	i = 0;
-	len = ft_strlen(var);
 	while (envp[i] != NULL)
 	{
-		if (ft_strncmp(envp[i], var, len) == 0
-			&& (envp[i][len] == '=' || envp[i][len] == '\0'))
+		len = len_until_char(envp[i], '=');
+		if (len == len_var && ft_strncmp(envp[i], var, len) == 0)
 			return (&envp[i]);
 		i++;
 	}
