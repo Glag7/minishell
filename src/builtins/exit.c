@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:10:03 by ttrave            #+#    #+#             */
-/*   Updated: 2024/06/02 18:31:10 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:49:04 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*skip_spaces(char *arg)
 	while (arg[j])
 		j++;
 	j--;
-	while (ft_in(arg[j], " \t\n") != -1) 
+	while (ft_in(arg[j], " \t\n") != -1)
 		j--;
 	arg[j + 1] = 0;
 	return (arg + i);
