@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:38:58 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/22 15:59:07 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:44:06 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,9 @@ static int	chk_len(t_mini *mini, t_str **fnames, size_t i, size_t *len)
 	return (0);
 }
 
-int	get_fnames(t_mini *mini, t_str **strs)
+static DIR	*try_opendir(t_mini *mini)
 {
-	DIR				*dir;
-	struct dirent	*curr;
-	size_t			len;
-	size_t			i;
+	DIR	*dir;
 
 	dir = opendir(".");
 	if (dir == NULL)
@@ -69,10 +66,25 @@ int	get_fnames(t_mini *mini, t_str **strs)
 		ft_perror3("minishell: opendir: ", strerror(errno), "\n");
 		mini->err = ERR_SHUTUP;
 		mini->exc = 2;
-		return (1);
 	}
+	return (dir);
+}
+
+int	get_fnames(t_mini *mini, t_str **strs)
+{
+	DIR				*dir;
+	struct dirent	*curr;
+	size_t			len;
+	size_t			i;
+
+	dir = try_opendir(mini);
+	if (dir == NULL)
+		return (1);
 	len = 0;
 	i = 0;
+	if (chk_len(mini, strs, i, &len))
+		return (1);
+	(*strs)[0] = (t_str){NULL, 0};
 	curr = readdir(dir);
 	while (curr)
 	{
