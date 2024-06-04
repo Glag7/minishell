@@ -24,7 +24,7 @@ int	builtin_pwd(size_t argc, char **argv, t_envp *envp_status, int *fds)
 	buffer = getcwd(NULL, 0);
 	if (buffer == NULL && errno == ENOENT)
 	{
-		ft_perror("minishell: cd: stale file handle\n");
+		ft_perror("minishell: pwd: stale file handle\n");
 		return (1);
 	}
 	if (buffer == NULL)
