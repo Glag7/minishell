@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:03:21 by ttrave            #+#    #+#             */
-/*   Updated: 2024/06/02 16:53:26 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/04 16:04:36 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	check_existence(char *var, char **envp)
 	char	c;
 
 	len_name = len_until_char(var, '=');
-	if (var[len_name - 1] == '+')
+	if (len_name && var[len_name - 1] == '+')
 		len_name--;
 	c = var[len_name];
 	var[len_name] = '\0';
