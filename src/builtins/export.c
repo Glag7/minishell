@@ -73,13 +73,13 @@ int	builtin_export(size_t argc, char **argv, t_envp *envp_status, int *fds)
 
 	if (argc <= 1)
 	{
-		error = (int)export_only(*envp_status, fds[WRITE]);
+		error = export_only(*envp_status, fds[WRITE]);
 		if (error == 2)
 			ft_perror("minishell: export: malloc(): \
 failed memory allocation\n");
 		return (error);
 	}
-	error = (int)export_to_envp(&argv[1], envp_status);
+	error = export_to_envp(&argv[1], envp_status);
 	if (error == 2)
 		ft_perror("minishell: export: malloc(): failed memory allocation\n");
 	return (error);
