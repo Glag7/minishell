@@ -149,7 +149,7 @@ int		builtin_unset(size_t argc, char **argv, t_envp *envp_status, int *fds);
 int		builtin_export(size_t argc, char **argv, t_envp *envp_status, int *fds);
 int		builtin_exit(size_t argc, char **argv, t_envp *envp_status, int *fds);
 int		builtin_echo(size_t argc, char **argv, t_envp *envp_status, int *fds);
-bool	update_cd_envp(t_envp *envp_status);
+int		update_cd_envp(t_envp *envp_status);
 int		export_to_envp(char **argv, t_envp *envp_status);
 int		update_envp(char **new_envp, char **argv, t_envp *envp_status,
 			size_t len);
