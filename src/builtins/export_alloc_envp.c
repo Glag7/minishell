@@ -6,7 +6,7 @@
 /*   By: ttrave <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:35:07 by ttrave            #+#    #+#             */
-/*   Updated: 2024/06/02 16:53:52 by ttrave           ###   ########.fr       */
+/*   Updated: 2024/06/04 16:48:24 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ static size_t	new_arg(char **argv, size_t i)
 
 	arg_cmp = argv[i];
 	len_cmp = len_until_char(arg_cmp, '=');
-	if (arg_cmp[len_cmp - 1] == '+')
+	if (len_cmp && arg_cmp[len_cmp - 1] == '+')
 		len_cmp--;
 	j = 0;
 	arg = argv[j];
 	while (j < i)
 	{
 		len = len_until_char(arg, '=');
-		if (arg[len - 1] == '+')
+		if (len && arg[len - 1] == '+')
 			len--;
 		if (len_cmp > len)
 			len = len_cmp;
