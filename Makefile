@@ -2,7 +2,7 @@ NAME = minishell
 LIB = libft/libft.a
 
 COMP = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -g # -Werror
 
 SRC_DIR = src/
 OBJ_DIR = obj/
@@ -24,6 +24,7 @@ SRC = main.c \
       $(PARSING)parse_wdcard.c \
       $(PARSING)parse_redir.c \
       $(PARSING)check_redir.c \
+      $(PARSING)maybe_del.c \
       \
       $(BUILTINS)builtins_utils.c \
       $(BUILTINS)cd.c \
