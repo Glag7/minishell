@@ -97,11 +97,11 @@ int	builtin_cd(size_t argc, char **argv, t_envp *envp_status, int *fds)
 	else
 		pathname = ft_strdup(argv[1]);
 	if (pathname == NULL)
-	{
 		ft_perror("minishell: cd: malloc(): failed memory allocation\n");
+	if (pathname == NULL)
 		return (2);
-	}
 	if (argc > 1 && ft_strncmp(argv[1], "-", -1) == 0
+		&& get_var(envp_status->envp, "OLDPWD") != NULL
 		&& (ft_print("cd", fds[WRITE], pathname, ft_strlen(pathname)) == -1
 			|| ft_print("cd", fds[WRITE], "\n", 1) == -1))
 	{
