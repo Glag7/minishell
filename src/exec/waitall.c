@@ -6,7 +6,7 @@
 /*   By: glaguyon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 19:24:38 by glaguyon          #+#    #+#             */
-/*   Updated: 2024/05/09 14:00:47 by glaguyon         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:27:46 by glaguyon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ void	waitall(t_mini *mini)
 		if ((mini->err == 0 || mini->err == ERR_BYEBYE) && WIFEXITED(status))
 			mini->exc = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
+		{
+			mini->exc = 128 + WTERMSIG(status);
 			print_sig(status);
+		}
 		ft_lstpop(&mini->pids, NULL, 1);
 	}
 }
