@@ -82,26 +82,37 @@ static int	change_directory(t_envp *envp_status, char *pathname)
 	return (error);
 }
 
-int	builtin_cd(size_t argc, char **argv, t_envp *envp_status, int *fds)
+static char	*alloc_pathname(size_t argc, char **argv, char **envp)
 {
 	char	*pathname;
 
-	if (check_envp(argc, envp_status->envp, argv) != 0)
-		return (1);
 	if (argc <= 1)
-		pathname = ft_strdup(&(*get_var(envp_status->envp, "HOME"))[5]);
+		pathname = ft_strdup(&(*get_var(envp, "HOME"))[5]);
 	else if (ft_strncmp(argv[1], "-", -1) == 0)
-		pathname = ft_strdup(&(*get_var(envp_status->envp, "OLDPWD"))[7]);
+		pathname = ft_strdup(&(*get_var(envp, "OLDPWD"))[7]);
 	else if (ft_strncmp(argv[1], "~", -1) == 0)
 		pathname = ft_strjoin("./", argv[1]);
 	else
 		pathname = ft_strdup(argv[1]);
 	if (pathname == NULL)
 		ft_perror("minishell: cd: malloc(): failed memory allocation\n");
+	return (pathname);
+}
+
+int	builtin_cd(size_t argc, char **argv, t_envp *envp_status, int *fds)
+{
+	char	*pathname;
+	char	**oldpwd;
+
+	if (check_envp(argc, envp_status->envp, argv) != 0)
+		return (1);
+	pathname = alloc_pathname(argc, argv, envp_status->envp);
 	if (pathname == NULL)
 		return (2);
-	if (argc > 1 && ft_strncmp(argv[1], "-", -1) == 0
-		&& get_var(envp_status->envp, "OLDPWD") != NULL
+	oldpwd = get_var(envp_status->envp, "OLDPWD");
+	if (argc > 1 && ft_strncmp(argv[1], "-", -1) == 0 && oldpwd != NULL
+		&& (*oldpwd)[6] != '\0'
+		&& ((*oldpwd)[7] == '\0' || access(&(*oldpwd)[7], X_OK) == 0)
 		&& (ft_print("cd", fds[WRITE], pathname, ft_strlen(pathname)) == -1
 			|| ft_print("cd", fds[WRITE], "\n", 1) == -1))
 	{
