@@ -43,7 +43,6 @@ foreground pipeline.
 ◦ unset with no options  
 ◦ env with no options or arguments  
 ◦ exit with no options  
- one philosopher, there should be only one fork on the table  
 
 __Bonus__  
 Your program has to implement:  
